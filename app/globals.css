@@ -8,7 +8,7 @@
 	--color-primary: #000000;
 	--color-secondary: #ffffff;
 	--color-gray-50: #f9f9f9;
-	--color-gray-100: #f3f3f3;
+	--color-gray-100: #f5f5f5;
 	--color-gray-200: #e5e5e5;
 	--color-gray-300: #d4d4d4;
 	--color-gray-400: #a3a3a3;
@@ -44,4 +44,8 @@
 body {
 	font-family: var(--font-roboto), Helvetica, sans-serif;
 	padding: 45.1rem 2.5rem;
+}
+
+button {
+	font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
 }
