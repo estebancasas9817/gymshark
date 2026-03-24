@@ -15,7 +15,7 @@ export const Heading = ({
 	children,
 	className,
 }: HeadingProps) => {
-	const HeadingLevel = as;
+	const Tag = as;
 	const defaultSize: Record<NonNullable<HeadingProps['as']>, Size> = {
 		h1: '3xl',
 		h2: '2xl',
@@ -34,9 +34,5 @@ export const Heading = ({
 	};
 	const finalSize = size ?? defaultSize[as];
 
-	return (
-		<HeadingLevel className={cn(sizeStyles[finalSize], className)}>
-			{children}
-		</HeadingLevel>
-	);
+	return <Tag className={cn(sizeStyles[finalSize], className)}>{children}</Tag>;
 };

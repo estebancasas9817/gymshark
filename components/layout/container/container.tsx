@@ -12,15 +12,15 @@ export const Container = ({
 	fullWidth = false,
 	as = 'div',
 }: ContainerProps) => {
-	const ContainerTag = as;
+	const Tag = as;
 	return (
-		<ContainerTag
+		<Tag
 			className={cn(
 				'w-full',
-				!fullWidth && 'max-w-[var(--container-max)] mx-auto px-4 lg:px-10',
+				!fullWidth && 'max-w-(--container-max) mx-auto px-4 lg:px-10',
 			)}
 		>
 			{children}
-		</ContainerTag>
+		</Tag>
 	);
 };
