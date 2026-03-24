@@ -1,7 +1,7 @@
-import { Container } from '@/components/layout/container';
+import { Text } from '@/components/ui/text';
 import { useTranslations } from 'next-intl';
 
 export default function Home() {
 	const t = useTranslations('home');
-	return <Container>{t('title')}</Container>;
+	return <Text>{t('title')}</Text>;
 }
