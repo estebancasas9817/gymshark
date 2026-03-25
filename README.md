@@ -42,14 +42,14 @@ The project follows a modular structure designed for maintainability and Separat
 - [x] Global Style Variables (`@theme inline`).
 - [x] Core Component Library (Button, Container, etc.).
 
-### Phase 2: Database & Backend (In Progress 📍)
+### Phase 2: Database & Backend (Completed ✅)
 
-- [ ] Firebase Project & Firestore Instance setup.
-- [ ] Data Modeling for `users`, `products`, and `orders`.
-- [ ] Security Rules configuration.
-- [ ] Firestore Access Helpers & Data Fetching Layer.
+- [x] Firebase Project & Firestore Instance setup.
+- [x] Data Modeling for `users`, `products`, and `orders`.
+- [x] Security Rules configuration.
+- [x] Firestore Access Helpers & Data Fetching Layer.
 
-### Phase 3: Product System
+### Phase 3: Product System (In Progress 📍)
 
 - [ ] Product variants system (size, color) and stock management.
 - [ ] Dynamic routing: `/products` and `/products/[slug]`.
