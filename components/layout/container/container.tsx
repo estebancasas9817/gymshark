@@ -5,12 +5,14 @@ interface ContainerProps {
 	children: ReactNode;
 	fullWidth?: boolean;
 	as?: 'div' | 'section' | 'main' | 'article';
+	className?: string;
 }
 
 export const Container = ({
 	children,
 	fullWidth = false,
 	as = 'div',
+	className,
 }: ContainerProps) => {
 	const Tag = as;
 	return (
@@ -18,6 +20,7 @@ export const Container = ({
 			className={cn(
 				'w-full',
 				!fullWidth && 'max-w-(--container-max) mx-auto px-4 lg:px-10',
+				className,
 			)}
 		>
 			{children}

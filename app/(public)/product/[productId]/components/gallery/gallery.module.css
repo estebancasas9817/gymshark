@@ -1,0 +1,12 @@
+.gallery-img-cursor-zoom-in:hover {
+	cursor:
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='38' viewBox='0 0 38 38'%3E%3Ccircle cx='19' cy='19' r='18' fill='white'/%3E%3Cpath d='M19 12v14M12 19h14' stroke='black' stroke-width='1' shape-rendering='crispEdges'/%3E%3C/svg%3E")
+			19 19,
+		auto;
+}
+.gallery-img-cursor-zoom-out:hover {
+	cursor:
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='38' viewBox='0 0 38 38'%3E%3Ccircle cx='19' cy='19' r='18' fill='white'/%3E%3Cpath d='M12 19h14' stroke='black' stroke-width='1' shape-rendering='crispEdges'/%3E%3C/svg%3E")
+			19 19,
+		auto;
+}
