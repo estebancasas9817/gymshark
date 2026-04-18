@@ -38,7 +38,7 @@ export const Text = ({
 	const variantStyles = {
 		primary: 'text-primary',
 		secondary: 'text-secondary',
-		tertiary: 'text-gray-400',
+		tertiary: 'text-tertiary',
 		muted: 'text-gray-200',
 	};
 	const sizeStyles = {

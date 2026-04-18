@@ -26,7 +26,6 @@ export const GalleryScroller = ({
 			const scrollableDistance = fullHeight - containerHeight;
 			if (scrollableDistance > 0) {
 				const progress = scrollTop / scrollableDistance;
-				console.log('[progress]', { progress, scrollTop, scrollableDistance });
 				setScrollPercentage(progress);
 			}
 		};
@@ -50,7 +49,7 @@ export const GalleryScroller = ({
 	};
 
 	return (
-		<div className="fixed top-90 left-12 flex flex-col gap-4">
+		<div className="absolute top-90 left-12 flex flex-col gap-4">
 			<ChevronButton
 				disabled={shouldDisableChevronUp}
 				handleOnClick={() => handleOnClick('up')}

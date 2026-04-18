@@ -1,0 +1,4 @@
+.product-card {
+	flex: 0 0 calc(calc(100% / 4 - 4px));
+	/* update the 4 based on the amount of items */
+}

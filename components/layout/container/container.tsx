@@ -19,7 +19,7 @@ export const Container = ({
 		<Tag
 			className={cn(
 				'w-full',
-				!fullWidth && 'max-w-(--container-max) mx-auto px-4 lg:px-10',
+				!fullWidth && 'max-w-max mx-auto px-4 lg:px-10',
 				className,
 			)}
 		>

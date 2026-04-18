@@ -25,7 +25,7 @@ export const Heading = ({
 		h6: 'sm',
 	};
 	const sizeStyles = {
-		sm: 'text-md',
+		sm: 'text-lg',
 		base: 'text-xl',
 		lg: 'text-2xl',
 		xl: 'text-3xl',
@@ -34,5 +34,9 @@ export const Heading = ({
 	};
 	const finalSize = size ?? defaultSize[as];
 
-	return <Tag className={cn(sizeStyles[finalSize], className)}>{children}</Tag>;
+	return (
+		<Tag className={cn('font-sans', sizeStyles[finalSize], className)}>
+			{children}
+		</Tag>
+	);
 };

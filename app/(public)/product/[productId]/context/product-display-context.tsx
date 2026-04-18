@@ -28,7 +28,7 @@ export const ProductDisplayContextProvider = ({
 	const [selectedVariant, setSelectedVariant] = useState<Variant>(variant);
 	const value = useMemo(() => {
 		return { selectedVariant, setSelectedVariant };
-	}, [variant]);
+	}, [selectedVariant]);
 
 	return (
 		<ProductDisplayContext.Provider value={value}>

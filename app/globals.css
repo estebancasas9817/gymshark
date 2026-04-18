@@ -7,6 +7,7 @@
 	/* COLORS */
 	--color-primary: #000000;
 	--color-secondary: #ffffff;
+	--color-tertiary: #6e6e6e;
 	--color-gray-50: #f9f9f9;
 	--color-gray-100: #f5f5f5;
 	--color-gray-200: #e5e5e5;
@@ -14,12 +15,14 @@
 	--color-gray-400: #a3a3a3;
 	--color-gray-500: #737373;
 	--color-gray-600: #525252;
-	--color-gray-700: #404040;
+	--color-gray-700: #444444;
 	--color-gray-800: #262626;
 	--color-gray-900: #171717;
+	--color-text-sale: #bf2e35;
+	--color-particles-grey: #ebebeb;
 
 	/* CONTAINERS */
-	--container-max: 1280px;
+	--container-max: 1440px;
 
 	/* BORDER RADIUS */
 	--radius-sm: 4px;
@@ -45,9 +48,9 @@ body {
 	font-family: var(--font-roboto), Helvetica, sans-serif;
 }
 
-button {
+/* button {
 	font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
-}
+} */
 h1,
 h2,
 h3,
