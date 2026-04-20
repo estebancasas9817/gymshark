@@ -6,6 +6,7 @@ interface ContainerProps {
 	fullWidth?: boolean;
 	as?: 'div' | 'section' | 'main' | 'article';
 	className?: string;
+	sectionId?: string;
 }
 
 export const Container = ({
@@ -13,6 +14,7 @@ export const Container = ({
 	fullWidth = false,
 	as = 'div',
 	className,
+	sectionId,
 }: ContainerProps) => {
 	const Tag = as;
 	return (
@@ -22,6 +24,7 @@ export const Container = ({
 				!fullWidth && 'max-w-max mx-auto px-4 lg:px-10',
 				className,
 			)}
+			{...(sectionId && { id: sectionId })}
 		>
 			{children}
 		</Tag>

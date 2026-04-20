@@ -10,6 +10,7 @@ interface ProductCollectionProps {
 	sectionDescription?: ReactNode;
 	children: ReactNode;
 	className?: string;
+	sectionId?: string;
 }
 // cambiar el nombre a algo más común
 export const ProductCollection = ({
@@ -17,9 +18,14 @@ export const ProductCollection = ({
 	sectionDescription,
 	children,
 	className,
+	sectionId,
 }: ProductCollectionProps) => {
 	return (
-		<Container as="section" className={cn('ps-10 mx-0 mt-4', className)}>
+		<Container
+			as="section"
+			className={cn('ps-10 mx-0 mt-4', className)}
+			sectionId={sectionId}
+		>
 			<div className="mb-10 mt-10">
 				<Heading size="lg">{sectionName}</Heading>
 				{sectionDescription}

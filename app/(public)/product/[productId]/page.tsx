@@ -78,6 +78,7 @@ const Page = async ({ params }: PageProps<RouteParams, QueryParams>) => {
 			<ProductCollection
 				sectionName="YOU MIGHT LIKE"
 				className="mt-30 px-10 w-full"
+				sectionId="GET_THE_LOOK"
 				sectionDescription={
 					<Text as="span" variant="tertiary">
 						We think these products pair perfectly

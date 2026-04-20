@@ -1,0 +1,29 @@
+@keyframes ab-slide-up {
+	0% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(-110%);
+		opacity: 0;
+	}
+}
+
+@keyframes ab-slide-in {
+	0% {
+		transform: translateY(110%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.ab-exit {
+	animation: ab-slide-up 380ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.ab-enter {
+	animation: ab-slide-in 380ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
