@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 interface ContainerProps {
 	children: ReactNode;
 	fullWidth?: boolean;
-	as?: 'div' | 'section' | 'main' | 'article';
+	as?: 'div' | 'section' | 'main' | 'article' | 'footer';
 	className?: string;
 	sectionId?: string;
 }

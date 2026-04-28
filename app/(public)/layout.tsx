@@ -1,4 +1,5 @@
 import { AnnouncementBar } from '@/features/announcement-bar';
+import { Footer } from '@/features/footer';
 import { Header } from '@/features/header';
 import { ReactNode } from 'react';
 
@@ -10,6 +11,7 @@ const PublicLayout = ({ children }: { children: ReactNode }) => {
 				<Header />
 			</div>
 			{children}
+			<Footer />
 		</>
 	);
 };

@@ -1,0 +1,61 @@
+{
+	"sections": {
+		"help": {
+			"title": "HELP",
+			"links": {
+				"faq": "FAQ",
+				"delivery": "Delivery Information",
+				"returns": "Returns Policy",
+				"makeReturn": "Make A Return",
+				"orders": "Orders",
+				"submitFake": "Submit a Fake"
+			}
+		},
+		"account": {
+			"title": "MY ACCOUNT",
+			"links": {
+				"login": "Login",
+				"register": "Register"
+			}
+		},
+		"pages": {
+			"title": "PAGES",
+			"links": {
+				"central": "Gymshark Central",
+				"loyalty": "Gymshark Loyalty",
+				"careers": "Careers",
+				"about": "About Us",
+				"studentDiscount": "Student Discount",
+				"trainingApp": "Training App",
+				"factoryList": "Factory List"
+			}
+		}
+	},
+	"promos": {
+		"title": "MORE ABOUT GYMSHARK",
+		"items": {
+			"blog": {
+				"label": "BLOG",
+				"alt": "Gymshark Central Blog"
+			},
+			"students": {
+				"label": "15% STUDENT DISCOUNT",
+				"alt": "Gymshark Students"
+			},
+			"newsletter": {
+				"label": "EMAIL SIGN UP",
+				"alt": "Newsletter subscription"
+			}
+		}
+	},
+	"bottomBar": {
+		"copyright": "© {year} | Gymshark Clone Just For Fun | Esteban Casas | We Do Gym.",
+		"links": {
+			"termsConditions": "Terms & Conditions",
+			"termsOfUse": "Terms of Use",
+			"privacyNotice": "Privacy Notice",
+			"cookiePolicy": "Cookie Policy",
+			"modernSlavery": "Modern Slavery"
+		}
+	}
+}

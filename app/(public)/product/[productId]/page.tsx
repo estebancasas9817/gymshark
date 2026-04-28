@@ -17,6 +17,7 @@ import { Carousel } from '@/features/carousel';
 import { PaymentCarousel } from './components/payment-carousel';
 import { PaymentSuggestions } from './components/payment-suggestions';
 import { ShopTheLook } from './components/shop-the-look';
+import { RecentlyView } from './components/recently-view';
 
 type RouteParams = { productId: string };
 type QueryParams = {};
@@ -91,6 +92,8 @@ const Page = async ({ params }: PageProps<RouteParams, QueryParams>) => {
 			<Carousel sectionName="WE RECOMMEND" className="w-full">
 				<ProductCardContainer />
 			</Carousel>
+
+			<RecentlyView />
 		</Container>
 	);
 };

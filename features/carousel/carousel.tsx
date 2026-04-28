@@ -64,7 +64,7 @@ export const Carousel = ({
 			<div
 				onScroll={handleScroll}
 				ref={ref}
-				className="scroll-smooth overflow-x-auto scrollbar-none"
+				className="scroll-smooth overflow-x-auto scrollbar-none [scrollbar-width:none]"
 			>
 				{children}
 			</div>
