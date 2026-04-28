@@ -8,7 +8,7 @@ interface FlexContainerProps {
 	justify?: 'start' | 'center' | 'between' | 'end';
 	gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 	wrap?: boolean;
-	as?: 'div' | 'section' | 'article' | 'ul' | 'nav';
+	as?: 'div' | 'section' | 'article' | 'ul' | 'nav' | 'header';
 	className?: string;
 }
 

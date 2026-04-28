@@ -1,3 +1,9 @@
+export type Variant = {
+	id: string;
+	color: string;
+	sizes: { size: string; inStock: boolean; stock: number }[];
+	images: string[];
+};
 export interface Product {
 	id: string;
 	name: string;
@@ -7,13 +13,6 @@ export interface Product {
 	currency: 'COP' | 'USD';
 	discount?: number;
 	categoryId: string;
-	variants: {
-		id: string;
-		color: string;
-		images: string[];
-		sizes: {
-			size: string;
-			stock: number;
-		}[];
-	}[];
+	parentCategoryId: string;
+	variants: Variant[];
 }

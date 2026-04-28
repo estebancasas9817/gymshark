@@ -1,0 +1,115 @@
+.wrapper {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+}
+
+.tooltip {
+	position: absolute;
+	z-index: 9999;
+	width: 300px;
+	padding: 10px 14px;
+	border-radius: 8px;
+
+	background-color: #1a1a1a;
+	color: #ffffff;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.5;
+	text-align: left;
+	white-space: normal;
+	word-break: break-word;
+	animation: fadeIn 0.12s ease-out;
+	pointer-events: none;
+}
+
+.arrow {
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+
+.top {
+	bottom: calc(100% + 10px);
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.top .arrow {
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-top: 8px solid #1a1a1a;
+}
+
+.bottom {
+	top: calc(100% + 10px);
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.bottom .arrow {
+	bottom: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-bottom: 8px solid #1a1a1a;
+}
+
+.left {
+	right: calc(100% + 10px);
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.left .arrow {
+	left: 100%;
+	top: 50%;
+	transform: translateY(-50%);
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	border-left: 8px solid #1a1a1a;
+}
+
+.right {
+	left: calc(100% + 10px);
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.right .arrow {
+	right: 100%;
+	top: 50%;
+	transform: translateY(-50%);
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	border-right: 8px solid #1a1a1a;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateX(-50%) translateY(4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+}
+
+.left,
+.right {
+	animation: fadeInX 0.12s ease-out;
+}
+
+@keyframes fadeInX {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}

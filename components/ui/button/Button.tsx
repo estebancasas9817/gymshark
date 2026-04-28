@@ -9,6 +9,7 @@ interface ButtonProps {
 	className?: string;
 	radius?: 'none' | 'sm' | 'md' | 'lg';
 	type?: 'button' | 'submit';
+	onClick?: () => void;
 }
 
 export const Button = ({
@@ -19,6 +20,7 @@ export const Button = ({
 	type = 'button',
 	children,
 	className,
+	onClick,
 }: ButtonProps) => {
 	const variantStyles = {
 		primary: 'bg-primary text-secondary',
@@ -28,7 +30,7 @@ export const Button = ({
 		inline: 'bg-primary text-secondary underline',
 	};
 	const hoverStyles = {
-		primary: 'hover:bg-secondary hover:text-primary`',
+		primary: 'hover:opacity-90',
 		secondary: 'hover:bg-primary hover:text-secondary',
 		tertiary: 'hover:bg-primary hover:text-secondary',
 		ghost: 'hover:text-gray-500',
@@ -54,12 +56,13 @@ export const Button = ({
 				variantStyles[variant],
 				sizeStyles[size],
 				radiusStyles[radius],
-				className,
 				disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
 				!disabled && hoverStyles[variant],
+				className,
 			)}
 			disabled={disabled}
 			aria-disabled={disabled}
+			onClick={onClick}
 		>
 			{children}
 		</button>
