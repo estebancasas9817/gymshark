@@ -2,10 +2,11 @@ import { Container } from '@/components/layout/container';
 import { Stack } from '@/components/layout/stack';
 import { LoginHeader } from './components/login-header';
 import { Input } from '@/components/ui/input';
-import { LoginForm } from '@/components/ui/login-form';
+import { AuthForm } from '@/components/ui/auth-form';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
+import Link from 'next/link';
 
 export default function Page() {
 	const t = useTranslations('Login.auth');
@@ -18,7 +19,7 @@ export default function Page() {
 				className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-120"
 			>
 				<LoginHeader />
-				<LoginForm>
+				<AuthForm>
 					<Input
 						name="email"
 						type="email"
@@ -34,7 +35,7 @@ export default function Page() {
 					<Stack gap="sm">
 						<Button
 							variant="inline"
-							className="text-primary hover:text-black text-sm pt-0"
+							className="text-primary hover:text-none text-sm pt-0"
 						>
 							{t('form.forgot_password')}
 						</Button>
@@ -45,15 +46,15 @@ export default function Page() {
 							<Text as="span" className="text-sm text-gray-700">
 								{t('footer.no_account')}
 							</Text>
-							<Button
-								variant="inline"
-								className="text-primary hover:text-primary p-0 ms-2 text-sm"
+							<Link
+								href={'/sign-up'}
+								className="text-primary hover:text-none p-0 ms-2 text-sm underline font-bold"
 							>
 								{t('footer.sign_up_link')}
-							</Button>
+							</Link>
 						</Text>
 					</Stack>
-				</LoginForm>
+				</AuthForm>
 			</Stack>
 		</Container>
 	);
