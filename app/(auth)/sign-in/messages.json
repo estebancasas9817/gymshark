@@ -1,0 +1,18 @@
+{
+	"auth": {
+		"header": {
+			"title": "GYMSHARK LOGIN",
+			"subtitle": "Shop your styles, save top picks to your wishlist, track those orders & train with us."
+		},
+		"form": {
+			"email_label": "Email address*",
+			"password_label": "Password*",
+			"forgot_password": "Forgot password?",
+			"submit_button": "LOG IN"
+		},
+		"footer": {
+			"no_account": "Don't have an account?",
+			"sign_up_link": "Sign up"
+		}
+	}
+}

@@ -1,0 +1,29 @@
+{
+	"seoContent": {
+		"articles": {
+			"men": [
+				{
+					"id": "men-gym-workout",
+					"title": "MEN'S GYM & WORKOUT CLOTHES",
+					"paragraphs": [
+						"Men's Workout Clothes designed to help you become your personal best. Functional and comfortable, we create gym clothing you'll sweat in. Since 2012, we've designed and created the workout clothes we want to wear, because training and its people are what we know best."
+					]
+				},
+				{
+					"id": "men-weight-room",
+					"title": "WORKOUT CLOTHES BUILT IN THE WEIGHT ROOM.",
+					"paragraphs": [
+						"Our legacy was built in the weight room. Gymshark was founded with a love for training and that passion continues into all our gym clothes today. We started with just <bold>lifting</bold> and <bold>bodybuilding clothes</bold>, but today you'll find the latest innovation in men's gym clothing and accessories to help you perform at your best and recover in style. From sweat wicking <bold>workout shirts</bold> and <bold>tank tops</bold>, to men's <bold>joggers</bold> and <bold>shorts</bold> and that are created with specific movements in mind, you will always feel comfortable and supported in every workout."
+					]
+				},
+				{
+					"id": "men-activewear",
+					"title": "ACTIVEWEAR FOR MEN",
+					"paragraphs": [
+						"We create the tools that help everyone become their personal best – no matter the sport. Our range of Men's Activewear is designed to give you the support you need to perform at your best, whether that's on the track, on the gym floor or in the studio."
+					]
+				}
+			]
+		}
+	}
+}

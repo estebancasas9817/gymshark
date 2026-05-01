@@ -16,12 +16,12 @@ export const Header = () => {
 			<Stack as="nav">
 				<Stack as="ul" direction="row" gap="lg">
 					<li>
-						<Link href={''} className="text-sm">
+						<Link href={'/women'} className="text-sm">
 							Women
 						</Link>
 					</li>
 					<li>
-						<Link href={''} className="text-sm">
+						<Link href={'/men'} className="text-sm">
 							Men
 						</Link>
 					</li>
