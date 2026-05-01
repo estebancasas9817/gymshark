@@ -1,0 +1,16 @@
+{
+	"departments": {
+		"women": {
+			"label": "SHOP WOMEN",
+			"href": "/women"
+		},
+		"men": {
+			"label": "SHOP MEN",
+			"href": "/men"
+		},
+		"accessories": {
+			"label": "SHOP ACCESSORIES",
+			"href": "/accessories"
+		}
+	}
+}

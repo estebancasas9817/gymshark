@@ -1,0 +1,29 @@
+{
+	"seoContent": {
+		"articles": {
+			"women": [
+				{
+					"id": "women-workout-clothes",
+					"title": "WOMEN'S GYM & WORKOUT CLOTHES",
+					"paragraphs": [
+						"Workout Clothes for women designed to help you become your personal best. Functional and comfortable, we create workout clothing you'll sweat in. Since 2012, we've designed and created the gym clothes we want to wear, because training and its people are what we know best."
+					]
+				},
+				{
+					"id": "weight-room-women",
+					"title": "WORKOUT CLOTHES BUILT IN THE WEIGHT ROOM",
+					"paragraphs": [
+						"Our legacy was built in the weight room. Gymshark was founded with a love for training and that passion continues into all our workout clothes today. You'll find the latest innovation in women's gym clothing and accessories to help you perform at your best and recover in style. With sophisticated seamless technology, clever contouring, and durable, quick-dry sweat wicking fabrics, whether you're wearing <bold>leggings</bold> or <bold>sports bras</bold>, you will always feel comfortable, supported and confident in every workout."
+					]
+				},
+				{
+					"id": "shop-activewear",
+					"title": "SHOP WOMEN'S ACTIVEWEAR",
+					"paragraphs": [
+						"We create the tools that help everyone become their personal best – no matter the sport. Our range of Women's Activewear is designed to give you the support you need to perform at your best, whether that's on the track, on the gym floor or in the studio."
+					]
+				}
+			]
+		}
+	}
+}

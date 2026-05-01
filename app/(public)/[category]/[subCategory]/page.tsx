@@ -24,5 +24,5 @@ export default async function Page({
 	// const products = await getProductsByCategory({ behavior, id });
 	// await seedCategories();
 	// console.log('[here]', { products });
-	return <div>{'name'}</div>;
+	return <div>xcvxcvcvbcb</div>;
 }

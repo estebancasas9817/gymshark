@@ -1,0 +1,48 @@
+.input__form {
+	width: 320px;
+	margin: auto;
+	position: relative;
+}
+
+.input__floating {
+	display: block;
+	font-size: 12px;
+	width: 100%;
+	height: 50px;
+	padding: 20px 20px 0 20px;
+	background: #ffffff;
+	color: #333333;
+	border: 1px solid #4444;
+	border-radius: 6px;
+	box-sizing: border-box;
+	outline: none;
+}
+
+.input__floating-label {
+	font-size: 14px;
+	font-weight: 400;
+	position: absolute;
+	pointer-events: none;
+	left: 15px;
+	top: 15px;
+	padding: 0 5px;
+	background: var(--color-secondary);
+	color: #6e6e6e;
+	transition: 0.2s ease all;
+}
+
+.input__floating:focus {
+	border: 1px solid var(--color-primary);
+}
+
+/* .input__floating:focus + .input__floating-label {
+	top: 4px;
+	color: var(--color-primary);
+	font-size: 12px;
+} */
+
+.algo {
+	top: 4px;
+	color: var(--color-primary);
+	font-size: 12px;
+}

@@ -27,7 +27,7 @@ export const Button = ({
 		secondary: 'bg-secondary text-primary',
 		tertiary: 'bg-gray-100 text-primary',
 		ghost: 'bg-transparent text-primary',
-		inline: 'bg-primary text-secondary underline',
+		inline: 'text-secondary underline',
 	};
 	const hoverStyles = {
 		primary: 'hover:opacity-90',
