@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import GymsharkLogo from '@/public/gymshark-logo.png';
 import { Text } from '@/components/ui/text';
-import { useTranslations } from 'next-intl';
 import { Heading } from '@/components/ui/heading';
 
-export const LoginHeader = () => {
-	const t = useTranslations('Login.auth.header');
+interface LoginHeaderProps {
+	title: string;
+	subTitle: string;
+}
+export const LoginHeader = ({ title, subTitle }: LoginHeaderProps) => {
 	return (
 		<>
 			<figure>
@@ -16,9 +18,9 @@ export const LoginHeader = () => {
 					height={100}
 				/>
 			</figure>
-			<Heading as="h5">{t('title')}</Heading>
+			<Heading as="h5">{title}</Heading>
 			<Text as="p" className=" px-20 text-sm text-gray-700 text-center">
-				{t('subtitle')}
+				{subTitle}
 			</Text>
 		</>
 	);

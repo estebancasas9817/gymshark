@@ -6,7 +6,7 @@ import styles from './input.module.css';
 import { cn } from '@/utils/cn/cn';
 
 interface InputProps {
-	type?: 'text' | 'email' | 'password';
+	type?: 'text' | 'email' | 'password' | 'date';
 	placeholder: string;
 	required?: boolean;
 	name: string;

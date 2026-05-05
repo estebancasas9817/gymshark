@@ -1,0 +1,20 @@
+{
+	"auth": {
+		"header": {
+			"title": "GYMSHARK SIGNUP",
+			"subtitle": "One account, across all apps, just to make things a little easier."
+		},
+		"form": {
+			"first_name_label": "First Name",
+			"last_name_label": "Last Name",
+			"dob_label": "Date Of Birth",
+			"email_label": "Email address*",
+			"password_label": "Password*",
+			"submit_button": "CREATE ACCOUNT"
+		},
+		"footer": {
+			"existing_account": "Already have an account?",
+			"login_link": "Log in"
+		}
+	}
+}
