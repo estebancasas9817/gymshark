@@ -18,7 +18,10 @@ export default function Page() {
 				justify="center"
 				className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-120"
 			>
-				<LoginHeader />
+				<LoginHeader
+					title={t('header.title')}
+					subTitle={t('header.subtitle')}
+				/>
 				<AuthForm>
 					<Input
 						name="email"

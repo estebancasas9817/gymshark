@@ -5,6 +5,7 @@ import Home from '@/app/(public)/messages.json';
 import Women from '@/app/(public)/[category]/women-messages.json';
 import Men from '@/app/(public)/[category]/men-messages.json';
 import Login from '@/app/(auth)/sign-in/messages.json';
+import SignUp from '@/app/(auth)/sign-up/messages.json';
 
 export const messages = {
 	AnnouncementBar,
@@ -14,4 +15,5 @@ export const messages = {
 	Women,
 	Men,
 	Login,
+	SignUp,
 };
