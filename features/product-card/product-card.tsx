@@ -25,6 +25,7 @@ interface ProductCardProps {
 	discount: number | undefined;
 	shouldUpdateImgOnHover?: boolean;
 	imageClassNames?: string;
+	productCardClassNames?: string;
 }
 
 export const ProductCard = ({
@@ -38,6 +39,7 @@ export const ProductCard = ({
 	discount,
 	shouldUpdateImgOnHover = false,
 	imageClassNames,
+	productCardClassNames,
 }: ProductCardProps) => {
 	const [isActiveHover, setIsActiveHover] = useState<boolean>(false);
 	const imgSrc =
@@ -52,8 +54,10 @@ export const ProductCard = ({
 	};
 
 	return (
-		<article className={cn(styles['product-card'], 'mb-6')}>
-			<figure className="relative w-full h-90">
+		<article
+			className={cn(styles['product-card'], 'mb-6', productCardClassNames)}
+		>
+			<figure className={cn('relative w-full h-90', imageClassNames)}>
 				<Link href={href}>
 					<Image
 						src={imgSrc}
@@ -69,12 +73,12 @@ export const ProductCard = ({
 					<div
 						className={cn(
 							'flex absolute bottom-0 bg-gray-100 w-full gap-2 min-h-18 flex-wrap',
-							variant.sizes.length <= 4 && 'justify-center',
+							variant?.sizes.length <= 4 && 'justify-center',
 						)}
 						onMouseEnter={handleMouseEnter}
 						onMouseLeave={handleMouseLeave}
 					>
-						{variant.sizes.map(({ size }) => (
+						{variant?.sizes.map(({ size }) => (
 							<Button
 								className="min-w-16 self-center h-10"
 								variant="secondary"

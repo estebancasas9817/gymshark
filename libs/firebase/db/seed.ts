@@ -1,4 +1,5 @@
 import { db } from '@/libs/firebase/firebase';
+import { Product, Sku } from '@/types/product';
 
 export const productsSeedBatch2 = [
 	// WOMEN — LEGGINGS
@@ -1198,14 +1199,99 @@ const productsSeed = [
 	},
 ];
 
+const jony: Product[] = [
+	{
+		id: 'bag-01',
+		slug: 'training-duffel-bag',
+		name: 'Training Duffel Bag',
+		shortDescription: 'Spacious duffel for gym gear.',
+		longDescription: 'Multiple compartments and reinforced straps.',
+		categorySlug: 'accessories',
+		subcategorySlug: 'bags',
+		basePrice: 199000,
+		currency: 'COP',
+		coverImage: '/img/accessories/bag-black.jpg',
+		isActive: true,
+	},
+	{
+		id: 'cap-01',
+		slug: 'classic-cap',
+		name: 'Classic Cap',
+		shortDescription: 'Everyday gym cap.',
+		longDescription: 'Breathable cotton with adjustable strap.',
+		categorySlug: 'accessories',
+		subcategorySlug: 'hats',
+		basePrice: 89000,
+		currency: 'COP',
+		coverImage: '/img/accessories/cap-black.jpg',
+		isActive: true,
+	},
+	{
+		id: 'bottle-01',
+		slug: 'steel-water-bottle',
+		name: 'Steel Water Bottle',
+		shortDescription: 'Keeps drinks cold for 24h.',
+		longDescription: 'Double wall stainless steel bottle.',
+		categorySlug: 'accessories',
+		subcategorySlug: 'bottles',
+		basePrice: 99000,
+		currency: 'COP',
+		coverImage: '/img/accessories/bottle-silver.jpg',
+		isActive: true,
+	},
+];
+
+const skus: Sku[] = [
+	{
+		id: 'BAG-01-BLACK-ONE',
+		productId: 'bag-01',
+		color: 'Black',
+		size: 'One Size',
+		price: 199000,
+		stock: 12,
+		images: ['/img/accessories/bag-black.jpg'],
+		isActive: true,
+	},
+	{
+		id: 'CAP-01-BLACK-ONE',
+		productId: 'cap-01',
+		color: 'Black',
+		size: 'One Size',
+		price: 89000,
+		stock: 20,
+		images: ['/img/accessories/cap-black.jpg'],
+		isActive: true,
+	},
+	{
+		id: 'BOT-01-SILVER-750',
+		productId: 'bottle-01',
+		color: 'Silver',
+		size: '750ml',
+		price: 99000,
+		stock: 15,
+		images: ['/img/accessories/bottle-silver.jpg'],
+		isActive: true,
+	},
+];
+
 export const seedCategories = async () => {
 	try {
 		await Promise.all(
-			productsSeed.map((product) =>
+			jony.map((product) =>
 				db.collection('products').doc(product.id).set(product),
 			),
 		);
-
+		// SKUs
+		await Promise.all(
+			skus.map((sku) =>
+				db
+					.collection('products')
+					.doc(sku.productId)
+					.collection('skus')
+					.doc(sku.id)
+					.set(sku),
+			),
+		);
 		console.log('✅ Categories seeded');
 	} catch (error) {
 		console.error('❌ Error seeding categories', error);
