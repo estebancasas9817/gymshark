@@ -1,18 +1,28 @@
-import { Stack } from '@/components/layout/stack';
 import { ProductListGrid } from '../product-list-grid';
 import { Carousel } from '@/features/carousel';
 import { ProductCardContainer } from '@/features/product-card-container';
+import { ProductListPaginator } from '../product-list-paginator';
+import { Stack } from '@/components/layout/stack';
 
-export const ProductListMainContent = ({ params, slug, page }) => {
+interface ProductListMainContentProps {
+	slug: string;
+	page: number;
+}
+
+export const ProductListMainContent = ({
+	slug,
+	page,
+}: ProductListMainContentProps) => {
 	return (
-		<section className="flex-1">
+		<Stack className="flex-1">
 			<Carousel
 				sectionName="TOP 10 IN CATEGORY"
 				className="w-full lg:px-0 ps-0 mb-16"
 			>
 				<ProductCardContainer />
 			</Carousel>
-			<ProductListGrid params={params} slug={slug} page={page} />
-		</section>
+			<ProductListGrid slug={slug} page={page} />
+			<ProductListPaginator totalPages={10} currentPage={Number(page)} />
+		</Stack>
 	);
 };

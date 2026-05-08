@@ -7,7 +7,7 @@ import { cache } from 'react';
 type GetProductByCategoryProps = {
 	behavior: CategoryBehavior;
 	id: string;
-	page: string | undefined;
+	page: number;
 };
 
 const _getProductsByCategory = async ({
@@ -15,7 +15,7 @@ const _getProductsByCategory = async ({
 	behavior,
 	page,
 }: GetProductByCategoryProps): Promise<Product[]> => {
-	const limit = (isNaN(Number(page)) ? 1 : Number(page)) * 14;
+	const limit = page * 14;
 	if (behavior === 'expand') {
 		const [categorySlug, subcategorySlug] = id.split('-');
 		const snapshot = await db

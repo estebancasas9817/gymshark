@@ -1,4 +1,3 @@
-import { Stack } from '@/components/layout/stack';
 import { ProductCard } from '@/features/product-card';
 import { getCategoryBySlug } from '@/libs/firebase/db/categories/categories';
 import { getProductsByCategory } from '@/libs/firebase/db/products/get-products-by-category';
@@ -6,7 +5,12 @@ import { Fragment } from 'react';
 import { ProductListCollectionHighlight } from '../product-list-collection-highlight';
 import { Conditional } from '@/components/layout/conditional';
 
-export const ProductListGrid = async ({ params, slug, page }) => {
+interface ProductListGridProps {
+	slug: string;
+	page: number;
+}
+
+export const ProductListGrid = async ({ slug, page }: ProductListGridProps) => {
 	const { id, behavior } = await getCategoryBySlug(slug);
 	const products = await getProductsByCategory({ behavior, id, page });
 	return (
