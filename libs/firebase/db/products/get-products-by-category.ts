@@ -15,7 +15,7 @@ const _getProductsByCategory = async ({
 	behavior,
 	page,
 }: GetProductByCategoryProps): Promise<Product[]> => {
-	const limit = page * 14;
+	const limit = page * 12;
 	if (behavior === 'expand') {
 		const [categorySlug, subcategorySlug] = id.split('-');
 		const snapshot = await db

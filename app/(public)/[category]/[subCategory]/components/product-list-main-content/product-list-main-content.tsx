@@ -17,7 +17,9 @@ export const ProductListMainContent = ({
 		<Stack className="flex-1">
 			<Carousel
 				sectionName="TOP 10 IN CATEGORY"
-				className="w-full lg:px-0 ps-0 mb-16"
+				className="w-full lg:px-0 ps-0 mb-16 mt-0"
+				stackClassNames="mt-0"
+				size="sm"
 			>
 				<ProductCardContainer />
 			</Carousel>
