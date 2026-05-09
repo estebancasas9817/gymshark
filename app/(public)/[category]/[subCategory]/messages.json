@@ -1,0 +1,55 @@
+{
+	"sidebar": {
+		"header": {
+			"title": "FILTER & SORT",
+			"clear_all": "Clear All"
+		},
+		"sections": {
+			"sort_by": {
+				"title": "SORT BY",
+				"options": {
+					"low_to_high": "Price: Low to High",
+					"high_to_low": "Price: High to Low",
+					"relevancy": "Relevancy",
+					"newest": "Newest"
+				}
+			},
+			"size": {
+				"title": "SIZE",
+				"options": {
+					"xs": "XS",
+					"s": "S",
+					"m": "M",
+					"l": "L",
+					"xl": "XL"
+				}
+			},
+			"color": {
+				"title": "COLOR",
+				"options": {
+					"black": "Black",
+					"white": "White",
+					"pink": "Pink",
+					"blue": "Blue",
+					"grey": "Grey",
+					"red": "Red",
+					"brown": "Brown",
+					"green": "Green",
+					"yellow": "Yellow",
+					"orange": "Orange"
+				}
+			},
+			"price": {
+				"title": "PRICE",
+				"options": {
+					"range_10_20": "$10 - $20",
+					"range_20_30": "$20 - $30",
+					"range_30_50": "$30 - $50",
+					"range_50_75": "$50 - $75",
+					"range_75_100": "$75 - $100",
+					"range_100_125": "$100 - $125"
+				}
+			}
+		}
+	}
+}

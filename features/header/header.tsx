@@ -26,8 +26,8 @@ export const Header = () => {
 						</Link>
 					</li>
 					<li>
-						<Link href={''} className="text-sm">
-							Accesories
+						<Link href={'/accessories/all-accessories'} className="text-sm">
+							Accessories
 						</Link>
 					</li>
 				</Stack>

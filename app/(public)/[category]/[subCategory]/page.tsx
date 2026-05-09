@@ -1,28 +1,27 @@
-import { getCategoryBySlug } from '@/libs/firebase/db/categories/categories';
-import { getProductsByCategory } from '@/libs/firebase/db/products/get-products-by-category';
-import { getProducts } from '@/libs/firebase/db/products/products';
-import { seedCategories } from '@/libs/firebase/db/seed';
+import { Container } from '@/components/layout/container';
 import { PageProps } from '@/types/next';
-import { notFound } from 'next/navigation';
+import { ProductListHeader } from './components/product-list-header';
+import { ProductListBody } from './components/product-list-body';
 
-type RouteParams = { subCategory: string; category: string };
+type RouteParams = {
+	subCategory: string;
+	category: 'women' | 'men' | 'accessories';
+};
 // TODO: update searchParams
-type QueryParams = { color?: string; size?: string };
+type QueryParams = { color?: string; size?: string; page?: string };
 
-export default async function Page({
-	params,
-}: PageProps<RouteParams, QueryParams>) {
-	const { subCategory, category } = await params;
+export default async function Page(props: PageProps<RouteParams, QueryParams>) {
+	const [params, { page = '1' }] = await Promise.all([
+		props.params,
+		props.searchParams,
+	]);
+	const { category, subCategory } = params;
 	const slug = `${category}/${subCategory}`;
-	// const categoryData = await getCategoryBySlug(slug);
-	// if (!categoryData) {
-	// 	notFound();
-	// }
-	// console.log('[categoryData]', categoryData);
-	// const { id, parentId, behavior, name } = categoryData;
-
-	// const products = await getProductsByCategory({ behavior, id });
-	// await seedCategories();
-	// console.log('[here]', { products });
-	return <div>xcvxcvcvbcb</div>;
+	const currentPage = isNaN(+page) ? 1 : +page;
+	return (
+		<Container as="main">
+			<ProductListHeader />
+			<ProductListBody slug={slug} page={currentPage} />
+		</Container>
+	);
 }

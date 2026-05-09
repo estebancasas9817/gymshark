@@ -4,15 +4,40 @@ export type Variant = {
 	sizes: { size: string; inStock: boolean; stock: number }[];
 	images: string[];
 };
-export interface Product {
+// export interface Product {
+// 	id: string;
+// 	name: string;
+// 	shortDescription: string;
+// 	longDescription: string;
+// 	price: number;
+// 	currency: 'COP' | 'USD';
+// 	discount?: number;
+// 	categoryId: string;
+// 	parentCategoryId: string;
+// 	variants: Variant[];
+// }
+export type Product = {
 	id: string;
+	slug: string;
 	name: string;
 	shortDescription: string;
 	longDescription: string;
-	price: number;
+	categorySlug: string;
+	subcategorySlug: string;
+	basePrice: number;
 	currency: 'COP' | 'USD';
-	discount?: number;
-	categoryId: string;
-	parentCategoryId: string;
-	variants: Variant[];
-}
+	coverImage: string;
+	isActive: boolean;
+	// createdAt: any;
+};
+
+export type Sku = {
+	id: string;
+	productId: string;
+	color: string;
+	size: string;
+	price: number;
+	stock: number;
+	images: string[];
+	isActive: boolean;
+};

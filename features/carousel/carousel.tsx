@@ -9,25 +9,34 @@ import { cn } from '@/utils/cn/cn';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ReactNode } from 'react';
 
+type Size = 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl';
 interface CarouselProps {
 	children: ReactNode;
 	sectionName: string;
 	className?: string;
 	childrenToShow?: 'xs' | 'sm' | 'md';
+	stackClassNames?: string;
+	size?: Size;
 }
 export const Carousel = ({
 	children,
 	sectionName,
 	className,
 	childrenToShow = 'sm',
+	stackClassNames,
+	size = 'lg',
 }: CarouselProps) => {
 	const { handleClickChevron, handleScroll, scroll, ref } =
 		useCarousel(childrenToShow);
 
 	return (
 		<Container as="section" className={cn('ps-10 mx-0 w-1/2 mt-4', className)}>
-			<Stack direction="row" justify="between" className="mt-10">
-				<Heading className="mb-6" size="lg">
+			<Stack
+				direction="row"
+				justify="between"
+				className={cn('mt-10', stackClassNames)}
+			>
+				<Heading className="mb-6" size={size}>
 					{sectionName}
 				</Heading>
 				<Stack direction="row">
