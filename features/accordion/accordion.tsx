@@ -10,10 +10,16 @@ interface AccordionProps {
 	children: ReactNode;
 	title: string;
 	classNames?: string;
+	shouldExpand: boolean;
 }
 
-export const Accordion = ({ children, title, classNames }: AccordionProps) => {
-	const [isExpanded, setIsExpanded] = useState(false);
+export const Accordion = ({
+	children,
+	title,
+	classNames,
+	shouldExpand,
+}: AccordionProps) => {
+	const [isExpanded, setIsExpanded] = useState(shouldExpand);
 	const handleClick = () => {
 		setIsExpanded(!isExpanded);
 	};

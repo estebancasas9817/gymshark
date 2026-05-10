@@ -3,20 +3,25 @@
 import { Conditional } from '@/components/layout/conditional';
 import { Stack } from '@/components/layout/stack';
 import { CheckIcon, Circle } from 'lucide-react';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { QUERY_PARAMS } from '../../../hooks/constants';
+import { useFilter } from '../../../hooks/use-filter';
 
 interface ProductListColorProps {
 	color: string;
 }
 
 export const ProductListColor = ({ color }: ProductListColorProps) => {
-	const [isChecked, setIschecked] = useState(false);
+	const colorParam = useSearchParams().get(QUERY_PARAMS.color);
+	const { handleColor } = useFilter();
+
+	const isChecked = colorParam === color.toLowerCase();
 	const isWhiteColor = color === 'White';
 	const isYellowColor = color === 'White';
 	const checkIconColor = isWhiteColor || isYellowColor ? 'black' : 'white';
 
-	const handleClick = () => {
-		setIschecked(!isChecked);
+	const handleClick = (color: string) => {
+		handleColor(color);
 	};
 
 	return (
@@ -32,13 +37,13 @@ export const ProductListColor = ({ color }: ProductListColorProps) => {
 				fill={color}
 				strokeWidth={0.5}
 				className="cursor-pointer"
-				onClick={handleClick}
+				onClick={() => handleClick(color)}
 			/>
 			<Conditional test={isChecked}>
 				<CheckIcon
 					className="absolute top-5 left-50% cursor-pointer"
 					color={checkIconColor}
-					onClick={handleClick}
+					onClick={() => handleClick(color)}
 				/>
 			</Conditional>
 			<label className="text-sm text-gray-700">{color}</label>
