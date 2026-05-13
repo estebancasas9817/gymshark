@@ -3,16 +3,27 @@ import { Carousel } from '@/features/carousel';
 import { ProductCardContainer } from '@/features/product-card-container';
 import { ProductListPaginator } from '../product-list-paginator';
 import { Stack } from '@/components/layout/stack';
+import { getCategoryBySlug } from '@/libs/firebase/db/categories/categories';
+import { getProductsByCategory } from '@/libs/firebase/db/products/get-products-by-category';
 
 interface ProductListMainContentProps {
 	slug: string;
 	page: number;
+	cursor: number | null;
 }
 
-export const ProductListMainContent = ({
+export const ProductListMainContent = async ({
 	slug,
 	page,
+	cursor,
 }: ProductListMainContentProps) => {
+	const { id, behavior } = await getCategoryBySlug(slug);
+	const { nextCursor } = await getProductsByCategory({
+		behavior,
+		id,
+		cursor,
+	});
+
 	return (
 		<Stack className="flex-1">
 			<Carousel
@@ -23,8 +34,12 @@ export const ProductListMainContent = ({
 			>
 				<ProductCardContainer />
 			</Carousel>
-			<ProductListGrid slug={slug} page={page} />
-			<ProductListPaginator totalPages={10} currentPage={Number(page)} />
+			<ProductListGrid slug={slug} cursor={cursor} />
+			<ProductListPaginator
+				totalPages={3}
+				currentPage={Number(page)}
+				cursor={nextCursor}
+			/>
 		</Stack>
 	);
 };

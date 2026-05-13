@@ -8,20 +8,27 @@ type RouteParams = {
 	category: 'women' | 'men' | 'accessories';
 };
 // TODO: update searchParams
-type QueryParams = { color?: string; size?: string; page?: string };
+type QueryParams = {
+	color?: string;
+	size?: string;
+	page?: string;
+	cursor?: string;
+};
 
 export default async function Page(props: PageProps<RouteParams, QueryParams>) {
-	const [params, { page = '1' }] = await Promise.all([
+	const [params, { page = '1', cursor = null }] = await Promise.all([
 		props.params,
 		props.searchParams,
 	]);
 	const { category, subCategory } = params;
 	const slug = `${category}/${subCategory}`;
 	const currentPage = isNaN(+page) ? 1 : +page;
+	const currentCursor = cursor ? +cursor : null;
+
 	return (
 		<Container as="main">
 			<ProductListHeader />
-			<ProductListBody slug={slug} page={currentPage} />
+			<ProductListBody slug={slug} page={currentPage} cursor={currentCursor} />
 		</Container>
 	);
 }
