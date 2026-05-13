@@ -4,6 +4,7 @@ export const QUERY_PARAMS = {
 	color: 'color',
 	price: 'price',
 	page: 'page',
+	cursor: 'cursor',
 } as const;
 
 export const SORT_BY_OPTIONS = {

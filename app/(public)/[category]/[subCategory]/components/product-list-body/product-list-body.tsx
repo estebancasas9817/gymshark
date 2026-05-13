@@ -5,13 +5,18 @@ import { ProductListMainContent } from '../product-list-main-content';
 interface ProductListBodyProps {
 	slug: string;
 	page: number;
+	cursor: number | null;
 }
 
-export const ProductListBody = ({ slug, page }: ProductListBodyProps) => {
+export const ProductListBody = ({
+	slug,
+	page,
+	cursor,
+}: ProductListBodyProps) => {
 	return (
 		<Stack as="section" direction="row" gap="xl">
 			<ProductListSideBar />
-			<ProductListMainContent slug={slug} page={page} />
+			<ProductListMainContent slug={slug} page={page} cursor={cursor} />
 		</Stack>
 	);
 };
