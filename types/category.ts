@@ -8,4 +8,5 @@ export type Category = {
 	description?: string;
 	suggestions?: string[];
 	behavior: CategoryBehavior;
+	productCount: number;
 };

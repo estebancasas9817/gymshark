@@ -3,13 +3,13 @@ import { CategoryBehavior } from '@/types/category';
 import { db } from '../../firebase';
 import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
+import { PAGE_SIZE } from '@/app/(public)/[category]/[subCategory]/components/constants/constants';
 
 type GetProductByCategoryProps = {
 	behavior: CategoryBehavior;
 	id: string;
 	page: number;
 };
-const PAGE_SIZE = 12;
 
 export const _getProductsByCategory = async ({
 	id,
@@ -25,11 +25,8 @@ export const _getProductsByCategory = async ({
 	let query: FirebaseFirestore.Query = db.collection('products');
 
 	if (behavior === 'expand') {
-		console.log('[entra]', subcategorySlug);
-
 		query = query.where('categorySlug', '==', categorySlug);
 	} else {
-		console.log('[entra]', subcategorySlug);
 		query = query.where('subcategorySlug', '==', subcategorySlug);
 	}
 

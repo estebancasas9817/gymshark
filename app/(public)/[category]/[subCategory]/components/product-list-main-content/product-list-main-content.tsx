@@ -6,6 +6,7 @@ import { Stack } from '@/components/layout/stack';
 import { getCategoryBySlug } from '@/libs/firebase/db/categories/categories';
 import { getProductsByCategory } from '@/libs/firebase/db/products/get-products-by-category';
 import { QueryParams, RouteParams } from '../../types/product-list-types';
+import { PAGE_SIZE } from '../constants/constants';
 
 interface ProductListMainContentProps {
 	paramsPromise: Promise<RouteParams>;
@@ -16,13 +17,15 @@ export const ProductListMainContent = async ({
 	paramsPromise,
 	searchParamsPromise,
 }: ProductListMainContentProps) => {
-	const [params, { page = '1', cursor = null }] = await Promise.all([
+	const [params, { page = '1' }] = await Promise.all([
 		paramsPromise,
 		searchParamsPromise,
 	]);
 	const { category, subCategory } = params;
 	const slug = `${category}/${subCategory}`;
 	const currentPage = isNaN(+page) ? 1 : +page;
+	const { productCount } = await getCategoryBySlug(slug);
+	const totalPages = Math.ceil(productCount / PAGE_SIZE);
 
 	return (
 		<Stack className="flex-1">
@@ -35,7 +38,10 @@ export const ProductListMainContent = async ({
 				<ProductCardContainer />
 			</Carousel>
 			<ProductListGrid slug={slug} page={currentPage} />
-			<ProductListPaginator totalPages={3} currentPage={Number(page)} />
+			<ProductListPaginator
+				totalPages={totalPages}
+				currentPage={Number(page)}
+			/>
 		</Stack>
 	);
 };
