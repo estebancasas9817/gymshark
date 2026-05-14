@@ -9,7 +9,6 @@ export interface PaginatorProps {
 	currentPage: number;
 	siblingCount?: number;
 	className?: string;
-	cursor: number | null;
 }
 
 const cell =
@@ -32,7 +31,6 @@ export function ProductListPaginator({
 	currentPage,
 	siblingCount = 1,
 	className = '',
-	cursor,
 }: PaginatorProps) {
 	const { handlePagination } = useFilter();
 
@@ -43,7 +41,7 @@ export function ProductListPaginator({
 	const hasNext = currentPage < totalPages;
 
 	const onPageChange = (page: number) => {
-		handlePagination(page, cursor);
+		handlePagination(page);
 	};
 
 	return (

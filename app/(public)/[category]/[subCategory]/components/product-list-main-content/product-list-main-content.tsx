@@ -5,24 +5,24 @@ import { ProductListPaginator } from '../product-list-paginator';
 import { Stack } from '@/components/layout/stack';
 import { getCategoryBySlug } from '@/libs/firebase/db/categories/categories';
 import { getProductsByCategory } from '@/libs/firebase/db/products/get-products-by-category';
+import { QueryParams, RouteParams } from '../../types/product-list-types';
 
 interface ProductListMainContentProps {
-	slug: string;
-	page: number;
-	cursor: number | null;
+	paramsPromise: Promise<RouteParams>;
+	searchParamsPromise: Promise<QueryParams>;
 }
 
 export const ProductListMainContent = async ({
-	slug,
-	page,
-	cursor,
+	paramsPromise,
+	searchParamsPromise,
 }: ProductListMainContentProps) => {
-	const { id, behavior } = await getCategoryBySlug(slug);
-	const { nextCursor } = await getProductsByCategory({
-		behavior,
-		id,
-		cursor,
-	});
+	const [params, { page = '1', cursor = null }] = await Promise.all([
+		paramsPromise,
+		searchParamsPromise,
+	]);
+	const { category, subCategory } = params;
+	const slug = `${category}/${subCategory}`;
+	const currentPage = isNaN(+page) ? 1 : +page;
 
 	return (
 		<Stack className="flex-1">
@@ -34,12 +34,8 @@ export const ProductListMainContent = async ({
 			>
 				<ProductCardContainer />
 			</Carousel>
-			<ProductListGrid slug={slug} cursor={cursor} />
-			<ProductListPaginator
-				totalPages={3}
-				currentPage={Number(page)}
-				cursor={nextCursor}
-			/>
+			<ProductListGrid slug={slug} page={currentPage} />
+			<ProductListPaginator totalPages={3} currentPage={Number(page)} />
 		</Stack>
 	);
 };
