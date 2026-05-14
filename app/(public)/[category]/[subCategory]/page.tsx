@@ -2,33 +2,18 @@ import { Container } from '@/components/layout/container';
 import { PageProps } from '@/types/next';
 import { ProductListHeader } from './components/product-list-header';
 import { ProductListBody } from './components/product-list-body';
+import { RouteParams } from './types/product-list-types';
+import { QueryParams } from 'next-intl/navigation';
 
-type RouteParams = {
-	subCategory: string;
-	category: 'women' | 'men' | 'accessories';
-};
-// TODO: update searchParams
-type QueryParams = {
-	color?: string;
-	size?: string;
-	page?: string;
-	cursor?: string;
-};
-
-export default async function Page(props: PageProps<RouteParams, QueryParams>) {
-	const [params, { page = '1', cursor = null }] = await Promise.all([
-		props.params,
-		props.searchParams,
-	]);
-	const { category, subCategory } = params;
-	const slug = `${category}/${subCategory}`;
-	const currentPage = isNaN(+page) ? 1 : +page;
-	const currentCursor = cursor ? +cursor : null;
-
+// TODO: ADD generateMetadata
+export default function Page(props: PageProps<RouteParams, QueryParams>) {
 	return (
 		<Container as="main">
 			<ProductListHeader />
-			<ProductListBody slug={slug} page={currentPage} cursor={currentCursor} />
+			<ProductListBody
+				paramsPromise={props.params}
+				searchParamsPromise={props.searchParams}
+			/>
 		</Container>
 	);
 }

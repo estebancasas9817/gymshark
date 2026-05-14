@@ -1,22 +1,30 @@
 import { Stack } from '@/components/layout/stack';
 import { ProductListSideBar } from '../product-list-side-bar';
 import { ProductListMainContent } from '../product-list-main-content';
+import { Suspense } from 'react';
+import { RouteParams, QueryParams } from '../../types/product-list-types';
 
 interface ProductListBodyProps {
-	slug: string;
-	page: number;
-	cursor: number | null;
+	paramsPromise: Promise<RouteParams>;
+	searchParamsPromise: Promise<QueryParams>;
 }
 
 export const ProductListBody = ({
-	slug,
-	page,
-	cursor,
+	paramsPromise,
+	searchParamsPromise,
 }: ProductListBodyProps) => {
 	return (
 		<Stack as="section" direction="row" gap="xl">
-			<ProductListSideBar />
-			<ProductListMainContent slug={slug} page={page} cursor={cursor} />
+			{/* TODO: Update fallback */}
+			<Suspense fallback={null}>
+				<ProductListSideBar />
+			</Suspense>
+			<Suspense>
+				<ProductListMainContent
+					paramsPromise={paramsPromise}
+					searchParamsPromise={searchParamsPromise}
+				/>
+			</Suspense>
 		</Stack>
 	);
 };

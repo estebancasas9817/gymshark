@@ -21,11 +21,14 @@ export const _getCategoryBySlug = async (slug: string): Promise<Category> => {
 	};
 };
 
-export const getCategoryBySlug = unstable_cache(
-	async (slug: string) => _getCategoryBySlug(slug),
-	['category-by-slug'], // clave base
-	{
-		revalidate: 60 * 60 * 24, // 24h
-		tags: ['categories'],
-	},
-);
+export const getCategoryBySlug = cache(async (slug: string) => {
+	const cachedFn = unstable_cache(
+		async () => _getCategoryBySlug(slug),
+		['category-by-slug'],
+		{
+			revalidate: 60 * 6 * 24, // 24h
+			tags: ['categories'],
+		},
+	);
+	return cachedFn();
+});

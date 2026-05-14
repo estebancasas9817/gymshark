@@ -3,41 +3,39 @@ import { CategoryBehavior } from '@/types/category';
 import { db } from '../../firebase';
 import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
+import { PAGE_SIZE } from '@/app/(public)/[category]/[subCategory]/components/constants/constants';
 
 type GetProductByCategoryProps = {
 	behavior: CategoryBehavior;
 	id: string;
-	cursor?: number | null;
+	page: number;
 };
 
 export const _getProductsByCategory = async ({
 	id,
 	behavior,
-	cursor,
+	page,
 }: GetProductByCategoryProps): Promise<{
 	products: Product[];
-	nextCursor: number | null;
 }> => {
-	const PAGE_SIZE = 12;
+	const [categorySlug, subcategorySlug] = id.includes('-')
+		? id.split('-')
+		: [id, null];
 
-	let query: FirebaseFirestore.Query = db
-		.collection('products')
-		.orderBy('sortIndex', 'asc')
-		.limit(PAGE_SIZE);
+	let query: FirebaseFirestore.Query = db.collection('products');
 
 	if (behavior === 'expand') {
-		const [categorySlug, subcategorySlug] = id.split('-');
-
-		query = query
-			.where('categorySlug', '==', categorySlug)
-			.where('subcategorySlug', '==', subcategorySlug);
+		query = query.where('categorySlug', '==', categorySlug);
 	} else {
-		query = query.where('categorySlug', '==', id);
+		query = query.where('subcategorySlug', '==', subcategorySlug);
 	}
 
-	if (cursor) {
-		query = query.startAfter(cursor);
-	}
+	query = query.orderBy('sortIndex');
+
+	const start = (page - 1) * PAGE_SIZE + 1;
+	const end = page * PAGE_SIZE;
+
+	query = query.startAt(start).endAt(end);
 
 	const snapshot = await query.get();
 
@@ -46,26 +44,14 @@ export const _getProductsByCategory = async ({
 		...(doc.data() as Omit<Product, 'id'>),
 	}));
 
-	const lastDoc = snapshot.docs[snapshot.docs.length - 1];
-
-	const nextCursor = lastDoc?.data().sortIndex ?? null;
-
-	return {
-		products,
-		nextCursor,
-	};
+	return { products };
 };
 
 export const getProductsByCategory = cache(
 	async (props: GetProductByCategoryProps) => {
 		const cachedFn = unstable_cache(
 			() => _getProductsByCategory(props),
-			[
-				'products-by-category',
-				props.id,
-				props.behavior,
-				props.cursor?.toString() ?? '',
-			],
+			['products-by-category', props.id, props.behavior, props.page.toString()],
 			{
 				revalidate: 60 * 60,
 				tags: ['products'],

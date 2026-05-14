@@ -47,14 +47,9 @@ export const useFilter = () => {
 		router.push(`?${params.toString()}`, options);
 	};
 
-	const handlePagination = (page: number, cursor: number | null) => {
+	const handlePagination = (page: number) => {
 		const params = new URLSearchParams(searchParams.toString());
 		params.set(QUERY_PARAMS.page, page.toString());
-		if (cursor) {
-			params.set(QUERY_PARAMS.cursor, cursor.toString());
-		} else {
-			params.delete(QUERY_PARAMS.cursor);
-		}
 		router.push(`?${params.toString()}`);
 	};
 
