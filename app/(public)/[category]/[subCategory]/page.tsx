@@ -4,16 +4,26 @@ import { ProductListHeader } from './components/product-list-header';
 import { ProductListBody } from './components/product-list-body';
 import { RouteParams } from './types/product-list-types';
 import { QueryParams } from 'next-intl/navigation';
+import { getCategoryBySlug } from '@/libs/firebase/db/categories/categories';
+import { notFound } from 'next/navigation';
 
 // TODO: ADD generateMetadata
-export default function Page(props: PageProps<RouteParams, QueryParams>) {
+export default async function Page(props: PageProps<RouteParams, QueryParams>) {
+	const [params, searchParams] = await Promise.all([
+		props.params,
+		props.searchParams,
+	]);
+	const { category, subCategory } = params;
+	const slug = `${category}/${subCategory}`;
+	const { name } = await getCategoryBySlug(slug);
+	if (!name) {
+		notFound();
+	}
+
 	return (
 		<Container as="main">
 			<ProductListHeader />
-			<ProductListBody
-				paramsPromise={props.params}
-				searchParamsPromise={props.searchParams}
-			/>
+			<ProductListBody params={params} searchParams={searchParams} />
 		</Container>
 	);
 }

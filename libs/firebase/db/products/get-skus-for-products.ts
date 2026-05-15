@@ -1,15 +1,16 @@
 import { Sku } from '@/types/product';
 import { db } from '../../firebase';
+import { capitalize } from '@/utils/capitalize/capitalize';
 
 export async function getSkusForProducts(
 	productIds: string[],
 	color: string | undefined,
 ): Promise<Sku[]> {
-	const updatedColor = color ?? 'Black';
+	const normalizedColor = color ? capitalize(color) : 'Black';
 	const snapshot = await db
 		.collectionGroup('skus')
 		.where('productId', 'in', productIds)
-		.where('color', '==', updatedColor)
+		.where('color', '==', normalizedColor)
 		.get();
 
 	return snapshot.docs.map((doc) => ({

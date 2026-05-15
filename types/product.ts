@@ -25,9 +25,10 @@ export type Sku = {
 	id: string;
 	productId: string;
 	color: string;
-	size: string;
+	sizes: { size: string; stock: number }[];
 	price: number;
 	stock: number;
 	images: string[];
+	// todo: change this to hasStock
 	isActive: boolean;
 };

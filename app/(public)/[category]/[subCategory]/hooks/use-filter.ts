@@ -22,6 +22,7 @@ export const useFilter = () => {
 		} else {
 			params.set(QUERY_PARAMS.size, size.toLowerCase());
 		}
+		params.set(QUERY_PARAMS.page, '1');
 		router.push(`?${params.toString()}`, options);
 	};
 
@@ -33,6 +34,8 @@ export const useFilter = () => {
 		} else {
 			params.set(QUERY_PARAMS.color, color.toLowerCase());
 		}
+		params.set(QUERY_PARAMS.page, '1');
+
 		router.push(`?${params.toString()}`, options);
 	};
 
@@ -44,6 +47,7 @@ export const useFilter = () => {
 		} else {
 			params.set(QUERY_PARAMS.price, price);
 		}
+		params.set(QUERY_PARAMS.page, '1');
 		router.push(`?${params.toString()}`, options);
 	};
 
