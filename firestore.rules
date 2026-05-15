@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /products/{id} {
+      allow read: if true;
+      allow write: if true; // temporal
+    }
+
+    match /categories/{id} {
+      allow read: if true;
+      allow write: if true; // temporal
+    }
+
+    match /users/{id} {
+      allow read, write: if true; // temporal
+    }
+
+    match /orders/{id} {
+      allow read, write: if true; // temporal
+    }
+  }
+}
