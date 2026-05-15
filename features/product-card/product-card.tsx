@@ -64,7 +64,7 @@ export const ProductCard = ({
 						alt={desc}
 						onMouseEnter={handleMouseEnter}
 						onMouseLeave={handleMouseLeave}
-						className={cn('h-82 w-full', imageClassNames)}
+						className={cn('h-82 w-full object-cover', imageClassNames)}
 						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 						fill
 					/>

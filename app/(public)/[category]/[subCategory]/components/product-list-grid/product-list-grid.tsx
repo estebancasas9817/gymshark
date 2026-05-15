@@ -4,38 +4,45 @@ import { getProductsByCategory } from '@/libs/firebase/db/products/get-products-
 import { Fragment } from 'react';
 import { ProductListCollectionHighlight } from '../product-list-collection-highlight';
 import { Conditional } from '@/components/layout/conditional';
+import { QueryParams } from '../../types/product-list-types';
 
 interface ProductListGridProps {
 	slug: string;
-	page: number;
+	searchParams: QueryParams;
 }
 
-export const ProductListGrid = async ({ slug, page }: ProductListGridProps) => {
+export const ProductListGrid = async ({
+	slug,
+	searchParams,
+}: ProductListGridProps) => {
+	const { page = '1', color, size } = searchParams;
+	const currentPage = isNaN(+page) ? 1 : +page;
 	const { id, behavior } = await getCategoryBySlug(slug);
 	const { products } = await getProductsByCategory({
 		behavior,
 		id,
-		page,
+		page: currentPage,
+		color,
+		size,
 	});
 
 	return (
 		<div className="grid grid-cols-4 gap-2">
-			{products?.map(({ id, name }, index) => {
+			{products?.map(({ id, name, skus, basePrice }, index) => {
 				const shouldDisplayDesktopBanner =
-					index === 7 && page === 1 && behavior === 'expand';
+					index === 7 && currentPage === 1 && behavior === 'expand';
 
 				return (
 					<Fragment key={id}>
 						<ProductCard
 							key={id}
 							name={name}
-							price={'300'}
-							color="red"
+							price={basePrice.toString()}
+							color={skus.color}
 							desc="desc"
 							href=""
-							imageSrc={[
-								'https://res.cloudinary.com/dqfcdiyvm/image/upload/v1774721092/photo-1584863495140-a320b13a11a8_xtfosu.jpg',
-							]}
+							imageSrc={skus.images}
+							discount={undefined}
 						/>
 						<Conditional test={shouldDisplayDesktopBanner}>
 							<ProductListCollectionHighlight />

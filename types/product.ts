@@ -4,18 +4,7 @@ export type Variant = {
 	sizes: { size: string; inStock: boolean; stock: number }[];
 	images: string[];
 };
-// export interface Product {
-// 	id: string;
-// 	name: string;
-// 	shortDescription: string;
-// 	longDescription: string;
-// 	price: number;
-// 	currency: 'COP' | 'USD';
-// 	discount?: number;
-// 	categoryId: string;
-// 	parentCategoryId: string;
-// 	variants: Variant[];
-// }
+
 export type Product = {
 	id: string;
 	slug: string;
@@ -28,7 +17,8 @@ export type Product = {
 	currency: 'COP' | 'USD';
 	coverImage: string;
 	isActive: boolean;
-	// createdAt: any;
+	availableColor: string[];
+	avaiableSizes: string[];
 };
 
 export type Sku = {
