@@ -8,6 +8,7 @@ export async function getProductCountByColor(
 	const snapshot = await db
 		.collectionGroup('skus')
 		.where('color', '==', normalizedColor)
+		.where('isActive', '==', true)
 		.count()
 		.get();
 	return snapshot.data().count;

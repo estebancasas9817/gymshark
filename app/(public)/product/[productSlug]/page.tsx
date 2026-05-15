@@ -19,12 +19,12 @@ import { PaymentSuggestions } from './components/payment-suggestions';
 import { ShopTheLook } from './components/shop-the-look';
 import { RecentlyView } from './components/recently-view';
 
-type RouteParams = { productId: string };
+type RouteParams = { productSlug: string };
 type QueryParams = {};
 
 const Page = async ({ params }: PageProps<RouteParams, QueryParams>) => {
-	const { productId } = await params;
-	const product = await getProduct(productId);
+	const { productSlug } = await params;
+	const product = await getProduct(productSlug);
 	if (!product) {
 		notFound();
 	}

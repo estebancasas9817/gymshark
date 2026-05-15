@@ -1,33 +1,33 @@
 import { Product, Sku } from '@/types/product';
-import { CategoryBehavior } from '@/types/category';
 import { db } from '../../firebase';
 import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
 import { PAGE_SIZE } from '@/app/(public)/[category]/[subCategory]/constants/constants';
 import { getSkusForProducts } from './get-skus-for-products';
 import { capitalize } from '@/utils/capitalize/capitalize';
+import { getCategoryBySlug } from '../categories/categories';
 
 type GetProductByCategoryProps = {
-	behavior: CategoryBehavior;
-	id: string;
 	page: number;
 	color: string | undefined;
 	size: string | undefined;
+	slug: string;
 };
 
 type ProductCard = Product & {
 	skus: Sku;
+	href: string;
 };
 
 export const _getProductsByCategory = async ({
-	id,
-	behavior,
 	page,
 	color,
 	size,
+	slug,
 }: GetProductByCategoryProps): Promise<{
 	products: ProductCard[];
 }> => {
+	const { id, behavior } = await getCategoryBySlug(slug);
 	const [categorySlug, subcategorySlug] = id.includes('-')
 		? id.split('-')
 		: [id, null];
@@ -48,13 +48,11 @@ export const _getProductsByCategory = async ({
 
 	if (color) {
 		const normalizedColor = color ? capitalize(color) : 'Black';
+
 		query = query.where('availableColors', 'array-contains', normalizedColor);
 	}
 
-	const start = (page - 1) * PAGE_SIZE + 1;
-	const end = page * PAGE_SIZE;
-
-	query = query.startAt(start).endAt(end);
+	query = query.limit(PAGE_SIZE).offset((page - 1) * PAGE_SIZE);
 
 	const snapshot = await query.get();
 
@@ -64,11 +62,11 @@ export const _getProductsByCategory = async ({
 	}));
 
 	const productIds = products.map((p) => p.id);
-	console.log('[productIds]', { productIds, products });
 	const skusByProduct: Sku[] = await getSkusForProducts(productIds, color);
 	const finalProducts = products.map((product, index) => ({
 		...product,
-		skus: skusByProduct[index] ?? [],
+		skus: skusByProduct[index] ?? {},
+		href: `/product${product.slug}`,
 	}));
 
 	return { products: finalProducts };
@@ -80,8 +78,7 @@ export const getProductsByCategory = cache(
 			() => _getProductsByCategory(props),
 			[
 				'products-by-category',
-				props.id,
-				props.behavior,
+				props.slug,
 				props.page.toString(),
 				props.color ?? '',
 				props.size ?? '',

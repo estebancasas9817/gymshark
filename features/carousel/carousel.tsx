@@ -1,6 +1,6 @@
 'use client';
 
-import { useCarousel } from '@/app/(public)/product/[productId]/components/product-collection/use-carousel';
+import { useCarousel } from '@/app/(public)/product/[productSlug]/components/product-collection/use-carousel';
 import { Container } from '@/components/layout/container';
 import { Stack } from '@/components/layout/stack';
 import { ActionPill } from '@/components/ui/action-pill';

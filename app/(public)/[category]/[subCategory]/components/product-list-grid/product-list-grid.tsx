@@ -17,18 +17,17 @@ export const ProductListGrid = async ({
 }: ProductListGridProps) => {
 	const { page = '1', color, size } = searchParams;
 	const currentPage = isNaN(+page) ? 1 : +page;
-	const { id, behavior } = await getCategoryBySlug(slug);
+	const { behavior } = await getCategoryBySlug(slug);
 	const { products } = await getProductsByCategory({
-		behavior,
-		id,
 		page: currentPage,
 		color,
 		size,
+		slug,
 	});
 
 	return (
 		<div className="grid grid-cols-4 gap-2">
-			{products?.map(({ id, name, skus, basePrice }, index) => {
+			{products?.map(({ id, name, skus, basePrice, href }, index) => {
 				const shouldDisplayDesktopBanner =
 					index === 7 && currentPage === 1 && behavior === 'expand';
 
@@ -39,10 +38,11 @@ export const ProductListGrid = async ({
 							name={name}
 							price={basePrice.toString()}
 							color={skus.color}
-							desc="desc"
-							href=""
+							desc={name}
+							href={href}
 							imageSrc={skus.images}
 							discount={undefined}
+							variant={skus}
 						/>
 						<Conditional test={shouldDisplayDesktopBanner}>
 							<ProductListCollectionHighlight />

@@ -1,10 +1,12 @@
 import { db } from '@/libs/firebase/firebase';
 import { Product } from '@/types/product';
 
-export const getProduct = async (id: string): Promise<Product | null> => {
+export const getProduct = async (
+	productSlug: string,
+): Promise<Product | null> => {
 	const snapshot = await db
 		.collection('products')
-		.where('id', '==', id)
+		.where('slug', '==', productSlug)
 		.limit(1)
 		.get();
 

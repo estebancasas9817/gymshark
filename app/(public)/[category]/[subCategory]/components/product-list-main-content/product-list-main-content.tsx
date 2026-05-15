@@ -3,29 +3,24 @@ import { Carousel } from '@/features/carousel';
 import { ProductCardContainer } from '@/features/product-card-container';
 import { ProductListPaginator } from '../product-list-paginator';
 import { Stack } from '@/components/layout/stack';
-import { getCategoryBySlug } from '@/libs/firebase/db/categories/categories';
 import { QueryParams, RouteParams } from '../../types/product-list-types';
 import { PAGE_SIZE } from '../../constants/constants';
 import { getProductCountByColor } from '@/libs/firebase/db/products/get-products-count-by-color';
 
 interface ProductListMainContentProps {
-	paramsPromise: Promise<RouteParams>;
-	searchParamsPromise: Promise<QueryParams>;
+	params: RouteParams;
+	searchParams: QueryParams;
 }
 
 export const ProductListMainContent = async ({
-	paramsPromise,
-	searchParamsPromise,
+	params,
+	searchParams,
 }: ProductListMainContentProps) => {
-	const [params, searchParams] = await Promise.all([
-		paramsPromise,
-		searchParamsPromise,
-	]);
 	const { category, subCategory } = params;
+	const { color, page = '1' } = searchParams;
 	const slug = `${category}/${subCategory}`;
-	const page = searchParams.page ?? '1';
 	const currentPage = isNaN(+page) ? 1 : +page;
-	const productCount = await getProductCountByColor(searchParams.color);
+	const productCount = await getProductCountByColor(color);
 	const totalPages = Math.ceil(productCount / PAGE_SIZE);
 
 	return (

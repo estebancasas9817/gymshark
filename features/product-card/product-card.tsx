@@ -6,7 +6,7 @@ import { ActionPill } from '@/components/ui/action-pill';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
-import { Variant } from '@/types/product';
+import { Sku } from '@/types/product';
 import { cn } from '@/utils/cn/cn';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
@@ -21,7 +21,7 @@ interface ProductCardProps {
 	href: string;
 	imageSrc: string[];
 	desc: string;
-	variant: Variant;
+	variant: Sku;
 	discount: number | undefined;
 	shouldUpdateImgOnHover?: boolean;
 	imageClassNames?: string;
@@ -45,6 +45,7 @@ export const ProductCard = ({
 	const imgSrc =
 		isActiveHover && shouldUpdateImgOnHover ? imageSrc[1] : imageSrc[0];
 	const fullPrice = +price + (discount ? +discount : 0);
+
 	const handleMouseEnter = () => {
 		setIsActiveHover(true);
 	};
