@@ -29,7 +29,7 @@ export const RadioButton = ({
                    relative
                    after:content-[''] after:absolute after:inset-1
                    after:rounded-full after:bg-primary after:scale-0
-                   checked:after:scale-100 after:transition-transform"
+                   checked:after:scale-100 after:transition-transform cursor-pointer"
 						/>
 						<span>{label}</span>
 					</label>

@@ -6,12 +6,18 @@ import { PAGE_SIZE } from '@/app/(public)/[category]/[subCategory]/constants/con
 import { getSkusForProducts } from './get-skus-for-products';
 import { capitalize } from '@/utils/capitalize/capitalize';
 import { getCategoryBySlug } from '../categories/categories';
+import {
+	Color,
+	Size,
+	SortBy,
+} from '@/app/(public)/[category]/[subCategory]/types/product-list-types';
 
 type GetProductByCategoryProps = {
 	page: number;
-	color: string | undefined;
-	size: string | undefined;
+	color?: Color;
+	size?: Size;
 	slug: string;
+	sortBy: SortBy;
 };
 
 type ProductCard = Product & {
@@ -19,11 +25,12 @@ type ProductCard = Product & {
 	href: string;
 };
 
-export const _getProductsByCategory = async ({
+const _getProductsByCategory = async ({
 	page,
 	color,
 	size,
 	slug,
+	sortBy,
 }: GetProductByCategoryProps): Promise<{
 	products: ProductCard[];
 }> => {
@@ -40,15 +47,26 @@ export const _getProductsByCategory = async ({
 		query = query.where('subcategorySlug', '==', subcategorySlug);
 	}
 
-	query = query.orderBy('sortIndex');
-
-	if (size) {
-		query = query.where('availableSizes', 'array-contains', size);
+	if (sortBy === 'low_to_high') {
+		query = query.orderBy('basePrice', 'asc');
+	} else if (sortBy === 'high_to_low') {
+		query = query.orderBy('basePrice', 'desc');
+	} else {
+		query = query.orderBy('sortIndex'); // default
 	}
 
-	if (color) {
+	if (color && size) {
+		query = query.where(
+			'variants',
+			'array-contains',
+			`${color.toUpperCase()}-${size.toUpperCase()}`,
+		);
+	} else if (size) {
+		const normalizedSize =
+			size.length > 2 ? capitalize(size) : size.toUpperCase();
+		query = query.where('availableSizes', 'array-contains', normalizedSize);
+	} else if (color) {
 		const normalizedColor = color ? capitalize(color) : 'Black';
-
 		query = query.where('availableColors', 'array-contains', normalizedColor);
 	}
 
@@ -62,10 +80,17 @@ export const _getProductsByCategory = async ({
 	}));
 
 	const productIds = products.map((p) => p.id);
-	const skusByProduct: Sku[] = await getSkusForProducts(productIds, color);
-	const finalProducts = products.map((product, index) => ({
+	const allSkus: Sku[] = await getSkusForProducts(productIds, color);
+	const skusByProductId = allSkus.reduce(
+		(acc, sku) => {
+			acc[sku.productId] = sku;
+			return acc;
+		},
+		{} as Record<string, Sku>,
+	);
+	const finalProducts = products.map((product) => ({
 		...product,
-		skus: skusByProduct[index] ?? {},
+		skus: skusByProductId[product.id] ?? {},
 		href: `/product${product.slug}`,
 	}));
 
@@ -82,6 +107,7 @@ export const getProductsByCategory = cache(
 				props.page.toString(),
 				props.color ?? '',
 				props.size ?? '',
+				props.sortBy ?? '',
 			],
 			{
 				revalidate: 60 * 60,

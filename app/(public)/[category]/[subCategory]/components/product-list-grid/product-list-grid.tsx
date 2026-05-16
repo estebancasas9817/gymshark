@@ -5,6 +5,7 @@ import { Fragment } from 'react';
 import { ProductListCollectionHighlight } from '../product-list-collection-highlight';
 import { Conditional } from '@/components/layout/conditional';
 import { QueryParams } from '../../types/product-list-types';
+import { SORT_BY_OPTIONS } from '../../hooks/constants';
 
 interface ProductListGridProps {
 	slug: string;
@@ -15,7 +16,12 @@ export const ProductListGrid = async ({
 	slug,
 	searchParams,
 }: ProductListGridProps) => {
-	const { page = '1', color, size } = searchParams;
+	const {
+		page = '1',
+		color,
+		size,
+		sortBy = SORT_BY_OPTIONS.relevancy,
+	} = searchParams;
 	const currentPage = isNaN(+page) ? 1 : +page;
 	const { behavior } = await getCategoryBySlug(slug);
 	const { products } = await getProductsByCategory({
@@ -23,6 +29,7 @@ export const ProductListGrid = async ({
 		color,
 		size,
 		slug,
+		sortBy,
 	});
 
 	return (

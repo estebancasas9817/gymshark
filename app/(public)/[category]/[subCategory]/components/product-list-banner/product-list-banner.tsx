@@ -16,6 +16,7 @@ export const ProductListBanner = () => {
 					src="https://res.cloudinary.com/dqfcdiyvm/image/upload/v1777945492/photo-1584735935682-2f2b69dff9d2_hm2vvl.jpg"
 					alt="image"
 					fill
+					fetchPriority="high"
 				/>
 			</figure>
 			<figure className="relative basis-1/4 h-100">
