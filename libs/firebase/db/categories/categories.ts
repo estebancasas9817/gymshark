@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
-export const _getCategoryBySlug = async (slug: string): Promise<Category> => {
+const _getCategoryBySlug = async (slug: string): Promise<Category> => {
 	const snapshot = await db
 		.collection('categories')
 		.where('slug', '==', slug)
