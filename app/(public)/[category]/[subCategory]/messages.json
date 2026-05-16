@@ -17,6 +17,7 @@
 			"size": {
 				"title": "SIZE",
 				"options": {
+					"one_size": "ONE SIZE",
 					"xs": "XS",
 					"s": "S",
 					"m": "M",
