@@ -63,8 +63,7 @@ const _getProductsByCategory = async ({
 		);
 	} else if (size) {
 		const normalizedSize =
-			size === 'One Size' ? capitalize(size) : size.toUpperCase();
-		console.log('[size', normalizedSize);
+			size.length > 2 ? capitalize(size) : size.toUpperCase();
 		query = query.where('availableSizes', 'array-contains', normalizedSize);
 	} else if (color) {
 		const normalizedColor = color ? capitalize(color) : 'Black';
