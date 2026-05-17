@@ -5,7 +5,7 @@ import { ProductListPaginator } from '../product-list-paginator';
 import { Stack } from '@/components/layout/stack';
 import { QueryParams, RouteParams } from '../../types/product-list-types';
 import { PAGE_SIZE } from '../../constants/constants';
-import { getProductCountByColor } from '@/libs/firebase/db/products/get-products-count-by-color';
+import { getProductCount } from '@/libs/firebase/db/products/get-products-count';
 
 interface ProductListMainContentProps {
 	params: RouteParams;
@@ -17,10 +17,10 @@ export const ProductListMainContent = async ({
 	searchParams,
 }: ProductListMainContentProps) => {
 	const { category, subCategory } = params;
-	const { color, page = '1' } = searchParams;
+	const { color, page = '1', size } = searchParams;
 	const slug = `${category}/${subCategory}`;
 	const currentPage = isNaN(+page) ? 1 : +page;
-	const productCount = await getProductCountByColor(color);
+	const productCount = await getProductCount({ color, slug, size });
 	const totalPages = Math.ceil(productCount / PAGE_SIZE);
 
 	return (
