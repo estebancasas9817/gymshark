@@ -4,13 +4,13 @@ import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
 import { PAGE_SIZE } from '@/app/(public)/[category]/[subCategory]/constants/constants';
 import { getSkusForProducts } from './get-skus-for-products';
-import { capitalize } from '@/utils/capitalize/capitalize';
 import { getCategoryBySlug } from '../categories/categories';
 import {
 	Color,
 	Size,
 	SortBy,
 } from '@/app/(public)/[category]/[subCategory]/types/product-list-types';
+import { normalizeColor, SIZE_MAP } from './utils';
 
 type GetProductByCategoryProps = {
 	page: number;
@@ -41,38 +41,48 @@ const _getProductsByCategory = async ({
 
 	let query: FirebaseFirestore.Query = db.collection('products');
 
+	// filtering only active products (with stock)
+	query = query.where('isActive', '==', true);
+
 	if (behavior === 'expand') {
 		query = query.where('categorySlug', '==', categorySlug);
 	} else {
 		query = query.where('subcategorySlug', '==', subcategorySlug);
 	}
 
+	// SORT FILTERING
 	if (sortBy === 'low_to_high') {
 		query = query.orderBy('basePrice', 'asc');
 	} else if (sortBy === 'high_to_low') {
 		query = query.orderBy('basePrice', 'desc');
 	} else {
-		query = query.orderBy('sortIndex'); // default
+		query = query.orderBy('sortIndex');
 	}
 
+	// COLOR & SIZE FILTERING
 	if (color && size) {
+		const normalizedSize = SIZE_MAP[size.toLowerCase()] ?? size;
 		query = query.where(
 			'variants',
 			'array-contains',
-			`${color.toUpperCase()}-${size.toUpperCase()}`,
+			`${color.toUpperCase()}-${normalizedSize.toUpperCase()}`,
 		);
 	} else if (size) {
-		const normalizedSize =
-			size.length > 2 ? capitalize(size) : size.toUpperCase();
+		const normalizedSize = SIZE_MAP[size.toLowerCase()] ?? size;
 		query = query.where('availableSizes', 'array-contains', normalizedSize);
 	} else if (color) {
-		const normalizedColor = color ? capitalize(color) : 'Black';
-		query = query.where('availableColors', 'array-contains', normalizedColor);
+		query = query.where(
+			'availableColors',
+			'array-contains',
+			normalizeColor(color),
+		);
 	}
 
 	query = query.limit(PAGE_SIZE).offset((page - 1) * PAGE_SIZE);
 
 	const snapshot = await query.get();
+
+	if (snapshot.empty) return { products: [] };
 
 	const products = snapshot.docs.map((doc) => ({
 		id: doc.id,
@@ -80,19 +90,17 @@ const _getProductsByCategory = async ({
 	}));
 
 	const productIds = products.map((p) => p.id);
-	const allSkus: Sku[] = await getSkusForProducts(productIds, color);
-	const skusByProductId = allSkus.reduce(
-		(acc, sku) => {
-			acc[sku.productId] = sku;
-			return acc;
-		},
-		{} as Record<string, Sku>,
-	);
-	const finalProducts = products.map((product) => ({
-		...product,
-		skus: skusByProductId[product.id] ?? {},
-		href: `/product${product.slug}`,
-	}));
+
+	// Getting SKUS for rendering photos and sizes
+	const skusByProductId = await getSkusForProducts(productIds, color, size);
+
+	const finalProducts = products
+		.map((product) => ({
+			...product,
+			skus: (skusByProductId[product.id] as Sku) ?? {},
+			href: `/product${product.slug}`,
+		}))
+		.filter((product) => product.skus !== undefined); // safety net
 
 	return { products: finalProducts };
 };
