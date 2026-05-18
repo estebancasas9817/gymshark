@@ -22,7 +22,7 @@ export default async function Page(props: PageProps<RouteParams, QueryParams>) {
 
 	return (
 		<Container as="main">
-			<ProductListHeader />
+			<ProductListHeader slug={slug} searchParams={searchParams} />
 			<ProductListBody params={params} searchParams={searchParams} />
 		</Container>
 	);
