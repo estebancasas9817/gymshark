@@ -10,12 +10,14 @@ type GetProductCountProps = {
 	slug: string;
 	color?: Color;
 	size?: Size;
+	price?: string;
 };
 
 export async function getProductCount({
 	slug,
 	color,
 	size,
+	price,
 }: GetProductCountProps): Promise<number> {
 	const { id, behavior } = await getCategoryBySlug(slug);
 	const [categorySlug, subcategorySlug] = id.includes('-')
@@ -28,6 +30,13 @@ export async function getProductCount({
 		query = query.where('categorySlug', '==', categorySlug);
 	} else {
 		query = query.where('subcategorySlug', '==', subcategorySlug);
+	}
+
+	// ✅ orderBy obligatorio cuando hay range filter
+	if (price) {
+		query = query.orderBy('basePrice', 'asc');
+		const [min, max] = price.split('_');
+		query = query.where('basePrice', '>=', +min).where('basePrice', '<=', +max);
 	}
 
 	if (color && size) {

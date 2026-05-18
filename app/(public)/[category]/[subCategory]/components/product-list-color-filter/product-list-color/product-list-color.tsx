@@ -3,24 +3,28 @@
 import { Conditional } from '@/components/layout/conditional';
 import { Stack } from '@/components/layout/stack';
 import { CheckIcon, Circle } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
-import { QUERY_PARAMS } from '../../../hooks/constants';
 import { useFilter } from '../../../hooks/use-filter';
 
 interface ProductListColorProps {
 	color: string;
+	colorOption: string | null;
+	setColorOption: (color: string) => void;
 }
 
-export const ProductListColor = ({ color }: ProductListColorProps) => {
-	const colorParam = useSearchParams().get(QUERY_PARAMS.color);
+export const ProductListColor = ({
+	color,
+	colorOption,
+	setColorOption,
+}: ProductListColorProps) => {
 	const { handleColor } = useFilter();
 
-	const isChecked = colorParam === color.toLowerCase();
+	const isChecked = colorOption === color;
 	const isWhiteColor = color === 'White';
 	const isYellowColor = color === 'White';
 	const checkIconColor = isWhiteColor || isYellowColor ? 'black' : 'white';
 
 	const handleClick = (color: string) => {
+		setColorOption(color);
 		handleColor(color);
 	};
 

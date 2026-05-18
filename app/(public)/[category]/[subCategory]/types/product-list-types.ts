@@ -12,4 +12,5 @@ export type QueryParams = {
 	page?: string;
 	cursor?: string;
 	sortBy?: SortBy;
+	price?: SortBy;
 };
