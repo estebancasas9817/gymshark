@@ -10,7 +10,7 @@ import {
 	Size,
 	SortBy,
 } from '@/app/(public)/[category]/[subCategory]/types/product-list-types';
-import { normalizeColor, SIZE_MAP } from './utils';
+import { normalizeColor, SIZE_MAP, splitSlug } from './utils';
 
 type GetProductByCategoryProps = {
 	page: number;
@@ -37,9 +37,7 @@ const _getProductsByCategory = async ({
 	products: ProductCard[];
 }> => {
 	const { id, behavior } = await getCategoryBySlug(slug);
-	const [categorySlug, subcategorySlug] = id.includes('-')
-		? id.split('-')
-		: [id, null];
+	const [categorySlug, subcategorySlug] = splitSlug(id);
 
 	let query: FirebaseFirestore.Query = db.collection('products');
 
@@ -101,8 +99,8 @@ const _getProductsByCategory = async ({
 
 	// Getting SKUS for rendering photos and sizes
 	const skusByProductId = await getSkusForProducts(productIds, color, size);
-
 	const finalProducts = products
+		.filter((product) => !!skusByProductId[product.id])
 		.map((product) => ({
 			...product,
 			skus: (skusByProductId[product.id] as Sku) ?? {},

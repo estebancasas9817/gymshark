@@ -36,7 +36,7 @@ export async function getSkusForProducts(
 		{} as Record<string, Sku>,
 	);
 
-	// Fallback: productos sin SKU → isDefault desactualizado
+	// Fallback: products without SKU ->  isDefault outdated
 	const missingProductIds = productIds.filter((id) => !skusByProductId[id]);
 
 	if (missingProductIds.length > 0) {
