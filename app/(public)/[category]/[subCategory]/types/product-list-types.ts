@@ -10,7 +10,6 @@ export type QueryParams = {
 	color?: Color;
 	size?: Size;
 	page?: string;
-	cursor?: string;
 	sortBy?: SortBy;
 	price?: SortBy;
 };

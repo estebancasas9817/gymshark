@@ -2,21 +2,39 @@ import { Stack } from '@/components/layout/stack';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { ProductListBanner } from '../product-list-banner';
+import { getCategoryBySlug } from '@/libs/firebase/db/categories/categories';
+import { getProductCount } from '@/libs/firebase/db/products/get-products-count';
+import { QueryParams } from '../../types/product-list-types';
+import { getTranslations } from 'next-intl/server';
 
-export const ProductListHeader = () => {
+interface ProductListHeaderProps {
+	slug: string;
+	searchParams: QueryParams;
+}
+
+export const ProductListHeader = async ({
+	slug,
+	searchParams,
+}: ProductListHeaderProps) => {
+	const { color, price, size } = searchParams;
+	const [{ name, description }, productCount, t] = await Promise.all([
+		getCategoryBySlug(slug),
+		getProductCount({ slug, color, price, size }),
+		getTranslations('ProductListPage.header'),
+	]);
+
+	const productsCount = `${productCount} ${t('products')}`;
+
 	return (
 		<Stack as="section" className="mb-28">
 			<Heading as="h1" className="mt-10 text-[44px]">
-				ALL ACCESSORIES
+				{name?.toUpperCase()}
 			</Heading>
 			<Text as="span" className="text-xs text-tertiary">
-				221 Products
+				{productsCount}
 			</Text>
 			<Text as="p" size="xl" className="max-w-200 text-gray-700 mb-2">
-				A workout outfit is never complete without sports accessories. Because
-				the devil is in the detail, our sports accessories ensure you're ready
-				for every session. From sports bags to toilet bags, socks to caps and
-				water bottles to shakers, you'll never be short of anything.
+				{description}
 			</Text>
 			<ProductListBanner />
 		</Stack>
