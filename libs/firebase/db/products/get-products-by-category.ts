@@ -18,6 +18,7 @@ type GetProductByCategoryProps = {
 	size?: Size;
 	slug: string;
 	sortBy: SortBy;
+	price?: string;
 };
 
 type ProductCard = Product & {
@@ -31,6 +32,7 @@ const _getProductsByCategory = async ({
 	size,
 	slug,
 	sortBy,
+	price,
 }: GetProductByCategoryProps): Promise<{
 	products: ProductCard[];
 }> => {
@@ -41,7 +43,7 @@ const _getProductsByCategory = async ({
 
 	let query: FirebaseFirestore.Query = db.collection('products');
 
-	// filtering only active products (with stock)
+	//* filtering only active products (with stock)
 	query = query.where('isActive', '==', true);
 
 	if (behavior === 'expand') {
@@ -50,16 +52,22 @@ const _getProductsByCategory = async ({
 		query = query.where('subcategorySlug', '==', subcategorySlug);
 	}
 
-	// SORT FILTERING
-	if (sortBy === 'low_to_high') {
-		query = query.orderBy('basePrice', 'asc');
-	} else if (sortBy === 'high_to_low') {
+	//* SORT FILTERING + pricing filtering
+	if (sortBy === 'high_to_low') {
 		query = query.orderBy('basePrice', 'desc');
+	} else if (sortBy === 'low_to_high' || price) {
+		query = query.orderBy('basePrice', 'asc');
 	} else {
 		query = query.orderBy('sortIndex');
 	}
 
-	// COLOR & SIZE FILTERING
+	//* PRICE FILTERING
+	if (price) {
+		const [min, max] = price.split('_');
+		query = query.where('basePrice', '>=', +min).where('basePrice', '<=', +max);
+	}
+
+	//* COLOR & SIZE FILTERING
 	if (color && size) {
 		const normalizedSize = SIZE_MAP[size.toLowerCase()] ?? size;
 		query = query.where(
@@ -116,6 +124,7 @@ export const getProductsByCategory = cache(
 				props.color ?? '',
 				props.size ?? '',
 				props.sortBy ?? '',
+				props.price ?? '',
 			],
 			{
 				revalidate: 60 * 60,

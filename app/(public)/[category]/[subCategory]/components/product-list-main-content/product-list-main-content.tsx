@@ -17,10 +17,10 @@ export const ProductListMainContent = async ({
 	searchParams,
 }: ProductListMainContentProps) => {
 	const { category, subCategory } = params;
-	const { color, page = '1', size } = searchParams;
+	const { color, page = '1', size, price } = searchParams;
 	const slug = `${category}/${subCategory}`;
 	const currentPage = isNaN(+page) ? 1 : +page;
-	const productCount = await getProductCount({ color, slug, size });
+	const productCount = await getProductCount({ color, slug, size, price });
 	const totalPages = Math.ceil(productCount / PAGE_SIZE);
 
 	return (

@@ -21,6 +21,7 @@ export const ProductListGrid = async ({
 		color,
 		size,
 		sortBy = SORT_BY_OPTIONS.relevancy,
+		price,
 	} = searchParams;
 	const currentPage = isNaN(+page) ? 1 : +page;
 	const { behavior } = await getCategoryBySlug(slug);
@@ -30,6 +31,7 @@ export const ProductListGrid = async ({
 		size,
 		slug,
 		sortBy,
+		price,
 	});
 
 	return (

@@ -10,8 +10,7 @@
 				"options": {
 					"low_to_high": "Price: Low to High",
 					"high_to_low": "Price: High to Low",
-					"relevancy": "Relevancy",
-					"newest": "Newest"
+					"relevancy": "Relevancy"
 				}
 			},
 			"size": {

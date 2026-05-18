@@ -7,7 +7,7 @@ import { RadioButton } from '@/components/ui/radio-button';
 import { Accordion } from '@/features/accordion';
 import { useTranslations } from 'next-intl';
 import { ProductListColorFilter } from '../product-list-color-filter';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useFilter } from '../../hooks/use-filter';
 import { cn } from '@/utils/cn/cn';
 import { useSearchParams } from 'next/navigation';
@@ -18,12 +18,15 @@ export const ProductListSideBar = () => {
 	const { handleSortBy, handleSize, handlePrice, handleClearAllFilters } =
 		useFilter();
 	const searchParams = useSearchParams();
-
 	const sizeParam = searchParams.get(QUERY_PARAMS.size)?.toUpperCase();
 	const sortByParam =
 		searchParams.get(QUERY_PARAMS.sortBy) ?? SORT_BY_OPTIONS.relevancy;
 	const priceParam = searchParams.get(QUERY_PARAMS.price);
 	const colorParam = searchParams.get(QUERY_PARAMS.color);
+	const [size, setSize] = useState<string | undefined>(sizeParam);
+	const [sortBy, setSortBy] = useState<string | null>(sortByParam);
+	const [price, setPrice] = useState<string | null>(priceParam);
+
 	const hasFilters = !![...searchParams.keys()].find((key) => key !== 'page');
 
 	const sortOptions: [string, string][] = Object.entries(
@@ -40,11 +43,15 @@ export const ProductListSideBar = () => {
 	);
 
 	const handleSortChange = (e: ChangeEvent<HTMLInputElement>) => {
-		handleSortBy(e.target.value);
+		const sortByOption = e.target.value;
+		setSortBy(sortByOption);
+		handleSortBy(sortByOption);
 	};
 
 	const handleClickPrice = (price: string) => {
-		handlePrice(price?.slice(6, price.length));
+		const normalizePrice = price?.slice(6, price.length);
+		setPrice(normalizePrice);
+		handlePrice(normalizePrice);
 	};
 
 	return (
@@ -84,27 +91,30 @@ export const ProductListSideBar = () => {
 					inputs={sortOptions}
 					name="sort"
 					handleChange={handleSortChange}
-					checkedRadio={sortByParam}
+					checkedRadio={sortBy}
 				/>
 			</Accordion>
 
 			<Accordion
 				title={t('sections.size.title')}
 				classNames="flex gap-2 flex-wrap py-6"
-				shouldExpand={!!sizeParam}
+				shouldExpand={!!size}
 			>
-				{sizeOptions.map(([key, size]) => (
+				{sizeOptions.map(([key, value]) => (
 					<Button
 						className={cn(
 							'min-w-22 self-center h-10 border border-gray-300 text-gray-700',
-							size === sizeParam && 'bg-primary text-secondary',
+							value === size && 'bg-primary text-secondary',
 						)}
 						variant="secondary"
 						size="sm"
 						key={key}
-						onClick={() => handleSize(size)}
+						onClick={() => {
+							setSize(value);
+							handleSize(value);
+						}}
 					>
-						{size}
+						{value}
 					</Button>
 				))}
 			</Accordion>
@@ -120,22 +130,20 @@ export const ProductListSideBar = () => {
 			<Accordion
 				title={t('sections.price.title')}
 				classNames="py-6 flex flex-wrap gap-2"
-				shouldExpand={!!priceParam}
+				shouldExpand={!!price}
 			>
-				{priceOptions.map(([key, price]) => (
+				{priceOptions.map(([key, value]) => (
 					<Button
 						className={cn(
 							'h-10 border border-gray-300 flex-1 basis-1/3 text-gray-700',
-							priceParam &&
-								key.includes(priceParam) &&
-								'bg-primary text-secondary',
+							price && key.includes(price) && 'bg-primary text-secondary',
 						)}
 						variant="secondary"
 						size="sm"
 						key={key}
 						onClick={() => handleClickPrice(key)}
 					>
-						{price}
+						{value}
 					</Button>
 				))}
 			</Accordion>
