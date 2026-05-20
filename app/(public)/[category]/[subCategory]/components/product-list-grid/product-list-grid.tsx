@@ -36,7 +36,7 @@ export const ProductListGrid = async ({
 
 	return (
 		<div className="grid grid-cols-4 gap-2">
-			{products?.map(({ id, name, skus, basePrice, href }, index) => {
+			{products?.map(({ id, name, skus, basePrice, href, discount }, index) => {
 				const shouldDisplayDesktopBanner =
 					index === 7 && currentPage === 1 && behavior === 'expand';
 
@@ -50,7 +50,7 @@ export const ProductListGrid = async ({
 							desc={name}
 							href={href}
 							imageSrc={skus.images}
-							discount={undefined}
+							discount={discount}
 							variant={skus}
 						/>
 						<Conditional test={shouldDisplayDesktopBanner}>

@@ -73,7 +73,7 @@ export const ProductCard = ({
 				<Conditional test={isActiveHover && !shouldUpdateImgOnHover}>
 					<div
 						className={cn(
-							'flex absolute bottom-0 bg-gray-100 w-full gap-2 min-h-18 flex-wrap',
+							'flex absolute bottom-0 bg-gray-100 w-full gap-2 min-h-18 flex-wrap p-2',
 							variant?.sizes.length <= 4 && 'justify-center',
 						)}
 						onMouseEnter={handleMouseEnter}

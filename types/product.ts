@@ -19,6 +19,7 @@ export type Product = {
 	isActive: boolean;
 	availableColor: string[];
 	avaiableSizes: string[];
+	discount?: number;
 };
 
 export type Sku = {

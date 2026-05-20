@@ -5,7 +5,7 @@ import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import Image from 'next/image';
 
-export const Banner = async () => {
+export const Banner = () => {
 	return (
 		<Container fullWidth className="w-full overflow-hidden relative h-150">
 			<figure>
