@@ -6,6 +6,7 @@ import { RouteParams } from './types/product-list-types';
 import { QueryParams } from 'next-intl/navigation';
 import { getCategoryBySlug } from '@/libs/firebase/db/categories/categories';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
 // TODO: ADD generateMetadata
 export default async function Page(props: PageProps<RouteParams, QueryParams>) {
@@ -22,7 +23,9 @@ export default async function Page(props: PageProps<RouteParams, QueryParams>) {
 
 	return (
 		<Container as="main">
-			<ProductListHeader slug={slug} searchParams={searchParams} />
+			<Suspense>
+				<ProductListHeader slug={slug} searchParams={searchParams} />
+			</Suspense>
 			<ProductListBody params={params} searchParams={searchParams} />
 		</Container>
 	);
