@@ -27,9 +27,9 @@ export async function getProductCount({
 	let query = db.collection('products').where('isActive', '==', true);
 
 	if (behavior === 'expand') {
-		query = query.where('subcategorySlug', '==', subcategorySlug);
-	} else {
 		query = query.where('categorySlug', '==', categorySlug);
+	} else {
+		query = query.where('subcategorySlug', '==', subcategorySlug);
 	}
 
 	// ✅ orderBy obligatorio cuando hay range filter
