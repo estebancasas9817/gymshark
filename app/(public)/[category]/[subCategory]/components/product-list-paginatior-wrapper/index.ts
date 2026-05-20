@@ -1,0 +1,1 @@
+export {ProductListPaginatorWrapper} from './product-list-paginator-wrapper'

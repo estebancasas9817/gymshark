@@ -1,27 +1,22 @@
 import { ProductListGrid } from '../product-list-grid';
 import { Carousel } from '@/features/carousel';
 import { ProductCardContainer } from '@/features/product-card-container';
-import { ProductListPaginator } from '../product-list-paginator';
 import { Stack } from '@/components/layout/stack';
 import { QueryParams, RouteParams } from '../../types/product-list-types';
-import { PAGE_SIZE } from '../../constants/constants';
-import { getProductCount } from '@/libs/firebase/db/products/get-products-count';
+import { Suspense } from 'react';
+import { ProductListPaginatorWrapper } from '../product-list-paginatior-wrapper';
 
 interface ProductListMainContentProps {
 	params: RouteParams;
 	searchParams: QueryParams;
 }
 
-export const ProductListMainContent = async ({
+export const ProductListMainContent = ({
 	params,
 	searchParams,
 }: ProductListMainContentProps) => {
 	const { category, subCategory } = params;
-	const { color, page = '1', size, price } = searchParams;
 	const slug = `${category}/${subCategory}`;
-	const currentPage = isNaN(+page) ? 1 : +page;
-	const productCount = await getProductCount({ color, slug, size, price });
-	const totalPages = Math.ceil(productCount / PAGE_SIZE);
 
 	return (
 		<Stack className="flex-1">
@@ -33,8 +28,13 @@ export const ProductListMainContent = async ({
 			>
 				<ProductCardContainer />
 			</Carousel>
-			<ProductListGrid slug={slug} searchParams={searchParams} />
-			<ProductListPaginator totalPages={totalPages} currentPage={currentPage} />
+
+			<Suspense>
+				<ProductListGrid slug={slug} searchParams={searchParams} />
+			</Suspense>
+			<Suspense>
+				<ProductListPaginatorWrapper searchParams={searchParams} slug={slug} />
+			</Suspense>
 		</Stack>
 	);
-};
+};;;
