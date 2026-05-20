@@ -19,11 +19,7 @@ export const ProductListBody = ({
 			<Suspense fallback={null}>
 				<ProductListSideBar />
 			</Suspense>
-
-			{/* TODO: Update fallback */}
-			<Suspense fallback={<div>LOADING...</div>}>
-				<ProductListMainContent params={params} searchParams={searchParams} />
-			</Suspense>
+			<ProductListMainContent params={params} searchParams={searchParams} />
 		</Stack>
 	);
 };
