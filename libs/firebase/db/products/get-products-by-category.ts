@@ -45,9 +45,9 @@ const _getProductsByCategory = async ({
 	query = query.where('isActive', '==', true);
 
 	if (behavior === 'expand') {
-		query = query.where('categorySlug', '==', categorySlug);
-	} else {
 		query = query.where('subcategorySlug', '==', subcategorySlug);
+	} else {
+		query = query.where('categorySlug', '==', categorySlug);
 	}
 
 	//* SORT FILTERING + pricing filtering
