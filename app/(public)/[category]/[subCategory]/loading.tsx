@@ -1,3 +1,4 @@
+import { Container } from '@/components/layout/container';
 import {
 	FilterSection,
 	ProductCardSkeleton,
@@ -13,7 +14,7 @@ export default function Loading() {
         }
       `}</style>
 
-			<div className="mx-auto max-w-300 px-4 pb-16 pt-10">
+			<Container className="pb-16 pt-10">
 				{/* ── Page Header ── */}
 				<div className="mb-2">
 					<Shimmer className="h-10 w-72 rounded" />
@@ -35,7 +36,7 @@ export default function Loading() {
 				{/* ── Filter + Content Layout ── */}
 				<div className="flex gap-8">
 					{/* Sidebar */}
-					<aside className="w-60 shrink-0 mt-2">
+					<aside className="w-80 shrink-0 mt-2">
 						{/* "FILTER & SORT" header row */}
 						<div className="mb-1 flex items-center justify-between pb-4">
 							<Shimmer className="h-3.5 w-28 rounded" />
@@ -98,7 +99,7 @@ export default function Loading() {
 						</div>
 					</div>
 				</div>
-			</div>
+			</Container>
 		</>
 	);
 }
