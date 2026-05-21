@@ -17,7 +17,7 @@ export const ProductListHeader = async ({
 	searchParams,
 }: ProductListHeaderProps) => {
 	const { color, price, size } = searchParams;
-	const [{ name, description }, productCount, t] = await Promise.all([
+	const [{ name, description, imageUrl }, productCount, t] = await Promise.all([
 		getCategoryBySlug(slug),
 		getProductCount({ slug, color, price, size }),
 		getTranslations('ProductListPage.header'),
@@ -36,7 +36,7 @@ export const ProductListHeader = async ({
 			<Text as="p" size="xl" className="max-w-200 text-gray-700 mb-2">
 				{description}
 			</Text>
-			<ProductListBanner />
+			<ProductListBanner imageUrl={imageUrl} />
 		</Stack>
 	);
 };

@@ -16,7 +16,7 @@ export default function Loading() {
 
 			<Container className="pb-16 pt-10">
 				{/* ── Page Header ── */}
-				<div className="mb-2">
+				<div className="mb-8">
 					<Shimmer className="h-10 w-72 rounded" />
 				</div>
 				<Shimmer className="mb-4 h-3.5 w-24 rounded" />
@@ -27,10 +27,8 @@ export default function Loading() {
 				</div>
 
 				{/* ── Hero Banner: 3 images (narrow | wide | narrow) ── */}
-				<div className="mb-16 mt-6 flex h-80 gap-0.5">
-					<Shimmer className="h-full w-[27%]" />
+				<div className="mb-16 mt-6 flex h-90 gap-0.5">
 					<Shimmer className="h-full flex-1" />
-					<Shimmer className="h-full w-[27%]" />
 				</div>
 
 				{/* ── Filter + Content Layout ── */}

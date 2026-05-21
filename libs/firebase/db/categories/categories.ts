@@ -24,7 +24,7 @@ const _getCategoryBySlug = async (slug: string): Promise<Category> => {
 export const getCategoryBySlug = cache(async (slug: string) => {
 	const cachedFn = unstable_cache(
 		async () => _getCategoryBySlug(slug),
-		['category-by-slug'],
+		['category-by-slug', slug],
 		{
 			revalidate: 60 * 6 * 24, // 24h
 			tags: ['categories'],

@@ -16,7 +16,7 @@ export const ProductListPaginatorWrapper = async ({
 	const productCount = await getProductCount({ color, slug, size, price });
 	const totalPages = Math.ceil(productCount / PAGE_SIZE);
 	const currentPage = isNaN(+page) ? 1 : +page;
-    
+
 	return (
 		<ProductListPaginator totalPages={totalPages} currentPage={currentPage} />
 	);

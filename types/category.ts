@@ -5,7 +5,7 @@ export type Category = {
 	slug: string;
 	parentId: string | null;
 	gender: 'men' | 'women' | 'unisex';
-	description?: string;
-	suggestions?: string[];
+	description: string;
 	behavior: CategoryBehavior;
+	imageUrl: string;
 };
