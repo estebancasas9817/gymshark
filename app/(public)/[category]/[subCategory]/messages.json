@@ -54,5 +54,8 @@
 	},
 	"header": {
 		"products": "Products"
+	},
+	"carousel": {
+		"title": "TOP 10 IN CATEGORY"
 	}
 }

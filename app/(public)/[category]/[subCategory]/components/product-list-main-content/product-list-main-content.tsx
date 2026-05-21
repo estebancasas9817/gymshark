@@ -5,6 +5,7 @@ import { Stack } from '@/components/layout/stack';
 import { QueryParams, RouteParams } from '../../types/product-list-types';
 import { Suspense } from 'react';
 import { ProductListPaginatorWrapper } from '../product-list-paginatior-wrapper';
+import { ProductListCarousel } from '../product-list-carousel';
 
 interface ProductListMainContentProps {
 	params: RouteParams;
@@ -20,14 +21,9 @@ export const ProductListMainContent = ({
 
 	return (
 		<Stack className="flex-1">
-			<Carousel
-				sectionName="TOP 10 IN CATEGORY"
-				className="w-full lg:px-0 ps-0 mb-16 mt-0"
-				stackClassNames="mt-0"
-				size="sm"
-			>
-				<ProductCardContainer />
-			</Carousel>
+			<Suspense>
+				<ProductListCarousel slug={slug} />
+			</Suspense>
 
 			<Suspense>
 				<ProductListGrid slug={slug} searchParams={searchParams} />
@@ -37,4 +33,4 @@ export const ProductListMainContent = ({
 			</Suspense>
 		</Stack>
 	);
-};;;
+};

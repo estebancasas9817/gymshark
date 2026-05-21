@@ -24,15 +24,17 @@ export const ProductListGrid = async ({
 		price,
 	} = searchParams;
 	const currentPage = isNaN(+page) ? 1 : +page;
-	const { behavior } = await getCategoryBySlug(slug);
-	const { products } = await getProductsByCategory({
-		page: currentPage,
-		color,
-		size,
-		slug,
-		sortBy,
-		price,
-	});
+	const [{ behavior }, { products }] = await Promise.all([
+		getCategoryBySlug(slug),
+		getProductsByCategory({
+			page: currentPage,
+			color,
+			size,
+			slug,
+			sortBy,
+			price,
+		}),
+	]);
 
 	return (
 		<div className="grid grid-cols-4 gap-2">
