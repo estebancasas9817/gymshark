@@ -19,6 +19,7 @@ type GetProductByCategoryProps = {
 	slug: string;
 	sortBy: SortBy;
 	price?: string;
+	pageSize?: number;
 };
 
 type ProductCard = Product & {
@@ -33,20 +34,20 @@ const _getProductsByCategory = async ({
 	slug,
 	sortBy,
 	price,
+	pageSize = PAGE_SIZE,
 }: GetProductByCategoryProps): Promise<{
 	products: ProductCard[];
 }> => {
 	const { id, behavior } = await getCategoryBySlug(slug);
 	const [categorySlug, subcategorySlug] = splitSlug(id);
-
 	let query: FirebaseFirestore.Query = db.collection('products');
 
 	//* filtering only active products (with stock)
-	query = query.where('isActive', '==', true);
+	query = query
+		.where('isActive', '==', true)
+		.where('categorySlug', '==', categorySlug);
 
-	if (behavior === 'expand') {
-		query = query.where('categorySlug', '==', categorySlug);
-	} else {
+	if (behavior === 'exact') {
 		query = query.where('subcategorySlug', '==', subcategorySlug);
 	}
 
@@ -84,7 +85,7 @@ const _getProductsByCategory = async ({
 		);
 	}
 
-	query = query.limit(PAGE_SIZE).offset((page - 1) * PAGE_SIZE);
+	query = query.limit(pageSize).offset((page - 1) * pageSize);
 
 	const snapshot = await query.get();
 

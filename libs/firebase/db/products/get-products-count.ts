@@ -24,11 +24,12 @@ async function _getProductCount({
 	const { id, behavior } = await getCategoryBySlug(slug);
 	const [categorySlug, subcategorySlug] = splitSlug(id);
 
-	let query = db.collection('products').where('isActive', '==', true);
+	let query = db
+		.collection('products')
+		.where('isActive', '==', true)
+		.where('categorySlug', '==', categorySlug);
 
-	if (behavior === 'expand') {
-		query = query.where('categorySlug', '==', categorySlug);
-	} else {
+	if (behavior === 'exact') {
 		query = query.where('subcategorySlug', '==', subcategorySlug);
 	}
 

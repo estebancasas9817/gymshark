@@ -1,165 +1,35 @@
 import { Stack } from '@/components/layout/stack';
 import { ProductCard } from '../product-card/product-card';
 import { cn } from '@/utils/cn/cn';
+import { Product, Sku } from '@/types/product';
 
+type ProductCard = Product & {
+	skus: Sku;
+	href: string;
+};
 interface ProductCardContainer {
 	stackClassNames?: string;
+	products?: ProductCard[];
 }
 export const ProductCardContainer = ({
 	stackClassNames,
+	products,
 }: ProductCardContainer) => {
 	return (
 		<Stack direction="row" className={cn('gap-1', stackClassNames)}>
-			<ProductCard
-				name="Gymshark Minimal Sports Bra - White"
-				color="White"
-				price={'30'}
-				href=""
-				desc="ddddd"
-				imageSrc={[
-					'https://res.cloudinary.com/dqfcdiyvm/image/upload/v1774721092/photo-1584863495140-a320b13a11a8_xtfosu.jpg',
-					'https://res.cloudinary.com/dqfcdiyvm/image/upload/v1774720986/photo-1762331652347-b8f1665135d0_xastcv.jpg',
-				]}
-				variant={{
-					color: '',
-					id: '',
-					images: [''],
-					sizes: [
-						{ inStock: true, size: 'XS', stock: 10 },
-						{ inStock: true, size: 'S', stock: 10 },
-						{ inStock: true, size: 'M', stock: 10 },
-						{ inStock: true, size: 'L', stock: 10 },
-					],
-				}}
-				discount={10}
-				shouldUpdateImgOnHover
-			/>
-			<ProductCard
-				name="Gymshark Minimal Sports Bra - White"
-				color="White"
-				price={'30'}
-				href=""
-				desc="ddddd"
-				imageSrc={[
-					'https://res.cloudinary.com/dqfcdiyvm/image/upload/v1774720986/photo-1762331652347-b8f1665135d0_xastcv.jpg',
-				]}
-				variant={{
-					color: '',
-					id: '',
-					images: [''],
-					sizes: [
-						{ inStock: true, size: 'XS', stock: 10 },
-						{ inStock: true, size: 'S', stock: 10 },
-						{ inStock: true, size: 'M', stock: 10 },
-					],
-				}}
-				discount={10}
-			/>
-			<ProductCard
-				name="Gymshark Minimal Sports Bra - White"
-				color="White"
-				price={'30'}
-				href=""
-				desc="ddddd"
-				imageSrc={[
-					'https://res.cloudinary.com/dqfcdiyvm/image/upload/v1774720986/photo-1762331652347-b8f1665135d0_xastcv.jpg',
-				]}
-				variant={{
-					color: '',
-					id: '',
-					images: [''],
-					sizes: [
-						{ inStock: true, size: 'XS', stock: 10 },
-						{ inStock: true, size: 'S', stock: 10 },
-						{ inStock: true, size: 'M', stock: 10 },
-					],
-				}}
-				discount={10}
-			/>
-			<ProductCard
-				name="Gymshark Minimal Sports Bra - White"
-				color="White"
-				price={'30'}
-				href=""
-				desc="ddddd"
-				imageSrc={[
-					'https://res.cloudinary.com/dqfcdiyvm/image/upload/v1774720986/photo-1762331652347-b8f1665135d0_xastcv.jpg',
-				]}
-				variant={{
-					color: '',
-					id: '',
-					images: [''],
-					sizes: [
-						{ inStock: true, size: 'XS', stock: 10 },
-						{ inStock: true, size: 'S', stock: 10 },
-						{ inStock: true, size: 'M', stock: 10 },
-					],
-				}}
-				discount={10}
-			/>
-			<ProductCard
-				name="Gymshark Minimal Sports Bra - White"
-				color="White"
-				price={'30'}
-				href=""
-				desc="ddddd"
-				imageSrc={[
-					'https://res.cloudinary.com/dqfcdiyvm/image/upload/v1774720986/photo-1762331652347-b8f1665135d0_xastcv.jpg',
-				]}
-				variant={{
-					color: '',
-					id: '',
-					images: [''],
-					sizes: [
-						{ inStock: true, size: 'XS', stock: 10 },
-						{ inStock: true, size: 'S', stock: 10 },
-						{ inStock: true, size: 'M', stock: 10 },
-					],
-				}}
-				discount={10}
-			/>
-			<ProductCard
-				name="Gymshark Minimal Sports Bra - White"
-				color="White"
-				price={'30'}
-				href=""
-				desc="ddddd"
-				imageSrc={[
-					'https://res.cloudinary.com/dqfcdiyvm/image/upload/v1774720986/photo-1762331652347-b8f1665135d0_xastcv.jpg',
-				]}
-				variant={{
-					color: '',
-					id: '',
-					images: [''],
-					sizes: [
-						{ inStock: true, size: 'XS', stock: 10 },
-						{ inStock: true, size: 'S', stock: 10 },
-						{ inStock: true, size: 'M', stock: 10 },
-					],
-				}}
-				discount={10}
-			/>
-			<ProductCard
-				name="Gymshark Minimal Sports Bra - White"
-				color="White"
-				price={'30'}
-				href=""
-				desc="ddddd"
-				imageSrc={[
-					'https://res.cloudinary.com/dqfcdiyvm/image/upload/v1774720986/photo-1762331652347-b8f1665135d0_xastcv.jpg',
-				]}
-				variant={{
-					color: '',
-					id: '',
-					images: [''],
-					sizes: [
-						{ inStock: true, size: 'XS', stock: 10 },
-						{ inStock: true, size: 'S', stock: 10 },
-						{ inStock: true, size: 'M', stock: 10 },
-					],
-				}}
-				discount={10}
-			/>
+			{products?.map(({ id, name, skus, basePrice, href, discount }) => (
+				<ProductCard
+					key={id}
+					name={name}
+					price={basePrice.toString()}
+					color={skus.color}
+					desc={name}
+					href={href}
+					imageSrc={skus.images}
+					discount={discount}
+					variant={skus}
+				/>
+			))}
 		</Stack>
 	);
 };
