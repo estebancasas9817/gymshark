@@ -1,10 +1,12 @@
 import { db } from '../../firebase';
-import { normalizeColor, SIZE_MAP } from './utils';
+import { normalizeColor, SIZE_MAP, splitSlug } from './utils';
 import { getCategoryBySlug } from '../categories/categories';
 import {
 	Color,
 	Size,
 } from '@/app/(public)/[category]/[subCategory]/types/product-list-types';
+import { unstable_cache } from 'next/cache';
+import { cache } from 'react';
 
 type GetProductCountProps = {
 	slug: string;
@@ -13,16 +15,14 @@ type GetProductCountProps = {
 	price?: string;
 };
 
-export async function getProductCount({
+async function _getProductCount({
 	slug,
 	color,
 	size,
 	price,
 }: GetProductCountProps): Promise<number> {
 	const { id, behavior } = await getCategoryBySlug(slug);
-	const [categorySlug, subcategorySlug] = id.includes('-')
-		? id.split('-')
-		: [id, null];
+	const [categorySlug, subcategorySlug] = splitSlug(id);
 
 	let query = db.collection('products').where('isActive', '==', true);
 
@@ -32,7 +32,6 @@ export async function getProductCount({
 		query = query.where('subcategorySlug', '==', subcategorySlug);
 	}
 
-	// ✅ orderBy obligatorio cuando hay range filter
 	if (price) {
 		query = query.orderBy('basePrice', 'asc');
 		const [min, max] = price.split('_');
@@ -60,3 +59,22 @@ export async function getProductCount({
 	const snapshot = await query.count().get();
 	return snapshot.data().count;
 }
+
+export const getProductCount = cache(async (props: GetProductCountProps) => {
+	const cachedFn = unstable_cache(
+		() => _getProductCount(props),
+		[
+			'products-count',
+			props.slug,
+			props.color ?? '',
+			props.size ?? '',
+			props.price ?? '',
+		],
+		{
+			revalidate: 60 * 60,
+			tags: ['products'],
+		},
+	);
+
+	return cachedFn();
+});
