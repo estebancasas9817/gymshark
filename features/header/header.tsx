@@ -2,13 +2,7 @@
 
 import Image from 'next/image';
 import logo from '../../public/logo.jpg';
-import {
-	ChevronRight,
-	Heart,
-	Search,
-	ShoppingBag,
-	UserRound,
-} from 'lucide-react';
+import { Heart, Search, ShoppingBag, UserRound } from 'lucide-react';
 import { Stack } from '@/components/layout/stack';
 import Link from 'next/link';
 import { Conditional } from '@/components/layout/conditional';
