@@ -2,9 +2,9 @@ import { Stack } from '@/components/layout/stack';
 import { PromoCard } from '@/components/ui/promo-card';
 import { Text } from '@/components/ui/text';
 import { useTranslations } from 'next-intl';
-import PromoCardEmail from '@/public/promo-card-email.jpg';
-import PromoCardGymshark from '@/public/promo-card-gymshark.jpg';
-import PromoCardStudents from '@/public/promo-card-students.jpg';
+import PromoCardEmail from '@/public/promo-card-email.avif';
+import PromoCardGymshark from '@/public/promo-card-gymshark.avif';
+import PromoCardStudents from '@/public/promo-card-students.avif';
 
 export const FooterPromos = () => {
 	const t = useTranslations('Footer.promos');

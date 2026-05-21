@@ -1,0 +1,9 @@
+{
+	"notFound": {
+		"code": "404",
+		"title": "Not sure what's happened there.",
+		"description": "Maybe go grab a new fit instead and then we can go gym?",
+		"button": "Back to Home",
+		"brand": "GYMSHARK CLONE"
+	}
+}

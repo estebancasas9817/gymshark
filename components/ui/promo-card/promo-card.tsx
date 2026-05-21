@@ -16,7 +16,7 @@ export const PromoCard = ({ title, alt, src }: PromoCardProps) => {
 				</figure>
 				<Text
 					as="p"
-					className="text-xs font-sans text-primary font-bold p-2 bg-border-secondary relative bottom-1 w-26/27 ms-0.75 h-12"
+					className="text-xs font-sans text-primary font-bold p-2 bg-border-secondary mb-2 w-43.75 h-12"
 				>
 					{title.toUpperCase()}
 				</Text>
