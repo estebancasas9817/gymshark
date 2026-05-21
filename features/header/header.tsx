@@ -12,10 +12,11 @@ import {
 import { Stack } from '@/components/layout/stack';
 import Link from 'next/link';
 import { Conditional } from '@/components/layout/conditional';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavigationItem } from '@/types/navigationCategory';
 import { cn } from '@/utils/cn/cn';
 import { SideMegaMenu } from './side-mega-menu';
+import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
 	navigationlist: NavigationItem[];
@@ -24,6 +25,8 @@ interface HeaderProps {
 export const Header = ({ navigationlist }: HeaderProps) => {
 	const [menuIndex, setMenuIndex] = useState<number>(4);
 	const shouldDisplayMenuRef = useRef<boolean>(false);
+	const pathName = usePathname();
+	const prevPathName = useRef(pathName);
 	const menu = navigationlist[menuIndex];
 
 	const handleOnMouseEnter = (index: number) => {
@@ -35,6 +38,14 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 		setMenuIndex(4);
 		shouldDisplayMenuRef.current = false;
 	};
+
+	useEffect(() => {
+		if (menuIndex !== 4 && pathName !== prevPathName.current) {
+			setMenuIndex(4);
+			shouldDisplayMenuRef.current = false;
+			prevPathName.current = pathName;
+		}
+	});
 
 	return (
 		<>
