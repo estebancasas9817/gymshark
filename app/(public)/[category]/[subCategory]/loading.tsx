@@ -4,6 +4,7 @@ import {
 	ProductCardSkeleton,
 	Shimmer,
 } from './components/product-list-loading';
+import { ProductGridSkeleton } from './components/product-list-loading/product-grid-skeleton';
 
 export default function Loading() {
 	return (
@@ -75,26 +76,7 @@ export default function Loading() {
 							</div>
 						</div>
 
-						{/* Top carousel row – 4 cards */}
-						<div className="mb-30 grid grid-cols-4 gap-4">
-							{Array.from({ length: 4 }).map((_, i) => (
-								<ProductCardSkeleton key={i} />
-							))}
-						</div>
-
-						{/* Second product row – 4 cards */}
-						<div className="mb-10 grid grid-cols-4 gap-4">
-							{Array.from({ length: 4 }).map((_, i) => (
-								<ProductCardSkeleton key={i} />
-							))}
-						</div>
-
-						{/* Third partial row (visible at bottom of page) */}
-						<div className="grid grid-cols-4 gap-4">
-							{Array.from({ length: 3 }).map((_, i) => (
-								<ProductCardSkeleton key={i} />
-							))}
-						</div>
+						<ProductGridSkeleton />
 					</div>
 				</div>
 			</Container>

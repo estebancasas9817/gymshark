@@ -21,6 +21,7 @@ export const ProductListCarousel = async ({
 		}),
 		getTranslations('ProductListPage.carousel'),
 	]);
+	if (products.length !== PRODUCTS_PER_CATEGORY) return null;
 
 	return (
 		<Carousel

@@ -19,7 +19,7 @@ type GetProductByCategoryProps = {
 	slug: string;
 	sortBy: SortBy;
 	price?: string;
-	pageSize?: number;
+	pageSize: number;
 };
 
 type ProductCard = Product & {
@@ -34,7 +34,7 @@ const _getProductsByCategory = async ({
 	slug,
 	sortBy,
 	price,
-	pageSize = PAGE_SIZE,
+	pageSize,
 }: GetProductByCategoryProps): Promise<{
 	products: ProductCard[];
 }> => {
@@ -124,6 +124,7 @@ export const getProductsByCategory = cache(
 				props.size ?? '',
 				props.sortBy ?? '',
 				props.price ?? '',
+				props.pageSize.toString(),
 			],
 			{
 				revalidate: 60 * 60,

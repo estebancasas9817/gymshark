@@ -6,6 +6,8 @@ import { QueryParams, RouteParams } from '../../types/product-list-types';
 import { Suspense } from 'react';
 import { ProductListPaginatorWrapper } from '../product-list-paginatior-wrapper';
 import { ProductListCarousel } from '../product-list-carousel';
+import { ProductCardSkeleton } from '../product-list-loading';
+import { ProductGridSkeleton } from '../product-list-loading/product-grid-skeleton';
 
 interface ProductListMainContentProps {
 	params: RouteParams;
@@ -25,8 +27,12 @@ export const ProductListMainContent = ({
 				<ProductListCarousel slug={slug} />
 			</Suspense>
 
-			<Suspense>
-				<ProductListGrid slug={slug} searchParams={searchParams} />
+			<Suspense fallback={<ProductGridSkeleton />}>
+				<ProductListGrid
+					slug={slug}
+					searchParams={searchParams}
+					category={category}
+				/>
 			</Suspense>
 			<Suspense>
 				<ProductListPaginatorWrapper searchParams={searchParams} slug={slug} />
