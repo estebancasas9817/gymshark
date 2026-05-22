@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
@@ -85,16 +87,17 @@ function WeightPlates() {
 }
 
 export default function NotFound() {
-	const t = useTranslations('RootPage.notFound');
+	const t = useTranslations('RootPage.error');
+
 	return (
 		<div
 			className="fixed inset-0 z-9999 w-screen h-screen overflow-hidden flex flex-col select-none"
 			style={{ backgroundColor: BG }}
 		>
-			<header className="absolute top-0 left-0 w-full z-20 flex justify-center pt-10 px-4">
+			<header className="not-found-logo absolute top-0 left-0 w-full z-20 flex justify-center pt-10 px-4">
 				<Link href="/">
 					<span className="font-black uppercase text-black tracking-wider text-2xl">
-						{t('brand')}
+						{t('common.brand')}
 					</span>
 				</Link>
 			</header>
@@ -102,34 +105,34 @@ export default function NotFound() {
 			<main className="relative flex-1 flex flex-col items-center justify-center text-center px-4">
 				<div className="z-10 -mt-20 md:-mt-28">
 					<p
-						className="font-black text-black leading-none"
+						className="not-found-number font-black text-black leading-none"
 						style={{
 							fontSize: 'clamp(6rem, 20vw, 14rem)',
 							letterSpacing: '-0.03em',
 						}}
 					>
-						{t('code')}
+						{t('notFound.title')}
 					</p>
 
 					<h1
-						className="font-semibold text-black mt-1 uppercase"
+						className="not-found-title font-semibold text-black mt-1 uppercase"
 						style={{
 							fontSize: 'clamp(0.8rem, 2vw, 1rem)',
 							letterSpacing: '0.05em',
 						}}
 					>
-						{t('title')}
+						{t('notFound.subtitle')}
 					</h1>
 
-					<p className="text-neutral-500 mt-4 mb-8 leading-relaxed mx-auto text-lg">
-						{t('description')}
+					<p className="not-found-sub text-neutral-500 mt-4 mb-8 leading-relaxed mx-auto text-lg">
+						{t('notFound.description')}
 					</p>
 
 					<Link
 						href="/"
-						className="inline-flex items-center justify-center rounded-full bg-black text-white font-bold uppercase transition-all hover:scale-[1.05] active:scale-[0.95] text-sm py-4 px-10 tracking-widest"
+						className="not-found-btn inline-flex items-center justify-center rounded-full bg-black text-white font-bold uppercase transition-all hover:scale-[1.05] active:scale-[0.95] text-sm py-4 px-10 tracking-widest"
 					>
-						{t('button')}
+						{t('notFound.buttonHome')}
 					</Link>
 				</div>
 
