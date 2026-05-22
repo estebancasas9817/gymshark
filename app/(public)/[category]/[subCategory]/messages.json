@@ -57,5 +57,10 @@
 	},
 	"carousel": {
 		"title": "TOP 10 IN CATEGORY"
+	},
+	"grid": {
+		"accessoriesBanner": {
+			"tagCategory": "CATEGORY"
+		}
 	}
 }

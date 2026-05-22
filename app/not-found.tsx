@@ -1,6 +1,4 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
 const BG = '#f0ede7';
@@ -86,8 +84,8 @@ function WeightPlates() {
 	);
 }
 
-export default function NotFound() {
-	const t = useTranslations('RootPage.error');
+export default async function NotFound() {
+	const t = await getTranslations('RootPage.error');
 
 	return (
 		<div
