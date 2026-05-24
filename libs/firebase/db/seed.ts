@@ -1,4 +1,4 @@
-import { db } from '@/libs/firebase/firebase';
+import { db } from '@/libs/firebase/init-firestore';
 import { v2 as cloudinary } from 'cloudinary';
 import admin from 'firebase-admin';
 import { FieldValue } from 'firebase-admin/firestore';

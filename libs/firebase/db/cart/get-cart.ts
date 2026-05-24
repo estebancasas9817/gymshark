@@ -1,5 +1,5 @@
 import { CartItem } from '@/types/cart';
-import { db } from '../../firebase';
+import { db } from '../../init-firestore';
 import { Variant } from '@/types/product';
 
 export const getCart = async (userId: string) => {

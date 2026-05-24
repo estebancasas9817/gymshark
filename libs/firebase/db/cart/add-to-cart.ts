@@ -1,5 +1,5 @@
 import { FieldValue } from 'firebase-admin/firestore';
-import { db } from '../../firebase';
+import { db } from '../../init-firestore';
 import { CartItem } from '@/types/cart';
 
 export const addToCart = async (

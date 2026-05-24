@@ -1,5 +1,5 @@
 import { Product, Sku } from '@/types/product';
-import { db } from '../../firebase';
+import { db } from '../../init-firestore';
 import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
 import { PAGE_SIZE } from '@/app/(public)/[category]/[subCategory]/constants/constants';

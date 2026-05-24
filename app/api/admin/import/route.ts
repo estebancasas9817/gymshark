@@ -1,4 +1,4 @@
-import { db } from '@/libs/firebase/firebase';
+import { db } from '@/libs/firebase/init-firestore';
 import csv from 'csv-parser';
 import { Readable } from 'stream';
 

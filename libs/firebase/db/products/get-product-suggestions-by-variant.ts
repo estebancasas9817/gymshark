@@ -1,5 +1,5 @@
 import { Product } from '@/types/product';
-import { db } from '@/libs/firebase/firebase';
+import { db } from '@/libs/firebase/init-firestore';
 
 export const getSuggestionsByVariant = async (
 	variantId: string,
