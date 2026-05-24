@@ -1,3 +1,5 @@
+'use client';
+
 import { Container } from '@/components/layout/container';
 import { Stack } from '@/components/layout/stack';
 import { Input } from '@/components/ui/input';
@@ -8,10 +10,19 @@ import { Text } from '@/components/ui/text';
 import Link from 'next/link';
 import { LoginHeader } from '../sign-in/components/login-header';
 import { useActionState } from 'react';
+import { SignUpAction } from './actions';
+import { cn } from '@/utils/cn/cn';
+import { BadgeCheck, CircleX } from 'lucide-react';
+import { Conditional } from '@/components/layout/conditional';
 
 export default function Page() {
 	const t = useTranslations('SignUp.auth');
-	const [state, formAction, isPending] = useActionState()
+	const [state, formAction, isPending] = useActionState(SignUpAction, {
+		errors: undefined,
+		message: '',
+		success: undefined,
+	});
+	console.log("['state']", { state });
 
 	return (
 		<Container as="main" fullWidth className="relative h-screen">
@@ -30,35 +41,65 @@ export default function Page() {
 						type="text"
 						placeholder={t('form.first_name_label')}
 						required
+						min={1}
+						max={30}
+						error={state.errors?.firstName?.[0]}
 					/>
 					<Input
 						name="lastName"
 						type="text"
 						placeholder={t('form.last_name_label')}
 						required
-					/>
-					<Input
-						name="birth"
-						type="date"
-						placeholder={t('form.dob_label')}
-						required
+						min={1}
+						max={30}
+						error={state.errors?.lastName?.[0]}
 					/>
 					<Input
 						name="email"
 						type="email"
 						placeholder={t('form.email_label')}
 						required
+						error={state.errors?.email?.[0]}
 					/>
 					<Input
 						name="password"
 						type="password"
 						placeholder={t('form.password_label')}
 						required
+						min={8}
+						max={12}
+						error={state.errors?.password?.[0]}
 					/>
 					<Stack gap="sm">
-						<Button radius="md" className="font-sans">
-							{t('form.submit_button')}
+						<Button
+							radius="md"
+							className={cn('font-sans', isPending && 'cursor-not-allowed')}
+							disabled={isPending}
+							type="submit"
+						>
+							{isPending ? (
+								<div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+							) : (
+								<>{t('form.submit_button')}</>
+							)}
 						</Button>
+
+						<Conditional test={!!state.message}>
+							<Text
+								className={cn(
+									'flex gap-2 items-center justify-center text-sm',
+									state.success ? 'text-green-700' : 'text-error',
+								)}
+							>
+								<Conditional
+									test={!!state.success}
+									fallback={<CircleX size={16} />}
+								>
+									<BadgeCheck size={16} />
+								</Conditional>
+								{state.message}
+							</Text>
+						</Conditional>
 						<Text as="p" className="self-center mt-2">
 							<Text as="span" className="text-sm text-gray-700">
 								{t('footer.existing_account')}

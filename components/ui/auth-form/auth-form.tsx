@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 interface LoginFormProps {
 	children: ReactNode;
-	action?: () => void;
+	action?: string | ((formData: FormData) => void | Promise<void>);
 }
 export const AuthForm = ({ children, action }: LoginFormProps) => {
 	return (
