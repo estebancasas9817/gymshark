@@ -1,4 +1,4 @@
-import { db } from '../../firebase';
+import { db } from '../../init-firestore';
 import { normalizeColor, SIZE_MAP, splitSlug } from './utils';
 import { getCategoryBySlug } from '../categories/categories';
 import {

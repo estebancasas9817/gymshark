@@ -1,5 +1,5 @@
 import type { Product } from '@/types/product';
-import { db } from '../../firebase';
+import { db } from '../../init-firestore';
 
 export const getSimilarProducts = async (
 	productId: string,

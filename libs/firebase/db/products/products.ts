@@ -1,4 +1,4 @@
-import { db } from '@/libs/firebase/firebase';
+import { db } from '@/libs/firebase/init-firestore';
 import { Product } from '@/types/product';
 
 export const getProducts = async (limitCount = 20) => {

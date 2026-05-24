@@ -1,5 +1,5 @@
 import { EditorialBanner } from '@/types/editorialBanner';
-import { db } from '../../firebase';
+import { db } from '../../init-firestore';
 
 export async function getEditorialBanner(
 	categorySlug: string,

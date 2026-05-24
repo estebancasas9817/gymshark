@@ -1,9 +1,5 @@
 import { Container } from '@/components/layout/container';
-import {
-	FilterSection,
-	ProductCardSkeleton,
-	Shimmer,
-} from './components/product-list-loading';
+import { FilterSection, Shimmer } from './components/product-list-loading';
 import { ProductGridSkeleton } from './components/product-list-loading/product-grid-skeleton';
 
 export default function Loading() {

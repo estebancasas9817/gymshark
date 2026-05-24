@@ -1,5 +1,5 @@
 import { unstable_cache } from 'next/cache';
-import { db } from '../../firebase';
+import { db } from '../../init-firestore';
 import { NavigationItem } from '@/types/navigationCategory';
 
 export const getNavigation = unstable_cache(

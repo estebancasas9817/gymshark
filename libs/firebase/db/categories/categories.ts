@@ -1,4 +1,4 @@
-import { db } from '@/libs/firebase/firebase';
+import { db } from '@/libs/firebase/init-firestore';
 import { Category } from '@/types/category';
 import { unstable_cache } from 'next/cache';
 import { notFound } from 'next/navigation';

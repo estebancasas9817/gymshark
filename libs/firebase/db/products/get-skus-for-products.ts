@@ -1,5 +1,5 @@
 import { Sku } from '@/types/product';
-import { db } from '../../firebase';
+import { db } from '../../init-firestore';
 import { normalizeColor, SIZE_MAP } from './utils';
 
 export async function getSkusForProducts(
