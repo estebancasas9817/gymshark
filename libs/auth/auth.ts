@@ -1,18 +1,18 @@
+// auth.ts
 import NextAuth from 'next-auth';
 import { FirestoreAdapter } from '@auth/firebase-adapter';
 import Credentials from 'next-auth/providers/credentials';
 import { db } from '../firebase/init-firestore';
 import { compare } from 'bcrypt-ts';
+import { authConfig } from '@/auth.config';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+	...authConfig,
+	adapter: FirestoreAdapter(db),
 	providers: [
 		Credentials({
 			credentials: {
-				email: {
-					type: 'email',
-					label: 'Email',
-					placeholder: 'Email',
-				},
+				email: { type: 'email', label: 'Email', placeholder: 'Email' },
 				password: {
 					type: 'password',
 					label: 'Password',
@@ -47,6 +47,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			},
 		}),
 	],
-	session: { strategy: 'jwt' },
-	adapter: FirestoreAdapter(db),
 });

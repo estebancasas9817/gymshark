@@ -7,9 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import Link from 'next/link';
 import { LoginHeader } from '../sign-in/components/login-header';
+import { useActionState } from 'react';
 
 export default function Page() {
 	const t = useTranslations('SignUp.auth');
+	const [state, formAction, isPending] = useActionState()
 
 	return (
 		<Container as="main" fullWidth className="relative h-screen">
@@ -22,7 +24,7 @@ export default function Page() {
 					title={t('header.title')}
 					subTitle={t('header.subtitle')}
 				/>
-				<AuthForm>
+				<AuthForm action={formAction}>
 					<Input
 						name="firstName"
 						type="text"
