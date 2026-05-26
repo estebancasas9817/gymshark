@@ -78,25 +78,20 @@ type ResendTokenActionResponse = {
 export const resendTokenAction = async (
 	email: string,
 ): Promise<ResendTokenActionResponse> => {
-	let name: string;
 	try {
-		try {
-			const userQuery = await db.collection('users').doc(email).get();
-			const { firstName = 'Atlete', emailVerified = null } =
-				userQuery.data() ?? {};
-			name = firstName;
+		let name: string;
+		const userQuery = await db.collection('users').doc(email).get();
+		const { firstName = 'Atlete', emailVerified = null } =
+			userQuery.data() ?? {};
+		name = firstName;
 
-			// * IF EMAIL IS ALREADY VERIFIED OR IS UNDEFINED
-			if (!!emailVerified || !userQuery.exists) {
-				return {
-					status: false,
-				};
-			}
-		} catch (error) {
+		// * IF EMAIL IS ALREADY VERIFIED OR IS UNDEFINED
+		if (!!emailVerified || !userQuery.exists) {
 			return {
 				status: false,
 			};
 		}
+
 		const validationToken = generateToken();
 		const expiresAt = new Date();
 		expiresAt.setHours(expiresAt.getHours() + 24);
@@ -107,20 +102,14 @@ export const resendTokenAction = async (
 			expires: expiresAt,
 		});
 
-		try {
-			await sendVerificationEmail({
-				email,
-				name,
-				token: validationToken,
-			});
-			return {
-				status: true,
-			};
-		} catch (error) {
-			return {
-				status: false,
-			};
-		}
+		await sendVerificationEmail({
+			email,
+			name,
+			token: validationToken,
+		});
+		return {
+			status: true,
+		};
 	} catch (error) {
 		return {
 			status: false,

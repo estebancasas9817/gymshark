@@ -1,7 +1,7 @@
 'use client';
 
 import { EyeOff, Eye, AlertCircle } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './input.module.css';
 import { cn } from '@/utils/cn/cn';
 import { Conditional } from '@/components/layout/conditional';
@@ -27,16 +27,21 @@ export const Input = ({
 }: InputProps) => {
 	const [isFloatingLabel, setIsFloatingLabel] = useState<boolean>(false);
 	const [showPassword, setShowPassword] = useState(false);
+	const inputRef = useRef<HTMLInputElement | null>(null);
 	const isPassword = type === 'password';
 
 	const togglePassword = () => setShowPassword(!showPassword);
-	const inputRef = useRef<HTMLInputElement | null>(null);
-
 	const handleOnFocus = () => setIsFloatingLabel(true);
 	const handleOnBlur = () => {
 		if (inputRef.current?.value) return;
 		setIsFloatingLabel(false);
 	};
+
+	useEffect(() => {
+		if (error) {
+			handleOnBlur();
+		}
+	}, [error]);
 
 	return (
 		<div className={styles['input__form']}>

@@ -1,3 +1,5 @@
+'use client';
+
 import { Container } from '@/components/layout/container';
 import { Stack } from '@/components/layout/stack';
 import { LoginHeader } from './components/login-header';
@@ -7,9 +9,28 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import Link from 'next/link';
+import { useActionState } from 'react';
+import { signInAction } from './actions';
+import { cn } from '@/utils/cn/cn';
+import { Conditional } from '@/components/layout/conditional';
+import { CircleX } from 'lucide-react';
 
 export default function Page() {
 	const t = useTranslations('Login.auth');
+	const [state, formAction, isPending] = useActionState(signInAction, {
+		errors: undefined,
+		message: '',
+		success: false,
+	});
+	const { errors, message, status } = state ?? {};
+	let emailError = errors?.email?.[0];
+	let passwordError = errors?.password?.[0];
+	const isFailedStatus =
+		status === 'UNEXPECTED_ERROR' || status === 'NOT_VERIFIED';
+	if (isFailedStatus) {
+		emailError = undefined;
+		passwordError = undefined;
+	}
 
 	return (
 		<Container as="main" fullWidth className="relative h-screen">
@@ -22,18 +43,20 @@ export default function Page() {
 					title={t('header.title')}
 					subTitle={t('header.subtitle')}
 				/>
-				<AuthForm>
+				<AuthForm action={formAction}>
 					<Input
 						name="email"
 						type="email"
 						placeholder={t('form.email_label')}
 						required
+						error={emailError}
 					/>
 					<Input
 						name="password"
 						type="password"
 						placeholder={t('form.password_label')}
 						required
+						error={passwordError}
 					/>
 					<Stack gap="sm">
 						<Button
@@ -42,9 +65,30 @@ export default function Page() {
 						>
 							{t('form.forgot_password')}
 						</Button>
-						<Button radius="md" className="font-sans">
-							{t('form.submit_button')}
+						<Button
+							radius="md"
+							className={cn('font-sans', isPending && 'cursor-not-allowed')}
+							type="submit"
+							disabled={isPending}
+						>
+							{isPending ? (
+								<div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+							) : (
+								<>{t('form.submit_button')}</>
+							)}
 						</Button>
+						<Conditional test={isFailedStatus}>
+							<Text
+								className={cn(
+									'flex gap-2 items-center justify-center text-sm',
+									'text-error',
+								)}
+							>
+								<CircleX size={16} />
+
+								{message}
+							</Text>
+						</Conditional>
 						<Text as="p" className="self-center mt-2">
 							<Text as="span" className="text-sm text-gray-700">
 								{t('footer.no_account')}
