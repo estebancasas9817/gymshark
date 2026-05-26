@@ -119,8 +119,7 @@ export const SignUpAction = async (
 
 		return {
 			success: true,
-			message:
-				'Registration successful! Please check your email to verify your account.',
+			message: 'Please check your email to verify your account.',
 		};
 	} catch (error) {
 		return {

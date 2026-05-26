@@ -5,6 +5,7 @@ import Credentials from 'next-auth/providers/credentials';
 import { db } from '../firebase/init-firestore';
 import { compare } from 'bcrypt-ts';
 import { authConfig } from '@/auth.config';
+import { EmailNotVerifiedError } from './auth-errors';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
 	...authConfig,
@@ -37,6 +38,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				);
 				if (!isPasswordCorrect) {
 					return null;
+				}
+
+				if (!user.emailVerified) {
+					throw new EmailNotVerifiedError();
 				}
 
 				return {

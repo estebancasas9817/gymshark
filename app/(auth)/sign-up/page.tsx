@@ -22,7 +22,6 @@ export default function Page() {
 		message: '',
 		success: undefined,
 	});
-	console.log("['state']", { state });
 
 	return (
 		<Container as="main" fullWidth className="relative h-screen">
