@@ -1,0 +1,34 @@
+{
+	"status": {
+		"verifying": {
+			"title": "Verifying your account…",
+			"description": "Please wait while we confirm your email address."
+		},
+		"success": {
+			"title": "Account verified!",
+			"description": "Your email has been confirmed. You can now sign in."
+		},
+		"expired": {
+			"title": "Link expired",
+			"description": "This verification link is no longer valid. Links expire after 24 hours."
+		},
+		"invalid": {
+			"title": "Invalid link",
+			"description": "This verification link is not valid or has already been used."
+		},
+		"no_token": {
+			"title": "Missing verification link",
+			"description": "No verification token was found. Please use the link from your email."
+		}
+	},
+	"actions": {
+		"goToSignIn": "Go to Sign In",
+		"backToSignIn": "Back to Sign In",
+		"resendEmail": "Resend verification email",
+		"sending": "Sending…",
+		"emailSent": "A new email is on its way..."
+	},
+	"metadata": {
+		"logoAlt": "Gymshark clone logo"
+	}
+}

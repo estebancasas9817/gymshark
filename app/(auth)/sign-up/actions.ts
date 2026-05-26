@@ -18,7 +18,7 @@ type ActionState = {
 };
 
 const userRegisterSchema = z.object({
-	email: z.email({ message: 'The format of the mail is not valid' }),
+	email: z.email({ message: 'The format of the email is not valid' }),
 	password: z
 		.string()
 		.min(8, { message: 'The password must have at least 8 characters' })

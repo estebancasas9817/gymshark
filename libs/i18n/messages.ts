@@ -8,6 +8,7 @@ import Login from '@/app/(auth)/sign-in/messages.json';
 import SignUp from '@/app/(auth)/sign-up/messages.json';
 import ProductListPage from '@/app/(public)/[category]/[subCategory]/messages.json';
 import RootPage from '@/app/messages.json';
+import VerifyAccount from '@/app/(auth)/verify-account/messages.json';
 
 export const messages = {
 	AnnouncementBar,
@@ -20,4 +21,5 @@ export const messages = {
 	SignUp,
 	ProductListPage,
 	RootPage,
+	VerifyAccount,
 };
