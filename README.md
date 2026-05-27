@@ -71,7 +71,7 @@ The project follows a modular structure designed for maintainability and Separat
 
 - [ ] Global state management and cart persistence.
 
-### Phase 7: Advanced Security
+### Phase 8: Advanced Security
 
 - [ ] 2FA Implementation (QR Code generation and OTP validation).
 
