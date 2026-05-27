@@ -8,7 +8,8 @@
 			"email_label": "Email address*",
 			"password_label": "Password*",
 			"forgot_password": "Forgot password?",
-			"submit_button": "LOG IN"
+			"submit_button": "LOG IN",
+			"google_button": "SIGN IN WITH"
 		},
 		"footer": {
 			"no_account": "Don't have an account?",

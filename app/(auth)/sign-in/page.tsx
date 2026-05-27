@@ -9,11 +9,14 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import Link from 'next/link';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { signInAction } from './actions';
 import { cn } from '@/utils/cn/cn';
 import { Conditional } from '@/components/layout/conditional';
 import { CircleX } from 'lucide-react';
+import { Divider } from '@/components/ui/divider';
+import { FcGoogle } from 'react-icons/fc';
+import { signIn } from 'next-auth/react';
 
 export default function Page() {
 	const t = useTranslations('Login.auth');
@@ -22,15 +25,25 @@ export default function Page() {
 		message: '',
 		success: false,
 	});
+	const [isGooglePending, setIsGooglePending] = useState<boolean>(false);
+
 	const { errors, message, status } = state ?? {};
 	let emailError = errors?.email?.[0];
 	let passwordError = errors?.password?.[0];
 	const isFailedStatus =
 		status === 'UNEXPECTED_ERROR' || status === 'NOT_VERIFIED';
+	const shouldDisableButtons = isPending || isGooglePending;
+
 	if (isFailedStatus) {
 		emailError = undefined;
 		passwordError = undefined;
 	}
+
+	const handleGoogleLogin = async () => {
+		setIsGooglePending(true);
+		await signIn('google', { redirectTo: '/my-account' });
+		setIsGooglePending(false);
+	};
 
 	return (
 		<Container as="main" fullWidth className="relative h-screen">
@@ -67,14 +80,39 @@ export default function Page() {
 						</Button>
 						<Button
 							radius="md"
-							className={cn('font-sans', isPending && 'cursor-not-allowed')}
+							className={cn(
+								'font-sans',
+								shouldDisableButtons && 'cursor-not-allowed',
+							)}
 							type="submit"
-							disabled={isPending}
+							disabled={shouldDisableButtons}
 						>
 							{isPending ? (
-								<div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+								<div className="h-5 w-5 animate-spin rounded-full border-2 border-secondary border-t-primary" />
 							) : (
 								<>{t('form.submit_button')}</>
+							)}
+						</Button>
+						<Divider className="my-4" />
+						<Button
+							radius="md"
+							variant="secondary"
+							className={cn(
+								'border flex gap-4 items-center group',
+								shouldDisableButtons && 'cursor-not-allowed',
+							)}
+							onClick={handleGoogleLogin}
+							disabled={shouldDisableButtons}
+						>
+							{isGooglePending ? (
+								<div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent group-hover:border-secondary group-hover:border-t-primary" />
+							) : (
+								<>
+									<Text as="span" className="group-hover:text-secondary">
+										{t('form.google_button')}
+									</Text>
+									<FcGoogle />
+								</>
 							)}
 						</Button>
 						<Conditional test={isFailedStatus}>

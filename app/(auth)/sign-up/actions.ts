@@ -56,11 +56,12 @@ export const SignUpAction = async (
 	}
 	const { firstName, email, password, lastName } = signUpResult.data;
 
-	const query = db.collection('users').doc(email);
+	const query = db.collection('users').where('email', '==', email);
 	try {
 		// * CHECKING IF USER ALREADY EXISTS
 		const snap = await query.get();
-		if (snap.exists) {
+
+		if (!snap.empty) {
 			return {
 				success: false,
 				message: 'User with that email already exists',
