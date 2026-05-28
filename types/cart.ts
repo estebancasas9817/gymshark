@@ -1,10 +1,12 @@
 export type CartItem = {
 	productId: string;
-	variantId: string;
+	skuId: string;
 	quantity: number;
+	size: string;
 };
 
 export type CartDoc = {
 	items: CartItem[];
 	updatedAt: FirebaseFirestore.FieldValue;
+	id: string;
 };
