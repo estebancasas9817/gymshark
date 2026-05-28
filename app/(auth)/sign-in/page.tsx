@@ -32,8 +32,6 @@ export default function Page() {
 	let passwordError = errors?.password?.[0];
 	const isFailedStatus =
 		status === 'UNEXPECTED_ERROR' || status === 'NOT_VERIFIED';
-	const shouldDisableButtons = isPending || isGooglePending;
-
 	if (isFailedStatus) {
 		emailError = undefined;
 		passwordError = undefined;
@@ -80,12 +78,9 @@ export default function Page() {
 						</Button>
 						<Button
 							radius="md"
-							className={cn(
-								'font-sans',
-								shouldDisableButtons && 'cursor-not-allowed',
-							)}
+							className={cn('font-sans', isPending && 'cursor-not-allowed')}
 							type="submit"
-							disabled={shouldDisableButtons}
+							disabled={isPending}
 						>
 							{isPending ? (
 								<div className="h-5 w-5 animate-spin rounded-full border-2 border-secondary border-t-primary" />
@@ -99,10 +94,10 @@ export default function Page() {
 							variant="secondary"
 							className={cn(
 								'border flex gap-4 items-center group',
-								shouldDisableButtons && 'cursor-not-allowed',
+								isGooglePending && 'cursor-not-allowed',
 							)}
 							onClick={handleGoogleLogin}
-							disabled={shouldDisableButtons}
+							disabled={isGooglePending}
 						>
 							{isGooglePending ? (
 								<div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent group-hover:border-secondary group-hover:border-t-primary" />
