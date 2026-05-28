@@ -2,7 +2,7 @@ import { CartItem } from '@/types/cart';
 import { db } from '../../init-firestore';
 import { Product, Sku } from '@/types/product';
 
-type CartItemFull = {
+export type CartItemFull = {
 	productId: string;
 	skuId: string;
 	quantity: number;

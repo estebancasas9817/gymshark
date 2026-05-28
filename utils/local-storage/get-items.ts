@@ -1,7 +1,6 @@
-export const getItemsInLocalStorage = (key: string): string | null => {
-	if (global.window !== undefined && localStorage.getItem(key) !== null) {
-		const stringifiedItems = localStorage.getItem(key) as string;
-		return stringifiedItems;
-	}
-	return null;
+export const getItemsFromLocalStorage = <T>(key: string): T | null => {
+	if (typeof window === 'undefined') return null;
+	const item = localStorage.getItem(key);
+	if (!item) return null;
+	return JSON.parse(item) as T;
 };
