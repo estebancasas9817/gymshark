@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import logo from '../../public/logo.jpg';
-import { Heart, Search, ShoppingBag, UserRound } from 'lucide-react';
 import { Stack } from '@/components/layout/stack';
 import Link from 'next/link';
 import { Conditional } from '@/components/layout/conditional';
@@ -11,6 +10,7 @@ import { NavigationItem } from '@/types/navigationCategory';
 import { cn } from '@/utils/cn/cn';
 import { SideMegaMenu } from './side-mega-menu';
 import { usePathname } from 'next/navigation';
+import { HeaderActions } from './header-actions';
 
 interface HeaderProps {
 	navigationlist: NavigationItem[];
@@ -73,23 +73,10 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 				</Stack>
 				<figure>
 					<Link href={'/'}>
-						<Image src={logo} alt="gymshark clone loge" priority width={150} />
+						<Image src={logo} alt="gymshark clone logo" priority width={150} />
 					</Link>
 				</figure>
-				<Stack as="nav" direction="row" gap="xl" align="center">
-					<Link href={''}>
-						<Search size={20} />
-					</Link>
-					<Link href={''}>
-						<Heart size={20} />
-					</Link>
-					<Link href={''}>
-						<UserRound size={20} />
-					</Link>
-					<Link href={''}>
-						<ShoppingBag size={20} />
-					</Link>
-				</Stack>
+				<HeaderActions />
 			</Stack>
 			<Conditional test={shouldDisplayMenuRef.current}>
 				<SideMegaMenu
