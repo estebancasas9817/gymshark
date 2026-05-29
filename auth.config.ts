@@ -9,6 +9,7 @@ export const authConfig = {
 	callbacks: {
 		authorized({ auth, request: { nextUrl } }) {
 			const isLoggedIn = !!auth?.user;
+			// TODO: Update /my-account to /account
 			const isOnMyAccount = nextUrl.pathname.startsWith('/my-account');
 			const isOnSignIn = nextUrl.pathname === '/sign-in';
 			const isOnSignUp = nextUrl.pathname === '/sign-up';

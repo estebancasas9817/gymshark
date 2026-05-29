@@ -3,7 +3,7 @@ import { Footer } from '@/features/footer';
 import { HeaderWrapper } from '@/features/header/header-wrapper';
 import { ReactNode, Suspense } from 'react';
 
-const PublicLayout = ({ children }: { children: ReactNode }) => {
+const CoreLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<>
 			<div className="sticky top-0 z-30">
@@ -18,4 +18,4 @@ const PublicLayout = ({ children }: { children: ReactNode }) => {
 	);
 };
 
-export default PublicLayout;
+export default CoreLayout;
