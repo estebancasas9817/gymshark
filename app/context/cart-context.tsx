@@ -50,6 +50,7 @@ const updateOptimistic = (
 	}
 	return [...currentCart, newItem];
 };
+
 export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const router = useRouter();
 	const session = useSession();
@@ -64,9 +65,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 	useEffect(() => {
 		const getCart = async () => {
 			const res = await fetch('/api/cart');
-			const { success = false, data } = await res.json();
+			const { success = false, data, status } = await res.json();
 			if (success) {
 				setCartData(data);
+			} else if (status === 401) {
+				// * IF 401, meaning the session in the server expires, but in the client hasn't.
+				router.push('/sign-in');
 			}
 		};
 		if (userId) {
@@ -77,7 +81,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				setCartData(data);
 			}
 		}
-	}, [userId, cartVersion]);
+	}, [userId, cartVersion, router]);
 
 	const handleAddToCart = useCallback(
 		async (rest: CartItemFull) => {
@@ -95,7 +99,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
 					setCartVersion((prev) => prev + 1);
 				} else {
-					// * IF 401, meaning the session in the server expires, but in the client don't.
+					// * IF 401, meaning the session in the server expires, but in the client hasn't.
 					router.push('/sign-in');
 				}
 			} else {
