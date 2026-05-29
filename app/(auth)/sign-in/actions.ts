@@ -40,7 +40,7 @@ export const signInAction = async (
 		await signIn('credentials', {
 			email,
 			password,
-			redirectTo: '/my-account',
+			redirectTo: '/account',
 		});
 	} catch (error) {
 		// * IF USER HASN'T VERIFIED ACCOUNT
