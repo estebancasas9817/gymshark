@@ -3,6 +3,8 @@ import { Montserrat, Roboto } from 'next/font/google';
 import './globals.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { CartProvider } from './context/cart-context';
+import { SessionProvider } from 'next-auth/react';
 
 const montserrat = Montserrat({
 	subsets: ['latin'],
@@ -31,7 +33,9 @@ export default async function RootLayout({
 		<html lang="en">
 			<body className={`${montserrat.variable} ${roboto.variable} antialiased`}>
 				<NextIntlClientProvider messages={messages}>
-					{children}
+					<SessionProvider>
+						<CartProvider>{children}</CartProvider>
+					</SessionProvider>
 				</NextIntlClientProvider>
 			</body>
 		</html>
