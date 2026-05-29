@@ -1,5 +1,10 @@
-export const setItemsInLocalStorage = (key: string, value: any) => {
-	if (global.window !== undefined) {
+export const setItemsInLocalStorage = <T>(
+	key: string,
+	value: T,
+): { status: number } => {
+	if (typeof window !== 'undefined') {
 		localStorage.setItem(key, JSON.stringify(value));
+		return { status: 200 };
 	}
+	return { status: 500 };
 };
