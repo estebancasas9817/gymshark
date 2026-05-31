@@ -1,39 +1,16 @@
 'use client';
 
+import { useCart } from '@/app/context/cart-context';
 import { Stack } from '@/components/layout/stack';
-import { CartItemFull } from '@/libs/firebase/db/cart/get-cart';
-import { getItemsFromLocalStorage } from '@/utils/local-storage/get-items';
 import { Heart, Search, ShoppingBag, UserRound } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 export const HeaderActions = () => {
-	const session = useSession();
-	const userId = session.data?.user?.id;
-	const [cartData, setCartData] = useState<CartItemFull[] | []>();
-	const totalAmountOfProducts = cartData?.reduce((acc, cart) => {
-		const total = acc + cart.quantity;
-		return total;
-	}, 0);
-
-	useEffect(() => {
-		const getCart = async () => {
-			const res = await fetch('/api/cart');
-			const { success = false, data } = await res.json();
-			if (success) {
-				setCartData(data);
-			}
-		};
-		if (userId) {
-			getCart();
-		} else {
-			const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
-			if (data) {
-				setCartData(data);
-			}
-		}
-	}, [userId]);
+	const { optimisticState } = useCart();
+	const totalAmountOfProducts = optimisticState?.reduce(
+		(acc, cart) => acc + cart.quantity,
+		0,
+	);
 
 	return (
 		<Stack as="nav" direction="row" gap="xl" align="center">

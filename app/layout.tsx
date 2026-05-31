@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { CartProvider } from './context/cart-context';
 import { SessionProvider } from 'next-auth/react';
+import { CartMerge } from '@/features/cart/cart-merge';
 
 const montserrat = Montserrat({
 	subsets: ['latin'],
@@ -29,12 +30,18 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const messages = await getMessages();
+
 	return (
 		<html lang="en">
 			<body className={`${montserrat.variable} ${roboto.variable} antialiased`}>
 				<NextIntlClientProvider messages={messages}>
 					<SessionProvider>
-						<CartProvider>{children}</CartProvider>
+						<CartProvider>
+							<>
+								<CartMerge />
+								{children}
+							</>
+						</CartProvider>
 					</SessionProvider>
 				</NextIntlClientProvider>
 			</body>
