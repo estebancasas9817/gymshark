@@ -13,15 +13,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import styles from './product-card.module.css';
-import { useSession } from 'next-auth/react';
-import { addToCartAction } from '@/app/actions/actions';
-import { CartItem } from '@/types/cart';
-import { setItemsInLocalStorage } from '@/utils/local-storage/set-items';
+import { useCart } from '@/app/context/cart-context';
 
 interface ProductCardProps {
 	color: string;
 	name: string;
-	price: string;
+	price: number;
 	href: string;
 	imageSrc: string[];
 	desc: string;
@@ -45,7 +42,7 @@ export const ProductCard = ({
 	imageClassNames,
 	productCardClassNames,
 }: ProductCardProps) => {
-	const session = useSession();
+	const { handleAddToCart } = useCart();
 	const [isActiveHover, setIsActiveHover] = useState<boolean>(false);
 	const imgSrc =
 		isActiveHover && shouldUpdateImgOnHover ? imageSrc[1] : imageSrc[0];
@@ -57,41 +54,6 @@ export const ProductCard = ({
 
 	const handleMouseLeave = () => {
 		setIsActiveHover(false);
-	};
-
-	const handleAddToCart = async ({
-		quantity,
-		productId,
-		size,
-		skuId,
-	}: CartItem) => {
-		if (session.data?.user?.id) {
-			const { status } = await addToCartAction({
-				quantity,
-				productId,
-				size,
-				skuId,
-			});
-			if (status === 200) {
-				//
-			} else if (status === 401) {
-				setItemsInLocalStorage('cart', {
-					quantity,
-					productId,
-					size,
-					skuId,
-				});
-			} else {
-				// unexpected error
-			}
-		} else {
-			setItemsInLocalStorage('cart', {
-				quantity,
-				productId,
-				size,
-				skuId,
-			});
-		}
 	};
 
 	return (
@@ -131,6 +93,10 @@ export const ProductCard = ({
 										productId: variant.productId,
 										quantity: 1,
 										skuId: variant.id,
+										color,
+										name,
+										price,
+										image: imgSrc,
 									})
 								}
 							>

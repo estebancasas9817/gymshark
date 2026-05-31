@@ -17,6 +17,7 @@ import { useSession } from 'next-auth/react';
 import { CartItemFull } from '@/libs/firebase/db/cart/get-cart';
 import { getItemsFromLocalStorage } from '@/utils/local-storage/get-items';
 import { useRouter } from 'next/navigation';
+import { mergeCart } from '@/libs/firebase/db/cart/merge-cart';
 
 type Context = {
 	handleAddToCart: ({
@@ -34,22 +35,10 @@ type Context = {
 
 const CartContext = createContext<Context | null>(null);
 
-const updateOptimistic = (
-	currentCart: CartItemFull[] | [],
+export const mergeCartOptimistic = (
+	currentCart: CartItemFull[],
 	newItem: CartItemFull,
-) => {
-	const exists = currentCart.find(
-		(item) => item.skuId === newItem.skuId && item.size === newItem.size,
-	);
-	if (exists) {
-		return currentCart.map((item) =>
-			item.skuId === newItem.skuId && item.size === newItem.size
-				? { ...item, quantity: item.quantity + 1 }
-				: item,
-		);
-	}
-	return [...currentCart, newItem];
-};
+): CartItemFull[] => mergeCart(currentCart, newItem);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const router = useRouter();
@@ -58,7 +47,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const [cartVersion, setCartVersion] = useState<number>(0);
 	const [optimisticState, addOptimistic] = useOptimistic(
 		cartData,
-		updateOptimistic,
+		mergeCartOptimistic,
 	);
 	const userId = session.data?.user?.id;
 
@@ -106,8 +95,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
 				if (data) {
 					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
-					const updatedCart = updateOptimistic(data, rest);
-					setItemsInLocalStorage('cart', updateOptimistic(data, rest));
+					const updatedCart = mergeCart(data, rest);
+					setItemsInLocalStorage('cart', mergeCart(data, rest));
 					setCartData(updatedCart);
 				} else {
 					// * IF IT'S THE FIRST ITEM THE USER ADDS
@@ -128,4 +117,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
-export const useCart = () => useContext(CartContext);
+export const useCart = () => {
+	const context = useContext(CartContext);
+	if (!context) {
+		throw new Error(
+			'You need to wrap the provider in order to use the context',
+		);
+	}
+	return context;
+};

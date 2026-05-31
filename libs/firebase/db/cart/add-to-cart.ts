@@ -1,51 +1,25 @@
 import { FieldValue } from 'firebase-admin/firestore';
 import { db } from '../../init-firestore';
 import { CartItem } from '@/types/cart';
+import { mergeCartItems } from './merge-cart';
 
 type AddtoCartTypes = {
 	userId: string;
-	productId: string;
-	skuId: string;
-	size: string;
-	quantity: number;
+	cart: CartItem | CartItem[];
 };
 export const addToCart = async ({
+	cart,
 	userId,
-	productId,
-	skuId,
-	size,
-	quantity = 1,
-}: AddtoCartTypes): Promise<{ status: number }> => {
+}: AddtoCartTypes): Promise<{ status: 200 }> => {
 	const cartRef = db.collection('carts').doc(userId);
-
+	const cartItems = !Array.isArray(cart) ? [cart] : cart;
 	const snap = await cartRef.get();
+	const cartDataFirebase = snap.data();
+	const firebaseItems: CartItem[] = cartDataFirebase?.items ?? [];
+	const mergedItems = mergeCartItems(firebaseItems, cartItems);
 
-	if (!snap.exists) {
-		await cartRef.set({
-			items: [{ productId, skuId, quantity, size }],
-			updatedAt: FieldValue.serverTimestamp(),
-		});
-		return { status: 200 };
-	}
-
-	const data = snap.data();
-	const items: CartItem[] = data?.items ?? [];
-
-	const existingIndex = items.findIndex(
-		(item: CartItem) =>
-			item.productId === productId &&
-			item.skuId === skuId &&
-			item.size === size,
-	);
-
-	if (existingIndex > -1) {
-		items[existingIndex].quantity += quantity;
-	} else {
-		items.push({ productId, skuId, quantity, size });
-	}
-
-	await cartRef.update({
-		items,
+	await cartRef.set({
+		items: mergedItems,
 		updatedAt: FieldValue.serverTimestamp(),
 	});
 	return { status: 200 };

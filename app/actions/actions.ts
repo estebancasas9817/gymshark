@@ -5,12 +5,12 @@ import { addToCart } from '@/libs/firebase/db/cart/add-to-cart';
 import { CartItem } from '@/types/cart';
 import { revalidateTag } from 'next/cache';
 
-export const addToCartAction = async ({
-	productId,
-	skuId,
-	quantity,
-	size,
-}: CartItem): Promise<{ status: number; error?: string }> => {
+export const addToCartAction = async (
+	cart: CartItem | CartItem[],
+): Promise<{
+	status: 401 | 500 | 200;
+	error?: string;
+}> => {
 	try {
 		const session = await auth();
 		const userId = session?.user?.id;
@@ -18,7 +18,7 @@ export const addToCartAction = async ({
 			return { error: 'Unauthorized', status: 401 };
 		}
 
-		const res = await addToCart({ productId, quantity, size, skuId, userId });
+		const res = await addToCart({ cart, userId });
 		revalidateTag(`cart-${userId}`);
 		return res;
 	} catch (error) {
