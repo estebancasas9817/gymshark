@@ -3,15 +3,22 @@ import { Text } from '@/components/ui/text';
 
 export const XpProgressBar = () => {
 	return (
-		<div className="w-60 me-8 absolute top-60 left-148">
+		<div className="w-68 absolute top-60 left-144">
 			<progress
 				value={0}
 				max={1250}
 				className="w-full h-1 appearance-none [&::-webkit-progress-bar]:bg-gray-300 [&::-webkit-progress-value]:bg-black [&::-moz-progress-bar]:bg-black"
 			/>
 			<Stack direction="row" justify="between">
-				<Text as="span">0/1250px</Text>
-				<Text as="span">1250xp to go</Text>
+				<Text as="span" className="text-xs font-bold text-tier-1 font-sans">
+					0/1250px
+				</Text>
+				<Text
+					as="span"
+					className="font-bold font-sans text-xs text-tier-1 opacity-50 uppercase"
+				>
+					1250xp to go
+				</Text>
 			</Stack>
 		</div>
 	);

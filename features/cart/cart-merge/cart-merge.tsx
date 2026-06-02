@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 export const CartMerge = () => {
 	const session = useSession();
 	const router = useRouter();
-	const userId = session.data?.user?.id;
+	const user = session.data?.user?.email;
 
 	useEffect(() => {
 		const addToCart = async (items: CartItemFull[]) => {
@@ -26,10 +26,10 @@ export const CartMerge = () => {
 		const localStorageCartItems = getItemsFromLocalStorage<
 			CartItemFull[] | null
 		>('cart');
-		if (userId && localStorageCartItems) {
+		if (user && localStorageCartItems) {
 			addToCart(localStorageCartItems);
 		}
-	}, [userId, router]);
+	}, [user, router]);
 
 	return null;
 };
