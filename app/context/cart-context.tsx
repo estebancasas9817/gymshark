@@ -49,7 +49,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		cartData,
 		mergeCartOptimistic,
 	);
-	const userId = session.data?.user?.id;
+	const user = session.data?.user?.email;
 
 	useEffect(() => {
 		const getCart = async () => {
@@ -62,7 +62,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				router.push('/sign-in');
 			}
 		};
-		if (userId) {
+		if (user) {
 			getCart();
 		} else {
 			const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
@@ -70,11 +70,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				setCartData(data);
 			}
 		}
-	}, [userId, cartVersion, router]);
+	}, [user, cartVersion, router]);
 
 	const handleAddToCart = useCallback(
 		async (rest: CartItemFull) => {
-			if (userId) {
+			if (user) {
 				startTransition(() => {
 					addOptimistic({
 						...rest,
@@ -106,7 +106,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				}
 			}
 		},
-		[userId, router],
+		[user, router],
 	);
 
 	const value = useMemo(
