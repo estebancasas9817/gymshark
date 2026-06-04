@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export const HeaderActions = () => {
 	const session = useSession();
-	const { optimisticState } = useCart();
+	const { optimisticState, handleOpenDrawer } = useCart();
 	const totalAmountOfProducts = optimisticState?.reduce(
 		(acc, cart) => acc + cart.quantity,
 		0,
@@ -27,10 +27,10 @@ export const HeaderActions = () => {
 			<Link href={href}>
 				<UserRound size={20} />
 			</Link>
-			<Link href={''}>
-				{/* Here I add my totalAmountOfProducts if there are */}
+			{/* Here I add my totalAmountOfProducts if there are */}
+			<button onClick={handleOpenDrawer} className="cursor-pointer">
 				<ShoppingBag size={20} />
-			</Link>
+			</button>
 		</Stack>
 	);
 };

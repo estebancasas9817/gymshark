@@ -31,6 +31,9 @@ type Context = {
 		price,
 	}: CartItemFull) => Promise<void>;
 	optimisticState: CartItemFull[] | [];
+	handleOpenDrawer: () => void;
+	handleCloseDrawer: () => void;
+	isDrawerOpen: boolean;
 };
 
 const CartContext = createContext<Context | null>(null);
@@ -49,6 +52,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		cartData,
 		mergeCartOptimistic,
 	);
+	const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+
 	const user = session.data?.user?.email;
 
 	useEffect(() => {
@@ -72,6 +77,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}, [user, cartVersion, router]);
 
+	const handleOpenDrawer = useCallback(() => {
+		setIsDrawerOpen(true);
+	}, [isDrawerOpen, setIsDrawerOpen]);
+
+	const handleCloseDrawer = useCallback(() => {
+		setIsDrawerOpen(false);
+	}, [isDrawerOpen, setIsDrawerOpen]);
+
 	const handleAddToCart = useCallback(
 		async (rest: CartItemFull) => {
 			if (user) {
@@ -83,9 +96,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				const { status } = await addToCartAction({
 					...rest,
 				});
-				if (status === 200 || status === 500) {
+				if (status === 200) {
 					// * IF we could add the cart in the DB, or if there was an error, then we update the cart version, so that the optimisticState can be updated
-
+					handleOpenDrawer();
+					setCartVersion((prev) => prev + 1);
+				} else if (status === 500) {
 					setCartVersion((prev) => prev + 1);
 				} else {
 					// * IF 401, meaning the session in the server expires, but in the client hasn't.
@@ -104,14 +119,27 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 					setItemsInLocalStorage('cart', updatedCart);
 					setCartData(updatedCart);
 				}
+				handleOpenDrawer();
 			}
 		},
 		[user, router],
 	);
 
 	const value = useMemo(
-		() => ({ handleAddToCart, optimisticState }),
-		[handleAddToCart, optimisticState],
+		() => ({
+			handleAddToCart,
+			optimisticState,
+			handleOpenDrawer,
+			handleCloseDrawer,
+			isDrawerOpen,
+		}),
+		[
+			handleAddToCart,
+			optimisticState,
+			handleCloseDrawer,
+			handleOpenDrawer,
+			isDrawerOpen,
+		],
 	);
 
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
