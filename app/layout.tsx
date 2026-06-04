@@ -6,6 +6,7 @@ import { getMessages } from 'next-intl/server';
 import { CartProvider } from './context/cart-context';
 import { SessionProvider } from 'next-auth/react';
 import { CartMerge } from '@/features/cart/cart-merge';
+import { CartDrawer } from '@/features/cart-drawer';
 
 const montserrat = Montserrat({
 	subsets: ['latin'],
@@ -38,6 +39,7 @@ export default async function RootLayout({
 					<SessionProvider>
 						<CartProvider>
 							<>
+								<CartDrawer />
 								<CartMerge />
 								{children}
 							</>
