@@ -32,7 +32,7 @@ export const CartDrawer = () => {
 
 	return (
 		<div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-100">
-			<div className="absolute right-0 top-0 bg-secondary w-125 h-screen p-8">
+			<div className="absolute right-0 top-0 bg-secondary w-125 h-screen scroll-smooth overflow-y-auto">
 				<DrawerHeading />
 				<DrawerBody />
 				<DrawerFooter />

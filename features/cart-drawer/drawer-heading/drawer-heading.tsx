@@ -10,7 +10,13 @@ export const DrawerHeading = () => {
 	const { handleCloseDrawer } = useCart();
 
 	return (
-		<Stack direction="row" align="center" justify="between">
+		<Stack
+			direction="row"
+			align="center"
+			justify="between"
+			as="header"
+			className="fixed bg-secondary w-125 h-25 px-8"
+		>
 			<Heading as="h6" className="text-sm">
 				YOUR BAG
 			</Heading>
