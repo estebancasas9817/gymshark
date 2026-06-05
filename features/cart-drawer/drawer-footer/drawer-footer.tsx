@@ -8,7 +8,7 @@ import { ShoppingBag } from 'lucide-react';
 
 export const DrawerFooter = () => {
 	return (
-		<footer>
+		<footer className="sticky bottom-0 bg-secondary px-4 pt-4 w-120 h-30">
 			<Button radius="lg" className="w-full flex gap-4 mb-4 font-sans text-sm">
 				<ShoppingBag size={18} />
 				CHECKOUT SECURELY
