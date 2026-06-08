@@ -13,7 +13,7 @@ interface DrawerBodyProps {
 }
 
 export const DrawerBody = ({ onScroll }: DrawerBodyProps) => {
-	const { optimisticState, handleAddToCart } = useCart();
+	const { optimisticState } = useCart();
 
 	return (
 		<div
@@ -35,7 +35,6 @@ export const DrawerBody = ({ onScroll }: DrawerBodyProps) => {
 							quantity={quantity}
 							imageSrc={image}
 							productId={productId}
-							onUpdateQuantity={handleAddToCart}
 						/>
 					),
 				)}

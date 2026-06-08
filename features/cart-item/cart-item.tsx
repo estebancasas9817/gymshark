@@ -4,7 +4,7 @@ import { Plus, Minus, Heart } from 'lucide-react';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { Stack } from '@/components/layout/stack';
-import { CartItemFull } from '@/libs/firebase/db/cart/get-cart';
+import { useCart } from '@/app/context/cart-context';
 
 export interface CartItemProduct {
 	id: string;
@@ -27,7 +27,6 @@ interface CartItemProps {
 	isFavorite?: boolean;
 	imageSrc: string;
 	productId: string;
-	onUpdateQuantity: (item: CartItemFull) => Promise<void>;
 	onToggleFavorite?: (id: string) => void;
 }
 
@@ -41,17 +40,24 @@ export const CartItem: React.FC<CartItemProps> = ({
 	isFavorite,
 	imageSrc,
 	productId,
-	onUpdateQuantity,
 	onToggleFavorite,
 }) => {
-	const handleDecrease = () => {
-		// if (quantity > 1) {
-		// 	onUpdateQuantity(id, quantity - 1);
-		// }
+	const { handleAddToCart, handleDecreaseCartQuantity } = useCart();
+	const handleDecrease = async () => {
+		await handleDecreaseCartQuantity({
+			size,
+			productId,
+			quantity: 1,
+			skuId: id,
+			color,
+			name,
+			price,
+			image: imageSrc,
+		});
 	};
 
 	const handleIncrease = async () => {
-		await onUpdateQuantity({
+		await handleAddToCart({
 			size,
 			productId,
 			quantity: 1,

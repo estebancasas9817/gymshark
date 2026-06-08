@@ -1,7 +1,12 @@
 import { CartItem } from '@/types/cart';
 
 export const mergeCart = <
-	T extends { skuId: string; size: string; quantity: number },
+	T extends {
+		skuId: string;
+		size: string;
+		quantity: number;
+		shouldDecreaseQuantity?: boolean;
+	},
 >(
 	currentCart: T[],
 	newItem: T,
@@ -10,11 +15,17 @@ export const mergeCart = <
 		(item) => item.skuId === newItem.skuId && item.size === newItem.size,
 	);
 	if (exists) {
-		return currentCart.map((item) =>
-			item.skuId === newItem.skuId && item.size === newItem.size
-				? { ...item, quantity: item.quantity + newItem.quantity }
-				: item,
-		);
+		return currentCart
+			.map((item) => {
+				if (item.skuId === newItem.skuId && item.size === newItem.size) {
+					const quantity = newItem.shouldDecreaseQuantity
+						? item.quantity - newItem.quantity
+						: item.quantity + newItem.quantity;
+					return { ...item, quantity };
+				}
+				return item;
+			})
+			.filter((item) => item.quantity !== 0);
 	}
 	return [...currentCart, newItem];
 };

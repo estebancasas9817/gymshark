@@ -11,7 +11,7 @@ import {
 	useState,
 	useTransition,
 } from 'react';
-import { addToCartAction } from '../actions/actions';
+import { addToCartAction, deleteCartAction } from '../actions/actions';
 import { setItemsInLocalStorage } from '@/utils/local-storage/set-items';
 import { useSession } from 'next-auth/react';
 import { CartItemFull } from '@/libs/firebase/db/cart/get-cart';
@@ -30,6 +30,16 @@ type Context = {
 		image,
 		price,
 	}: CartItemFull) => Promise<void>;
+	handleDecreaseCartQuantity: ({
+		quantity,
+		productId,
+		size,
+		skuId,
+		name,
+		color,
+		image,
+		price,
+	}: CartItemFull) => Promise<void>;
 	optimisticState: CartItemFull[] | [];
 	handleOpenDrawer: () => void;
 	handleCloseDrawer: () => void;
@@ -37,11 +47,15 @@ type Context = {
 	isPending: boolean;
 };
 
+type NewItem = CartItemFull & {
+	shouldDecreaseQuantity?: boolean;
+};
+
 const CartContext = createContext<Context | null>(null);
 
 export const mergeCartOptimistic = (
 	currentCart: CartItemFull[],
-	newItem: CartItemFull,
+	newItem: NewItem,
 ): CartItemFull[] => mergeCart(currentCart, newItem);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
@@ -87,6 +101,43 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		setIsDrawerOpen(false);
 	}, [isDrawerOpen, setIsDrawerOpen]);
 
+	const handleDecreaseCartQuantity = useCallback(
+		async (rest: CartItemFull) => {
+			if (user) {
+				startTransition(() => {
+					addOptimistic({
+						...rest,
+						shouldDecreaseQuantity: true,
+					});
+				});
+				const { status } = await deleteCartAction({
+					...rest,
+				});
+				if (status === 200) {
+					// * IF we could delete the cart in the DB, or if there was an error, then we update the cart version, so that the optimisticState can be updated
+					setCartVersion((prev) => prev + 1);
+				} else if (status === 500) {
+					setCartVersion((prev) => prev + 1);
+				} else {
+					// * IF 401, meaning the session in the server expires, but in the client hasn't.
+					router.push('/sign-in');
+				}
+			} else {
+				const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
+				if (data) {
+					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
+					const updatedCart = mergeCart(data, {
+						...rest,
+						shouldDecreaseQuantity: true,
+					});
+					setItemsInLocalStorage('cart', updatedCart);
+					setCartData(updatedCart);
+				}
+			}
+		},
+		[user, router],
+	);
+
 	const handleAddToCart = useCallback(
 		async (rest: CartItemFull) => {
 			if (user) {
@@ -113,7 +164,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				if (data) {
 					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
 					const updatedCart = mergeCart(data, rest);
-					setItemsInLocalStorage('cart', mergeCart(data, rest));
+					setItemsInLocalStorage('cart', updatedCart);
 					setCartData(updatedCart);
 				} else {
 					// * IF IT'S THE FIRST ITEM THE USER ADDS
@@ -135,6 +186,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			handleCloseDrawer,
 			isDrawerOpen,
 			isPending,
+			handleDecreaseCartQuantity,
 		}),
 		[
 			handleAddToCart,
@@ -143,6 +195,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			handleOpenDrawer,
 			isDrawerOpen,
 			isPending,
+			handleDecreaseCartQuantity,
 		],
 	);
 
