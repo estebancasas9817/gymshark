@@ -4,11 +4,22 @@ import { Stack } from '@/components/layout/stack';
 import { Button } from '@/components/ui/button';
 import { PaymentMethods } from '@/components/ui/payment-methods';
 import { PAYMENT_METHODS } from '@/features/footer/footer-promos/constants';
+import { cn } from '@/utils/cn/cn';
 import { ShoppingBag } from 'lucide-react';
 
-export const DrawerFooter = () => {
+interface DrawerFooterProps {
+	isScrolling: boolean;
+}
+
+export const DrawerFooter = ({ isScrolling }: DrawerFooterProps) => {
 	return (
-		<footer className="sticky bottom-0 bg-secondary px-4 pt-4 w-120 h-30">
+		<footer
+			className={cn(
+				'sticky bottom-0 bg-secondary px-4 pt-4 w-121 h-30',
+				isScrolling &&
+					'border-t border-gray-100 shadow-[0_-0.9rem_0.9rem_0_rgba(0,0,0,0.11)]',
+			)}
+		>
 			<Button radius="lg" className="w-full flex gap-4 mb-4 font-sans text-sm">
 				<ShoppingBag size={18} />
 				CHECKOUT SECURELY
