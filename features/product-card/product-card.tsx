@@ -42,7 +42,7 @@ export const ProductCard = ({
 	imageClassNames,
 	productCardClassNames,
 }: ProductCardProps) => {
-	const { handleAddToCart } = useCart();
+	const { handleAddToCart, isPending } = useCart();
 	const [isActiveHover, setIsActiveHover] = useState<boolean>(false);
 	const imgSrc =
 		isActiveHover && shouldUpdateImgOnHover ? imageSrc[1] : imageSrc[0];
@@ -87,8 +87,8 @@ export const ProductCard = ({
 								variant="secondary"
 								size="sm"
 								key={size}
-								onClick={() =>
-									handleAddToCart({
+								onClick={async () =>
+									await handleAddToCart({
 										size,
 										productId: variant.productId,
 										quantity: 1,
@@ -100,7 +100,9 @@ export const ProductCard = ({
 									})
 								}
 							>
-								{size}
+								<Conditional test={isPending} fallback={size}>
+									<div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+								</Conditional>
 							</Button>
 						))}
 					</div>

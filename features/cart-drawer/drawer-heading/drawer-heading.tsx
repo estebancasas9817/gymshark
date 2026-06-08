@@ -21,7 +21,7 @@ export const DrawerHeading = ({ isScrolling }: DrawerHeadingProps) => {
 			justify="between"
 			as="header"
 			className={cn(
-				'fixed bg-secondary w-125 h-25 px-8',
+				'fixed bg-secondary w-125 h-25 px-8 z-10',
 				isScrolling &&
 					'border-b border-gray-100 shadow-[0_0.9rem_0.9rem_0_rgba(0,0,0,0.11)]',
 			)}

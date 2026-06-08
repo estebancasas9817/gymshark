@@ -2,6 +2,7 @@
 
 import { useCart } from '@/app/context/cart-context';
 import { Stack } from '@/components/layout/stack';
+import { Text } from '@/components/ui/text';
 import { Heart, Search, ShoppingBag, UserRound } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -27,9 +28,14 @@ export const HeaderActions = () => {
 			<Link href={href}>
 				<UserRound size={20} />
 			</Link>
-			{/* Here I add my totalAmountOfProducts if there are */}
-			<button onClick={handleOpenDrawer} className="cursor-pointer">
+			<button onClick={handleOpenDrawer} className="cursor-pointer relative">
 				<ShoppingBag size={20} />
+				<Text
+					as="span"
+					className="px-1.5 py-0.5 font-bold rounded-full bg-blue-500 text-secondary absolute -top-2 z-10 -right-3 text-xs"
+				>
+					{totalAmountOfProducts}
+				</Text>
 			</button>
 		</Stack>
 	);
