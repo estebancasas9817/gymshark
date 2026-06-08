@@ -1,6 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 import { Plus, Minus, Heart } from 'lucide-react';
+import { Heading } from '@/components/ui/heading';
+import { Text } from '@/components/ui/text';
+import { Stack } from '@/components/layout/stack';
+import { CartItemFull } from '@/libs/firebase/db/cart/get-cart';
 
 export interface CartItemProduct {
 	id: string;
@@ -22,7 +26,8 @@ interface CartItemProps {
 	quantity: number;
 	isFavorite?: boolean;
 	imageSrc: string;
-	onUpdateQuantity?: (id: string, newQuantity: number) => void;
+	productId: string;
+	onUpdateQuantity: (item: CartItemFull) => Promise<void>;
 	onToggleFavorite?: (id: string) => void;
 }
 
@@ -35,6 +40,7 @@ export const CartItem: React.FC<CartItemProps> = ({
 	quantity,
 	isFavorite,
 	imageSrc,
+	productId,
 	onUpdateQuantity,
 	onToggleFavorite,
 }) => {
@@ -44,8 +50,17 @@ export const CartItem: React.FC<CartItemProps> = ({
 		// }
 	};
 
-	const handleIncrease = () => {
-		// onUpdateQuantity(id, quantity + 1);
+	const handleIncrease = async () => {
+		await onUpdateQuantity({
+			size,
+			productId,
+			quantity: 1,
+			skuId: id,
+			color,
+			name,
+			price,
+			image: imageSrc,
+		});
 	};
 
 	return (
@@ -62,14 +77,19 @@ export const CartItem: React.FC<CartItemProps> = ({
 			</div>
 
 			<div className="flex flex-1 flex-col justify-between">
-				<div className="flex justify-between gap-2">
+				<Stack
+					direction="row"
+					justify="between"
+					align="start"
+					className="gap-2"
+				>
 					<div className="flex flex-col gap-0.5">
-						<h3 className="text-[15px] font-medium leading-tight text-[#111111] hover:underline cursor-pointer">
+						<Heading as="h6" className="text-xs font-medium cursor-pointer">
 							{name}
-						</h3>
-						<p className="text-[14px] text-[#767676]">
+						</Heading>
+						<Text as="p" className="text-xs text-tertiary">
 							{color} • {size}
-						</p>
+						</Text>
 					</div>
 
 					<button
@@ -84,23 +104,29 @@ export const CartItem: React.FC<CartItemProps> = ({
 							strokeWidth={1.5}
 						/>
 					</button>
-				</div>
+				</Stack>
 
 				<div className="flex items-center justify-between mt-4">
 					<div className="flex items-center gap-2 text-[15px] font-bold text-[#111111]">
-						<span>${price.toFixed(2).replace('.00', '')}</span>
-						{/* {originalPrice && (
-							<span className="text-[14px] font-normal text-red-600 line-through">
-								${originalPrice.toFixed(2).replace('.00', '')}
-							</span>
-						)} */}
+						<Text as="span" className="text-xs">
+							${price.toFixed(2).replace('.00', '')}
+						</Text>
+						{true && (
+							<Text
+								as="span"
+								className="text-xs font-normal text-red-600 line-through"
+							>
+								{/* ${10.toFixed(2).replace('.00', '')}
+								 */}
+								10
+							</Text>
+						)}
 					</div>
 
 					<div className="flex items-center border border-transparent bg-white">
 						<button
 							onClick={handleDecrease}
-							disabled={quantity <= 1}
-							className="flex h-8 w-8 items-center justify-center text-[#111111] transition-opacity disabled:opacity-30"
+							className="flex h-8 w-8 items-center justify-center text-[#111111] transition-opacity disabled:opacity-30 cursor-pointer"
 							aria-label="Decrease quantity"
 						>
 							<Minus className="h-4 w-4" strokeWidth={2} />
@@ -112,7 +138,7 @@ export const CartItem: React.FC<CartItemProps> = ({
 
 						<button
 							onClick={handleIncrease}
-							className="flex h-8 w-8 items-center justify-center text-[#111111]"
+							className="flex h-8 w-8 items-center justify-center text-[#111111] cursor-pointer"
 							aria-label="Increase quantity"
 						>
 							<Plus className="h-4 w-4" strokeWidth={2} />

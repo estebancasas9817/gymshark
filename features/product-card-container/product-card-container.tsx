@@ -21,7 +21,7 @@ export const ProductCardContainer = ({
 				<ProductCard
 					key={id}
 					name={name}
-					price={basePrice.toString()}
+					price={basePrice}
 					color={skus.color}
 					desc={name}
 					href={href}

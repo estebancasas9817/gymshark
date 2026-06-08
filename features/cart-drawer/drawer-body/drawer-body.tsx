@@ -13,8 +13,7 @@ interface DrawerBodyProps {
 }
 
 export const DrawerBody = ({ onScroll }: DrawerBodyProps) => {
-	const { optimisticState } = useCart();
-	console.log('[object]', { optimisticState });
+	const { optimisticState, handleAddToCart } = useCart();
 
 	return (
 		<div
@@ -25,7 +24,7 @@ export const DrawerBody = ({ onScroll }: DrawerBodyProps) => {
 			<CartNotice />
 			<div className="flex flex-col">
 				{optimisticState.map(
-					({ name, color, image, price, quantity, size, skuId }) => (
+					({ name, color, image, price, quantity, size, skuId, productId }) => (
 						<CartItem
 							key={skuId}
 							name={name}
@@ -35,6 +34,8 @@ export const DrawerBody = ({ onScroll }: DrawerBodyProps) => {
 							size={size}
 							quantity={quantity}
 							imageSrc={image}
+							productId={productId}
+							onUpdateQuantity={handleAddToCart}
 						/>
 					),
 				)}

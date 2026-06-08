@@ -13,13 +13,13 @@ export const addToCartAction = async (
 }> => {
 	try {
 		const session = await auth();
-		const userId = session?.user?.id;
-		if (!userId) {
+		const userEmail = session?.user?.email;
+		if (!userEmail) {
 			return { error: 'Unauthorized', status: 401 };
 		}
 
-		const res = await addToCart({ cart, userId });
-		revalidateTag(`cart-${userId}`);
+		const res = await addToCart({ cart, userEmail });
+		revalidateTag(`cart-${userEmail}`);
 		return res;
 	} catch (error) {
 		return { error: 'Unexpected error', status: 500 };

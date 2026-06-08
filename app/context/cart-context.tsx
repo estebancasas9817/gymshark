@@ -3,13 +3,13 @@
 import {
 	createContext,
 	ReactNode,
-	startTransition,
 	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
 	useOptimistic,
 	useState,
+	useTransition,
 } from 'react';
 import { addToCartAction } from '../actions/actions';
 import { setItemsInLocalStorage } from '@/utils/local-storage/set-items';
@@ -34,6 +34,7 @@ type Context = {
 	handleOpenDrawer: () => void;
 	handleCloseDrawer: () => void;
 	isDrawerOpen: boolean;
+	isPending: boolean;
 };
 
 const CartContext = createContext<Context | null>(null);
@@ -52,6 +53,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		cartData,
 		mergeCartOptimistic,
 	);
+	const [isPending, startTransition] = useTransition();
 	const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
 	const user = session.data?.user?.email;
@@ -132,6 +134,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			handleOpenDrawer,
 			handleCloseDrawer,
 			isDrawerOpen,
+			isPending,
 		}),
 		[
 			handleAddToCart,
@@ -139,6 +142,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			handleCloseDrawer,
 			handleOpenDrawer,
 			isDrawerOpen,
+			isPending,
 		],
 	);
 
