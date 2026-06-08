@@ -4,9 +4,14 @@ import { useCart } from '@/app/context/cart-context';
 import { Stack } from '@/components/layout/stack';
 import { Heading } from '@/components/ui/heading';
 import { WishlistToggle } from '@/components/ui/wishlist-toggle';
+import { cn } from '@/utils/cn/cn';
 import { X } from 'lucide-react';
 
-export const DrawerHeading = () => {
+interface DrawerHeadingProps {
+	isScrolling: boolean;
+}
+
+export const DrawerHeading = ({ isScrolling }: DrawerHeadingProps) => {
 	const { handleCloseDrawer } = useCart();
 
 	return (
@@ -15,7 +20,11 @@ export const DrawerHeading = () => {
 			align="center"
 			justify="between"
 			as="header"
-			className="fixed bg-secondary w-125 h-25 px-8"
+			className={cn(
+				'fixed bg-secondary w-125 h-25 px-8',
+				isScrolling &&
+					'border-b border-gray-100 shadow-[0_0.9rem_0.9rem_0_rgba(0,0,0,0.11)]',
+			)}
 		>
 			<Heading as="h6" className="text-sm">
 				YOUR BAG

@@ -1,8 +1,13 @@
 'use client';
 
+import { CartNotice } from '@/components/ui/cart-notice';
+import { ShippingProgressBar } from '@/components/ui/shipping-progress-bar';
+
 export const DrawerBody = () => {
 	return (
-		<div className="px-8">
+		<div className="px-8 pt-25">
+			<ShippingProgressBar currentAmount={20} targetAmount={75} />
+			<CartNotice />
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quos quae
 			aperiam expedita facere aliquid explicabo, sapiente alias cupiditate quo!
 			Tempora iure voluptate unde quos quasi, amet illum eaque velit quaerat
