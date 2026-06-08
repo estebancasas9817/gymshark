@@ -15,7 +15,7 @@ export const DrawerFooter = ({ isScrolling }: DrawerFooterProps) => {
 	return (
 		<footer
 			className={cn(
-				'sticky bottom-0 bg-secondary px-4 pt-4 w-121 h-30',
+				'sticky bottom-0 bg-secondary px-4 pt-4 w-full h-30',
 				isScrolling &&
 					'border-t border-gray-100 shadow-[0_-0.9rem_0.9rem_0_rgba(0,0,0,0.11)]',
 			)}
