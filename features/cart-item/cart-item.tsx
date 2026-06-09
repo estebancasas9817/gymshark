@@ -70,7 +70,7 @@ export const CartItem: React.FC<CartItemProps> = ({
 	};
 
 	return (
-		<div className="flex w-full gap-4 border-b border-gray-100 bg-white py-5 font-sans">
+		<div className="flex w-full gap-4 border-b border-gray-100 py-5 font-sans">
 			<div className="relative h-32.5 w-25 shrink-0 overflow-hidden bg-[#F2F2F2]">
 				<Image
 					src={imageSrc}

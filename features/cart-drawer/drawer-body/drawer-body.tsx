@@ -6,6 +6,7 @@ import { DiscountCode } from '@/components/ui/discount-code';
 import { OrderSummary } from '@/components/ui/order-summary';
 import { ShippingProgressBar } from '@/components/ui/shipping-progress-bar';
 import { CartItem } from '@/features/cart-item';
+import { cn } from '@/utils/cn/cn';
 import { UIEvent } from 'react';
 
 interface DrawerBodyProps {
@@ -13,7 +14,7 @@ interface DrawerBodyProps {
 }
 
 export const DrawerBody = ({ onScroll }: DrawerBodyProps) => {
-	const { optimisticState } = useCart();
+	const { optimisticState, isPending } = useCart();
 
 	return (
 		<div
@@ -22,7 +23,9 @@ export const DrawerBody = ({ onScroll }: DrawerBodyProps) => {
 		>
 			<ShippingProgressBar currentAmount={20} targetAmount={75} />
 			<CartNotice />
-			<div className="flex flex-col">
+			<div
+				className={cn('flex flex-col', isPending && 'opacity-40 bg-secondary')}
+			>
 				{optimisticState.map(
 					({ name, color, image, price, quantity, size, skuId, productId }) => (
 						<CartItem

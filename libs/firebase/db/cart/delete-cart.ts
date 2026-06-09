@@ -16,6 +16,10 @@ export const deleteCart = async ({
 	const snap = await cartRef.get();
 	const cartDataFirebase = snap.data();
 	const firebaseItems: CartItem[] = cartDataFirebase?.items ?? [];
+	if (firebaseItems.length === 1) {
+		await cartRef.delete();
+		return { status: 200 };
+	}
 	const mergedItems = mergeCartItems(firebaseItems, cartItems);
 
 	await cartRef.set({
