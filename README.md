@@ -67,9 +67,10 @@ The project follows a modular structure designed for maintainability and Separat
 
 - [x] Order confirmation and password reset via Resend & React Email.
 
-### Phase 7: Cart System (In Progress 📍)
+### Phase 7: Cart System & Wishlist System (In Progress 📍)
 
-- [ ] Global state management and cart persistence.
+- [x] Global state management and cart persistence.
+- [ ] Global state management and wishlist persistence.
 
 ### Phase 8: Advanced Security
 

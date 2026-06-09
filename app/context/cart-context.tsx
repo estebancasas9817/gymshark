@@ -18,6 +18,7 @@ import { CartItemFull } from '@/libs/firebase/db/cart/get-cart';
 import { getItemsFromLocalStorage } from '@/utils/local-storage/get-items';
 import { useRouter } from 'next/navigation';
 import { mergeCart } from '@/libs/firebase/db/cart/merge-cart';
+import { deleteItemsInLocalStorage } from '@/utils/local-storage/delete-items';
 
 type Context = {
 	handleAddToCart: ({
@@ -61,23 +62,41 @@ export const mergeCartOptimistic = (
 export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const router = useRouter();
 	const session = useSession();
-	const [cartData, setCartData] = useState<CartItemFull[] | []>([]);
-	const [cartVersion, setCartVersion] = useState<number>(0);
-	const [optimisticState, addOptimistic] = useOptimistic(
-		cartData,
-		mergeCartOptimistic,
+	const [optimisticState, setOptimisticState] = useState<CartItemFull[] | []>(
+		[],
 	);
+	const [cartVersion, setCartVersion] = useState<number>(0);
 	const [isPending, startTransition] = useTransition();
 	const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
 	const user = session.data?.user?.email;
 
 	useEffect(() => {
+		// * MERGE CART FROM LOCAL STORAGE WITH CART FROM DB
+		const addToCart = async (items: CartItemFull[]) => {
+			const { status } = await addToCartAction(items);
+			if (status === 200) {
+				deleteItemsInLocalStorage('cart');
+			} else if (status === 401) {
+				router.push('/sign-in');
+			}
+		};
+
+		const localStorageCartItems = getItemsFromLocalStorage<
+			CartItemFull[] | null
+		>('cart');
+		if (user && localStorageCartItems) {
+			addToCart(localStorageCartItems);
+		}
+	}, [user, router]);
+
+	useEffect(() => {
+		// * FETCH GET-CART ON FIRST CALL OR WHEN ADD-TO-CART FAILS
 		const getCart = async () => {
 			const res = await fetch('/api/cart');
 			const { success = false, data, status } = await res.json();
 			if (success) {
-				setCartData(data);
+				setOptimisticState(data);
 			} else if (status === 401) {
 				// * IF 401, meaning the session in the server expires, but in the client hasn't.
 				router.push('/sign-in');
@@ -88,10 +107,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		} else {
 			const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
 			if (data) {
-				setCartData(data);
+				setOptimisticState(data);
 			}
 		}
-	}, [user, cartVersion, router]);
+	}, [user, router, setOptimisticState, cartVersion]);
 
 	const handleOpenDrawer = useCallback(() => {
 		setIsDrawerOpen(true);
@@ -104,78 +123,76 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const handleDecreaseCartQuantity = useCallback(
 		async (rest: CartItemFull) => {
 			if (user) {
-				startTransition(() => {
-					addOptimistic({
-						...rest,
-						shouldDecreaseQuantity: true,
-					});
-				});
-				const { status } = await deleteCartAction({
+				const optimisticCart = mergeCart(optimisticState, {
 					...rest,
+					shouldDecreaseQuantity: true,
 				});
-				if (status === 200) {
-					// * IF we could delete the cart in the DB, or if there was an error, then we update the cart version, so that the optimisticState can be updated
-					setCartVersion((prev) => prev + 1);
-				} else if (status === 500) {
-					setCartVersion((prev) => prev + 1);
-				} else {
-					// * IF 401, meaning the session in the server expires, but in the client hasn't.
-					router.push('/sign-in');
-				}
+				startTransition(async () => {
+					const { status } = await deleteCartAction({
+						...rest,
+					});
+					if (status === 200) {
+						// * IF we could delete the cart in the DB, or if there was an error, then we update the cart version, so that the optimisticState can be updated
+						setOptimisticState(optimisticCart);
+					} else if (status === 500) {
+						setCartVersion((prev) => prev + 1);
+					} else {
+						// * IF 401, meaning the session in the server expires, but in the client hasn't.
+						router.push('/sign-in');
+					}
+				});
 			} else {
 				const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
 				if (data) {
 					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
-					const updatedCart = mergeCart(data, {
+					const optimisticCart = mergeCart(data, {
 						...rest,
 						shouldDecreaseQuantity: true,
 					});
-					setItemsInLocalStorage('cart', updatedCart);
-					setCartData(updatedCart);
+					setItemsInLocalStorage('cart', optimisticCart);
+					setOptimisticState(optimisticCart);
 				}
 			}
 		},
-		[user, router],
+		[user, router, optimisticState, setOptimisticState],
 	);
 
 	const handleAddToCart = useCallback(
 		async (rest: CartItemFull) => {
 			if (user) {
-				startTransition(() => {
-					addOptimistic({
+				const optimisticCartData = mergeCart(optimisticState, rest);
+				startTransition(async () => {
+					const { status } = await addToCartAction({
 						...rest,
 					});
+					if (status === 200) {
+						// * IF we could add the cart in the DB, or if there was an error, then we update the cart version, so that the optimisticState can be updated
+						handleOpenDrawer();
+						setOptimisticState(optimisticCartData);
+					} else if (status === 500) {
+						setCartVersion((prev) => prev + 1);
+					} else {
+						// * IF 401, meaning the session in the server expires, but in the client hasn't.
+						router.push('/sign-in');
+					}
 				});
-				const { status } = await addToCartAction({
-					...rest,
-				});
-				if (status === 200) {
-					// * IF we could add the cart in the DB, or if there was an error, then we update the cart version, so that the optimisticState can be updated
-					handleOpenDrawer();
-					setCartVersion((prev) => prev + 1);
-				} else if (status === 500) {
-					setCartVersion((prev) => prev + 1);
-				} else {
-					// * IF 401, meaning the session in the server expires, but in the client hasn't.
-					router.push('/sign-in');
-				}
 			} else {
 				const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
 				if (data) {
 					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
 					const updatedCart = mergeCart(data, rest);
 					setItemsInLocalStorage('cart', updatedCart);
-					setCartData(updatedCart);
+					setOptimisticState(updatedCart);
 				} else {
 					// * IF IT'S THE FIRST ITEM THE USER ADDS
 					const updatedCart = [rest];
 					setItemsInLocalStorage('cart', updatedCart);
-					setCartData(updatedCart);
+					setOptimisticState(updatedCart);
 				}
 				handleOpenDrawer();
 			}
 		},
-		[user, router],
+		[user, router, optimisticState, setOptimisticState],
 	);
 
 	const value = useMemo(

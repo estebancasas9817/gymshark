@@ -39,7 +39,7 @@ export default function Page() {
 
 	const handleGoogleLogin = async () => {
 		setIsGooglePending(true);
-		await signIn('google', { redirectTo: '/my-account' });
+		await signIn('google', { redirectTo: '/account' });
 		setIsGooglePending(false);
 	};
 
