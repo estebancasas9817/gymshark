@@ -6,6 +6,7 @@ import { getMessages } from 'next-intl/server';
 import { CartProvider } from './context/cart-context';
 import { SessionProvider } from 'next-auth/react';
 import { CartDrawer } from '@/features/cart-drawer';
+import { WishlistProvider } from './context/wishlist-context';
 
 const montserrat = Montserrat({
 	subsets: ['latin'],
@@ -37,10 +38,12 @@ export default async function RootLayout({
 				<NextIntlClientProvider messages={messages}>
 					<SessionProvider>
 						<CartProvider>
-							<>
-								<CartDrawer />
-								{children}
-							</>
+							<WishlistProvider>
+								<>
+									<CartDrawer />
+									{children}
+								</>
+							</WishlistProvider>
 						</CartProvider>
 					</SessionProvider>
 				</NextIntlClientProvider>

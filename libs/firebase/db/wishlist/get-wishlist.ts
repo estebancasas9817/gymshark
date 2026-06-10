@@ -10,7 +10,6 @@ export type WishlistItemFull = {
 	price: number;
 	image: string;
 	color: string;
-	size: string;
 };
 
 export const getWishlist = (userEmail: string): Promise<WishlistItemFull[]> => {
