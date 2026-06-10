@@ -7,7 +7,6 @@ import {
 	useContext,
 	useEffect,
 	useMemo,
-	useOptimistic,
 	useState,
 	useTransition,
 } from 'react';
@@ -53,11 +52,6 @@ type NewItem = CartItemFull & {
 };
 
 const CartContext = createContext<Context | null>(null);
-
-export const mergeCartOptimistic = (
-	currentCart: CartItemFull[],
-	newItem: NewItem,
-): CartItemFull[] => mergeCart(currentCart, newItem);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const router = useRouter();
