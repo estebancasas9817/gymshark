@@ -14,6 +14,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import styles from './product-card.module.css';
 import { useCart } from '@/app/context/cart-context';
+import { useWishlist } from '@/app/context/wishlist-context';
+import { WishlistItemFull } from '@/libs/firebase/db/wishlist/get-wishlist';
 
 interface ProductCardProps {
 	color: string;
@@ -43,17 +45,36 @@ export const ProductCard = ({
 	productCardClassNames,
 }: ProductCardProps) => {
 	const { handleAddToCart, isPending } = useCart();
+	const { handleDeleteWishlist, handleAddToWishlist, optimisticState } =
+		useWishlist();
 	const [isActiveHover, setIsActiveHover] = useState<boolean>(false);
 	const imgSrc =
 		isActiveHover && shouldUpdateImgOnHover ? imageSrc[1] : imageSrc[0];
 	const fullPrice = +price + (discount ? +discount : 0);
-
+	const isInFavorites = !!optimisticState.find(
+		(item) => item.skuId === variant.id,
+	);
 	const handleMouseEnter = () => {
 		setIsActiveHover(true);
 	};
 
 	const handleMouseLeave = () => {
 		setIsActiveHover(false);
+	};
+
+	const handleFavorites = ({
+		productId,
+		skuId,
+		color,
+		name,
+		price,
+		image,
+	}: WishlistItemFull) => {
+		if (isInFavorites) {
+			handleDeleteWishlist({ productId, skuId, color, name, price, image });
+		} else {
+			handleAddToWishlist({ productId, skuId, color, name, price, image });
+		}
 	};
 
 	return (
@@ -87,8 +108,8 @@ export const ProductCard = ({
 								variant="secondary"
 								size="sm"
 								key={size}
-								onClick={async () =>
-									await handleAddToCart({
+								onClick={() =>
+									handleAddToCart({
 										size,
 										productId: variant.productId,
 										quantity: 1,
@@ -110,8 +131,20 @@ export const ProductCard = ({
 				<Conditional test={shouldUpdateImgOnHover}>
 					<Badge className="absolute bottom-2 left-2"> NEW </Badge>
 				</Conditional>
-				<ActionPill className="absolute top-2 right-2 rounded-full p-2 cursor-pointer">
-					<Heart size={16} />
+				<ActionPill
+					className="absolute top-2 right-2 rounded-full p-2 cursor-pointer"
+					onClick={() => {
+						handleFavorites({
+							productId: variant.productId,
+							skuId: variant.id,
+							color,
+							name,
+							price,
+							image: imgSrc,
+						});
+					}}
+				>
+					<Heart size={16} fill={isInFavorites ? 'black' : 'transparent'} />
 				</ActionPill>
 			</figure>
 			<Link href={href}>

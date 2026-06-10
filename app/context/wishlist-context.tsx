@@ -22,7 +22,6 @@ import { mergeWishlist } from '@/libs/firebase/db/wishlist/merge-wishlist';
 type Context = {
 	handleAddToWishlist: ({
 		productId,
-		size,
 		skuId,
 		name,
 		color,
@@ -31,7 +30,6 @@ type Context = {
 	}: WishlistItemFull) => Promise<void>;
 	handleDeleteWishlist: ({
 		productId,
-		size,
 		skuId,
 		name,
 		color,
@@ -119,17 +117,16 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 					},
 					true,
 				);
+				setOptimisticState(optimisticWishlist);
+
 				startTransition(async () => {
 					const { status } = await deleteWishlistAction({
 						...rest,
 					});
-					if (status === 200) {
-						// * IF we could delete the wishlist in the DB, or if there was an error, then we update the wishlist version, so that the optimisticState can be updated
-						setOptimisticState(optimisticWishlist);
-					} else if (status === 500) {
+					if (status === 500) {
 						setwishlistVersion((prev) => prev + 1);
-					} else {
-						// * IF 401, meaning the session in the server expires, but in the client hasn't.
+					} else if (status === 401) {
+						// * The session in the server expires, but in the client hasn't.
 						router.push('/sign-in');
 					}
 				});
@@ -156,6 +153,8 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 		async (rest: WishlistItemFull) => {
 			if (user) {
 				const optimisticWishlistData = mergeWishlist(optimisticState, rest);
+				setOptimisticState(optimisticWishlistData);
+
 				startTransition(async () => {
 					const { status } = await addToWishlistAction({
 						...rest,
@@ -163,7 +162,6 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 					if (status === 200) {
 						// * IF we could add the wishlist in the DB, or if there was an error, then we update the wishlist version, so that the optimisticState can be updated
 						handleOpenDrawer();
-						setOptimisticState(optimisticWishlistData);
 					} else if (status === 500) {
 						setwishlistVersion((prev) => prev + 1);
 					} else {
