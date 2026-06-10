@@ -21,16 +21,19 @@ import { deleteItemsInLocalStorage } from '@/utils/local-storage/delete-items';
 import { useDrawer } from './drawer-context';
 
 type Context = {
-	handleAddToCart: ({
-		quantity,
-		productId,
-		size,
-		skuId,
-		name,
-		color,
-		image,
-		price,
-	}: CartItemFull) => Promise<void>;
+	handleAddToCart: (
+		{
+			quantity,
+			productId,
+			size,
+			skuId,
+			name,
+			color,
+			image,
+			price,
+		}: CartItemFull,
+		shouldOpenDrawer?: boolean,
+	) => Promise<void>;
 	handleDecreaseCartQuantity: ({
 		quantity,
 		productId,
@@ -142,7 +145,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 	);
 
 	const handleAddToCart = useCallback(
-		async (rest: CartItemFull) => {
+		async (rest: CartItemFull, shouldOpenDrawer = false) => {
 			if (user) {
 				const optimisticCartData = mergeCart(optimisticState, rest);
 				startTransition(async () => {
@@ -151,7 +154,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 					});
 					if (status === 200) {
 						// * IF we could add the cart in the DB, or if there was an error, then we update the cart version, so that the optimisticState can be updated
-						handleOpenDrawer('cart');
+						shouldOpenDrawer && handleOpenDrawer('cart');
 						setOptimisticState(optimisticCartData);
 					} else if (status === 500) {
 						setCartVersion((prev) => prev + 1);
@@ -173,7 +176,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 					setItemsInLocalStorage('cart', updatedCart);
 					setOptimisticState(updatedCart);
 				}
-				handleOpenDrawer('cart');
+				shouldOpenDrawer && handleOpenDrawer('cart');
 			}
 		},
 		[user, router, optimisticState, setOptimisticState],

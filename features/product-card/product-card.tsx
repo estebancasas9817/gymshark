@@ -69,11 +69,28 @@ export const ProductCard = ({
 		name,
 		price,
 		image,
+		sizes,
 	}: WishlistItemFull) => {
 		if (isInFavorites) {
-			handleDeleteWishlist({ productId, skuId, color, name, price, image });
+			handleDeleteWishlist({
+				productId,
+				skuId,
+				color,
+				name,
+				price,
+				image,
+				sizes,
+			});
 		} else {
-			handleAddToWishlist({ productId, skuId, color, name, price, image });
+			handleAddToWishlist({
+				productId,
+				skuId,
+				color,
+				name,
+				price,
+				image,
+				sizes,
+			});
 		}
 	};
 
@@ -109,16 +126,19 @@ export const ProductCard = ({
 								size="sm"
 								key={size}
 								onClick={() =>
-									handleAddToCart({
-										size,
-										productId: variant.productId,
-										quantity: 1,
-										skuId: variant.id,
-										color,
-										name,
-										price,
-										image: imgSrc,
-									})
+									handleAddToCart(
+										{
+											size,
+											productId: variant.productId,
+											quantity: 1,
+											skuId: variant.id,
+											color,
+											name,
+											price,
+											image: imgSrc,
+										},
+										true,
+									)
 								}
 							>
 								<Conditional test={isPending} fallback={size}>
@@ -141,6 +161,7 @@ export const ProductCard = ({
 							name,
 							price,
 							image: imgSrc,
+							sizes: variant.sizes,
 						});
 					}}
 				>

@@ -30,6 +30,7 @@ export type Sku = {
 	price: number;
 	stock: number;
 	images: string[];
-	// todo: change this to hasStock
-	isActive: boolean;
+	isInStock: boolean;
+	totalStock: number;
+	sizeKeys: string[];
 };

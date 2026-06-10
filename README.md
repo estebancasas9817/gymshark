@@ -70,15 +70,15 @@ The project follows a modular structure designed for maintainability and Separat
 ### Phase 7: Cart System & Wishlist System (In Progress 📍)
 
 - [x] Global state management and cart persistence.
-- [ ] Global state management and wishlist persistence.
+- [x] Global state management and wishlist persistence.
 
-### Phase 8: Advanced Security
-
-- [ ] 2FA Implementation (QR Code generation and OTP validation).
-
-### Phase 9 & 10: Checkout & Orders
+### Phase 8 & 9: Checkout & Orders (Completed ✅)
 
 - [ ] Stripe UI integration and Webhook validation for order processing.
+
+### Phase 10: Advanced Security
+
+- [ ] 2FA Implementation (QR Code generation and OTP validation).
 
 ### Phase 11 to 14: Final Polish & Deploy
 
