@@ -28,6 +28,7 @@ type Context = {
 		color,
 		image,
 		price,
+		sizes,
 	}: WishlistItemFull) => Promise<void>;
 	handleDeleteWishlist: ({
 		productId,
@@ -36,6 +37,7 @@ type Context = {
 		color,
 		image,
 		price,
+		sizes,
 	}: WishlistItemFull) => Promise<void>;
 	optimisticState: WishlistItemFull[] | [];
 	isPending: boolean;
@@ -150,12 +152,9 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 					const { status } = await addToWishlistAction({
 						...rest,
 					});
-					if (status === 200) {
-						// * IF we could add the wishlist in the DB, or if there was an error, then we update the wishlist version, so that the optimisticState can be updated
-						handleOpenDrawer('wishlist');
-					} else if (status === 500) {
+					if (status === 500) {
 						setwishlistVersion((prev) => prev + 1);
-					} else {
+					} else if (status === 401) {
 						// * IF 401, meaning the session in the server expires, but in the client hasn't.
 						router.push('/sign-in');
 					}

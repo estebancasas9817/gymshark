@@ -24,7 +24,10 @@ export const HeaderActions = () => {
 			<Link href={''}>
 				<Search size={20} />
 			</Link>
-			<button onClick={() => handleOpenDrawer('wishlist')}>
+			<button
+				onClick={() => handleOpenDrawer('wishlist')}
+				className="cursor-pointer"
+			>
 				<Heart size={20} />
 			</button>
 			<Link href={href}>
