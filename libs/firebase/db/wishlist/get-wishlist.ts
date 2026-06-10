@@ -1,12 +1,11 @@
-import { CartItem } from '@/types/cart';
 import { db } from '../../init-firestore';
 import { Product, Sku } from '@/types/product';
 import { unstable_cache } from 'next/cache';
+import { WishlistItem } from '@/types/wishlist';
 
-export type CartItemFull = {
+export type WishlistItemFull = {
 	productId: string;
 	skuId: string;
-	quantity: number;
 	name: string;
 	price: number;
 	image: string;
@@ -14,13 +13,16 @@ export type CartItemFull = {
 	size: string;
 };
 
-export const getCart = (userEmail: string): Promise<CartItemFull[]> => {
+export const getWishlist = (userEmail: string): Promise<WishlistItemFull[]> => {
 	return unstable_cache(
 		async () => {
-			const cartSnap = await db.collection('carts').doc(userEmail).get();
-			if (!cartSnap.exists) return [];
-			const { items } = cartSnap.data() as {
-				items: CartItem[];
+			const wishlistSnap = await db
+				.collection('wishlists')
+				.doc(userEmail)
+				.get();
+			if (!wishlistSnap.exists) return [];
+			const { items } = wishlistSnap.data() as {
+				items: WishlistItem[];
 			};
 			const promises = items.map((item) =>
 				db.collection('products').doc(item.productId).get(),
@@ -76,16 +78,16 @@ export const getCart = (userEmail: string): Promise<CartItemFull[]> => {
 				},
 				{} as Record<string, Sku>,
 			);
-			const cartItems = items.map((item) => ({
+			const wishlistItems = items.map((item) => ({
 				...item,
 				name: productsById[item.productId].name,
 				price: productsById[item.productId].basePrice,
 				image: skusById[item.skuId].images[0],
 				color: skusById[item.skuId].color,
 			}));
-			return cartItems;
+			return wishlistItems;
 		},
-		['cart', userEmail],
-		{ tags: [`cart-${userEmail}`] },
+		['wishlist', userEmail],
+		{ tags: [`wishlist-${userEmail}`] },
 	)();
 };
