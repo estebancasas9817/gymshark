@@ -1,6 +1,7 @@
 'use client';
 
 import { useCart } from '@/app/context/cart-context';
+import { useDrawer } from '@/app/context/drawer-context';
 import { Stack } from '@/components/layout/stack';
 import { Heading } from '@/components/ui/heading';
 import { WishlistToggle } from '@/components/ui/wishlist-toggle';
@@ -12,8 +13,8 @@ interface DrawerHeadingProps {
 }
 
 export const DrawerHeading = ({ isScrolling }: DrawerHeadingProps) => {
-	const { handleCloseDrawer } = useCart();
-
+	const { handleCloseDrawer, drawer } = useDrawer();
+	const drawerHeadingTitle = drawer === 'cart' ? 'YOUR BAG' : 'WISHLIST';
 	return (
 		<Stack
 			direction="row"
@@ -27,7 +28,7 @@ export const DrawerHeading = ({ isScrolling }: DrawerHeadingProps) => {
 			)}
 		>
 			<Heading as="h6" className="text-sm">
-				YOUR BAG
+				{drawerHeadingTitle}
 			</Heading>
 			<Stack direction="row" align="center" gap="lg">
 				<WishlistToggle />

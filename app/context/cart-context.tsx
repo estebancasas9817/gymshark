@@ -18,6 +18,7 @@ import { getItemsFromLocalStorage } from '@/utils/local-storage/get-items';
 import { useRouter } from 'next/navigation';
 import { mergeCart } from '@/libs/firebase/db/cart/merge-cart';
 import { deleteItemsInLocalStorage } from '@/utils/local-storage/delete-items';
+import { useDrawer } from './drawer-context';
 
 type Context = {
 	handleAddToCart: ({
@@ -41,9 +42,6 @@ type Context = {
 		price,
 	}: CartItemFull) => Promise<void>;
 	optimisticState: CartItemFull[] | [];
-	handleOpenDrawer: () => void;
-	handleCloseDrawer: () => void;
-	isDrawerOpen: boolean;
 	isPending: boolean;
 };
 
@@ -56,12 +54,12 @@ const CartContext = createContext<Context | null>(null);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const router = useRouter();
 	const session = useSession();
+	const { handleOpenDrawer } = useDrawer();
 	const [optimisticState, setOptimisticState] = useState<CartItemFull[] | []>(
 		[],
 	);
 	const [cartVersion, setCartVersion] = useState<number>(0);
 	const [isPending, startTransition] = useTransition();
-	const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
 	const user = session.data?.user?.email;
 
@@ -105,14 +103,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			}
 		}
 	}, [user, router, setOptimisticState, cartVersion]);
-
-	const handleOpenDrawer = useCallback(() => {
-		setIsDrawerOpen(true);
-	}, [isDrawerOpen, setIsDrawerOpen]);
-
-	const handleCloseDrawer = useCallback(() => {
-		setIsDrawerOpen(false);
-	}, [isDrawerOpen, setIsDrawerOpen]);
 
 	const handleDecreaseCartQuantity = useCallback(
 		async (rest: CartItemFull) => {
@@ -161,7 +151,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 					});
 					if (status === 200) {
 						// * IF we could add the cart in the DB, or if there was an error, then we update the cart version, so that the optimisticState can be updated
-						handleOpenDrawer();
+						handleOpenDrawer('cart');
 						setOptimisticState(optimisticCartData);
 					} else if (status === 500) {
 						setCartVersion((prev) => prev + 1);
@@ -183,7 +173,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 					setItemsInLocalStorage('cart', updatedCart);
 					setOptimisticState(updatedCart);
 				}
-				handleOpenDrawer();
+				handleOpenDrawer('cart');
 			}
 		},
 		[user, router, optimisticState, setOptimisticState],
@@ -193,21 +183,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		() => ({
 			handleAddToCart,
 			optimisticState,
-			handleOpenDrawer,
-			handleCloseDrawer,
-			isDrawerOpen,
 			isPending,
 			handleDecreaseCartQuantity,
 		}),
-		[
-			handleAddToCart,
-			optimisticState,
-			handleCloseDrawer,
-			handleOpenDrawer,
-			isDrawerOpen,
-			isPending,
-			handleDecreaseCartQuantity,
-		],
+		[handleAddToCart, optimisticState, isPending, handleDecreaseCartQuantity],
 	);
 
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
