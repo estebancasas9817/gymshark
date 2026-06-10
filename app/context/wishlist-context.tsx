@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { deleteItemsInLocalStorage } from '@/utils/local-storage/delete-items';
 import { WishlistItemFull } from '@/libs/firebase/db/wishlist/get-wishlist';
 import { mergeWishlist } from '@/libs/firebase/db/wishlist/merge-wishlist';
+import { useDrawer } from './drawer-context';
 
 type Context = {
 	handleAddToWishlist: ({
@@ -37,9 +38,6 @@ type Context = {
 		price,
 	}: WishlistItemFull) => Promise<void>;
 	optimisticState: WishlistItemFull[] | [];
-	handleOpenDrawer: () => void;
-	handleCloseDrawer: () => void;
-	isDrawerOpen: boolean;
 	isPending: boolean;
 };
 
@@ -48,12 +46,13 @@ const WishlistContext = createContext<Context | null>(null);
 export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 	const router = useRouter();
 	const session = useSession();
+	const { handleOpenDrawer } = useDrawer();
+
 	const [optimisticState, setOptimisticState] = useState<
 		WishlistItemFull[] | []
 	>([]);
 	const [wishlistVersion, setwishlistVersion] = useState<number>(0);
 	const [isPending, startTransition] = useTransition();
-	const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
 	const user = session.data?.user?.email;
 
@@ -98,14 +97,6 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 		};
 		init();
 	}, [user, router, setOptimisticState, wishlistVersion]);
-
-	const handleOpenDrawer = useCallback(() => {
-		setIsDrawerOpen(true);
-	}, []);
-
-	const handleCloseDrawer = useCallback(() => {
-		setIsDrawerOpen(false);
-	}, []);
 
 	const handleDeleteWishlist = useCallback(
 		async (rest: WishlistItemFull) => {
@@ -161,7 +152,7 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 					});
 					if (status === 200) {
 						// * IF we could add the wishlist in the DB, or if there was an error, then we update the wishlist version, so that the optimisticState can be updated
-						handleOpenDrawer();
+						handleOpenDrawer('wishlist');
 					} else if (status === 500) {
 						setwishlistVersion((prev) => prev + 1);
 					} else {
@@ -182,7 +173,7 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 					setItemsInLocalStorage('wishlist', updatedWishlist);
 					setOptimisticState(updatedWishlist);
 				}
-				handleOpenDrawer();
+				handleOpenDrawer('wishlist');
 			}
 		},
 		[user, router, optimisticState, setOptimisticState],
@@ -192,21 +183,10 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 		() => ({
 			handleAddToWishlist,
 			optimisticState,
-			handleOpenDrawer,
-			handleCloseDrawer,
-			isDrawerOpen,
 			isPending,
 			handleDeleteWishlist,
 		}),
-		[
-			handleAddToWishlist,
-			optimisticState,
-			handleCloseDrawer,
-			handleOpenDrawer,
-			isDrawerOpen,
-			isPending,
-			handleDeleteWishlist,
-		],
+		[handleAddToWishlist, optimisticState, isPending, handleDeleteWishlist],
 	);
 
 	return (

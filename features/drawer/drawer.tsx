@@ -1,16 +1,14 @@
 'use client';
 
-import { useCart } from '@/app/context/cart-context';
 import { UIEvent, useEffect, useState } from 'react';
 import { DrawerHeading } from './drawer-heading';
 import { DrawerFooter } from './drawer-footer';
 import { DrawerBody } from './drawer-body/drawer-body';
-import { Conditional } from '@/components/layout/conditional';
-import { EmptyCart } from '../empty-cart';
+import { useDrawer } from '@/app/context/drawer-context';
 
-export const CartDrawer = () => {
+export const Drawer = () => {
 	const [isMounted, setIsMounted] = useState<boolean>(false);
-	const { isDrawerOpen, optimisticState, handleCloseDrawer } = useCart();
+	const { isDrawerOpen } = useDrawer();
 	const [isScrolling, setIsScrolling] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -48,14 +46,8 @@ export const CartDrawer = () => {
 		<div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-100">
 			<div className="absolute right-0 top-0 bg-secondary w-125 h-screen flex flex-col overflow-hidden">
 				<DrawerHeading isScrolling={isScrolling} />
-
-				<Conditional
-					test={optimisticState.length > 0}
-					fallback={<EmptyCart onCloseDrawer={handleCloseDrawer} />}
-				>
-					<DrawerBody onScroll={handleScroll} />
-					<DrawerFooter isScrolling={isScrolling} />
-				</Conditional>
+				<DrawerBody onScroll={handleScroll} />
+				<DrawerFooter isScrolling={isScrolling} />
 			</div>
 		</div>
 	);

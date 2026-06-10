@@ -1,21 +1,19 @@
 'use client';
 
-import { useState } from 'react';
 import { ShoppingBag, Heart } from 'lucide-react';
 import { cn } from '@/utils/cn/cn';
-
-type ActiveTab = 'bag' | 'wishlist';
+import { useDrawer } from '@/app/context/drawer-context';
 
 export function WishlistToggle() {
-	const [active, setActive] = useState<ActiveTab>('bag');
+	const { setDrawer, drawer } = useDrawer();
 
 	return (
 		<div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
 			<button
-				onClick={() => setActive('bag')}
+				onClick={() => setDrawer('cart')}
 				className={cn(
 					'flex items-center justify-center w-10 h-9 transition-all duration-200 rounded-[18px] cursor-pointer',
-					active === 'bag'
+					drawer === 'cart'
 						? 'bg-black text-white shadow-sm'
 						: 'text-gray-400 hover:text-gray-600',
 				)}
@@ -25,10 +23,10 @@ export function WishlistToggle() {
 			</button>
 
 			<button
-				onClick={() => setActive('wishlist')}
+				onClick={() => setDrawer('wishlist')}
 				className={cn(
 					'flex items-center justify-center w-10 h-9 transition-all duration-200 rounded-[18px] cursor-pointer',
-					active === 'wishlist'
+					drawer === 'wishlist'
 						? 'bg-black text-white shadow-sm'
 						: 'text-gray-400 hover:text-gray-600',
 				)}
