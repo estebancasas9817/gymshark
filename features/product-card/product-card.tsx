@@ -16,6 +16,7 @@ import styles from './product-card.module.css';
 import { useCart } from '@/app/context/cart-context';
 import { useWishlist } from '@/app/context/wishlist-context';
 import { WishlistItemFull } from '@/libs/firebase/db/wishlist/get-wishlist';
+import { useToast } from '@/app/context/toast-context';
 
 interface ProductCardProps {
 	color: string;
@@ -45,6 +46,8 @@ export const ProductCard = ({
 	productCardClassNames,
 }: ProductCardProps) => {
 	const { handleAddToCart, isPending } = useCart();
+	const toast = useToast();
+
 	const { handleDeleteWishlist, handleAddToWishlist, optimisticState } =
 		useWishlist();
 	const [isActiveHover, setIsActiveHover] = useState<boolean>(false);
@@ -72,6 +75,7 @@ export const ProductCard = ({
 		sizes,
 	}: WishlistItemFull) => {
 		if (isInFavorites) {
+			toast.success('Item removed from your wishlist.');
 			handleDeleteWishlist({
 				productId,
 				skuId,
@@ -82,6 +86,7 @@ export const ProductCard = ({
 				sizes,
 			});
 		} else {
+			toast.success('Item added to your wishlist.');
 			handleAddToWishlist({
 				productId,
 				skuId,
