@@ -1,15 +1,19 @@
 'use client';
 
+import { addCheckoutSession } from '@/app/actions/actions';
 import { useCart } from '@/app/context/cart-context';
 import { useDrawer } from '@/app/context/drawer-context';
+import { useToast } from '@/app/context/toast-context';
 import { Conditional } from '@/components/layout/conditional';
 import { Stack } from '@/components/layout/stack';
 import { Button } from '@/components/ui/button';
 import { PaymentMethods } from '@/components/ui/payment-methods';
+import { Text } from '@/components/ui/text';
 import { PAYMENT_METHODS } from '@/features/footer/footer-promos/constants';
 import { cn } from '@/utils/cn/cn';
 import { ShoppingBag } from 'lucide-react';
-import React from 'react';
+import { useSession } from 'next-auth/react';
+import React, { useState } from 'react';
 
 interface CartDrawerFooterProps {
 	isScrolling: boolean;
@@ -18,8 +22,25 @@ interface CartDrawerFooterProps {
 export const CartDrawerFooter = ({ isScrolling }: CartDrawerFooterProps) => {
 	const { optimisticState } = useCart();
 	const { drawer } = useDrawer();
+	const session = useSession();
+	const toast = useToast();
+	const [isPending, setIsPending] = useState<boolean>(false);
+
 	const shouldDisplayCartDrawerFooter =
 		optimisticState.length > 0 && drawer === 'cart';
+
+	const handleCheckout = async () => {
+		const email = session.data?.user?.email;
+		setIsPending(true);
+		const { status, url } = await addCheckoutSession(email, optimisticState);
+		if (status === 200 && url) {
+			toast.success('Redirecting...');
+			window.location.href = url;
+		} else {
+			toast.error('Something went wrong.');
+		}
+		setIsPending(false);
+	};
 
 	return (
 		<Conditional test={shouldDisplayCartDrawerFooter}>
@@ -33,9 +54,19 @@ export const CartDrawerFooter = ({ isScrolling }: CartDrawerFooterProps) => {
 				<Button
 					radius="lg"
 					className="w-full flex gap-4 mb-4 font-sans text-sm"
+					onClick={handleCheckout}
 				>
-					<ShoppingBag size={18} />
-					CHECKOUT SECURELY
+					<Conditional
+						test={isPending}
+						fallback={
+							<>
+								<ShoppingBag size={18} />
+								CHECKOUT SECURELY
+							</>
+						}
+					>
+						<div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+					</Conditional>
 				</Button>
 				<Stack direction="row" justify="center">
 					<Stack direction="row" as="ul">

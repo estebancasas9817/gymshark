@@ -8,6 +8,7 @@ import { SessionProvider } from 'next-auth/react';
 import { Drawer } from '@/features/drawer';
 import { WishlistProvider } from './context/wishlist-context';
 import { DrawerProvider } from './context/drawer-context';
+import { ToastProvider } from './context/toast-context';
 
 const montserrat = Montserrat({
 	subsets: ['latin'],
@@ -38,16 +39,18 @@ export default async function RootLayout({
 			<body className={`${montserrat.variable} ${roboto.variable} antialiased`}>
 				<NextIntlClientProvider messages={messages}>
 					<SessionProvider>
-						<DrawerProvider>
-							<CartProvider>
-								<WishlistProvider>
-									<>
-										<Drawer />
-										{children}
-									</>
-								</WishlistProvider>
-							</CartProvider>
-						</DrawerProvider>
+						<ToastProvider>
+							<DrawerProvider>
+								<CartProvider>
+									<WishlistProvider>
+										<>
+											<Drawer />
+											{children}
+										</>
+									</WishlistProvider>
+								</CartProvider>
+							</DrawerProvider>
+						</ToastProvider>
 					</SessionProvider>
 				</NextIntlClientProvider>
 			</body>

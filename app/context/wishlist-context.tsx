@@ -172,7 +172,6 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 					setItemsInLocalStorage('wishlist', updatedWishlist);
 					setOptimisticState(updatedWishlist);
 				}
-				handleOpenDrawer('wishlist');
 			}
 		},
 		[user, router, optimisticState, setOptimisticState],
