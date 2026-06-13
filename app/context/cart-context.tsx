@@ -64,7 +64,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const [cartVersion, setCartVersion] = useState<number>(0);
 	const [isPending, startTransition] = useTransition();
 
-	const user = session.data?.user?.email;
+	const user = session.data?.user?.id;
 
 	useEffect(() => {
 		// * MERGE CART FROM LOCAL STORAGE WITH CART FROM DB
@@ -110,10 +110,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const handleDecreaseCartQuantity = useCallback(
 		async (rest: CartItemFull) => {
 			if (user) {
-				const optimisticCart = mergeCart(optimisticState, {
+				const item: NewItem = {
 					...rest,
 					shouldDecreaseQuantity: true,
-				});
+				};
+				const optimisticCart = mergeCart(optimisticState, item);
 				startTransition(async () => {
 					const { status } = await deleteCartAction({
 						...rest,
@@ -131,11 +132,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			} else {
 				const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
 				if (data) {
-					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
-					const optimisticCart = mergeCart(data, {
+					const item: NewItem = {
 						...rest,
 						shouldDecreaseQuantity: true,
-					});
+					};
+					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
+					const optimisticCart = mergeCart(data, item);
 					setItemsInLocalStorage('cart', optimisticCart);
 					setOptimisticState(optimisticCart);
 				}

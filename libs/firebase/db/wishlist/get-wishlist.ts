@@ -13,13 +13,10 @@ export type WishlistItemFull = {
 	sizes: { size: string; stock: number }[];
 };
 
-export const getWishlist = (userEmail: string): Promise<WishlistItemFull[]> => {
+export const getWishlist = (userId: string): Promise<WishlistItemFull[]> => {
 	return unstable_cache(
 		async () => {
-			const wishlistSnap = await db
-				.collection('wishlists')
-				.doc(userEmail)
-				.get();
+			const wishlistSnap = await db.collection('wishlists').doc(userId).get();
 			if (!wishlistSnap.exists) return [];
 			const { items } = wishlistSnap.data() as {
 				items: WishlistItem[];
@@ -88,7 +85,7 @@ export const getWishlist = (userEmail: string): Promise<WishlistItemFull[]> => {
 			}));
 			return wishlistItems;
 		},
-		['wishlist', userEmail],
-		{ tags: [`wishlist-${userEmail}`] },
+		['wishlist', userId],
+		{ tags: [`wishlist-${userId}`] },
 	)();
 };

@@ -4,14 +4,14 @@ import { CartItem } from '@/types/cart';
 import { mergeCartItems } from './merge-cart';
 
 type AddtoCartTypes = {
-	userEmail: string;
+	userId: string;
 	cart: CartItem | CartItem[];
 };
 export const addToCart = async ({
 	cart,
-	userEmail,
+	userId,
 }: AddtoCartTypes): Promise<{ status: 200 }> => {
-	const cartRef = db.collection('carts').doc(userEmail);
+	const cartRef = db.collection('carts').doc(userId);
 	const cartItems = !Array.isArray(cart) ? [cart] : cart;
 	const snap = await cartRef.get();
 	const cartDataFirebase = snap.data();

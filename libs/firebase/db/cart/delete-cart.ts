@@ -4,14 +4,14 @@ import { CartItem } from '@/types/cart';
 import { mergeCartItems } from './merge-cart';
 
 type DeleteCartTypes = {
-	userEmail: string;
+	userId: string;
 	cart: CartItem;
 };
 export const deleteCart = async ({
 	cart,
-	userEmail,
+	userId,
 }: DeleteCartTypes): Promise<{ status: 200 }> => {
-	const cartRef = db.collection('carts').doc(userEmail);
+	const cartRef = db.collection('carts').doc(userId);
 	const cartItems = [{ ...cart, shouldDecreaseQuantity: true }];
 	const snap = await cartRef.get();
 	const cartDataFirebase = snap.data();

@@ -21,13 +21,13 @@ export const addToCartAction = async (
 }> => {
 	try {
 		const session = await auth();
-		const userEmail = session?.user?.email;
-		if (!userEmail) {
+		const userId = session?.user?.id;
+		if (!userId) {
 			return { error: 'Unauthorized', status: 401 };
 		}
 
-		const res = await addToCart({ cart, userEmail });
-		revalidateTag(`cart-${userEmail}`);
+		const res = await addToCart({ cart, userId });
+		revalidateTag(`cart-${userId}`);
 		return res;
 	} catch (error) {
 		return { error: 'Unexpected error', status: 500 };
@@ -42,12 +42,12 @@ export const deleteCartAction = async (
 }> => {
 	try {
 		const session = await auth();
-		const userEmail = session?.user?.email;
-		if (!userEmail) {
+		const userId = session?.user?.id;
+		if (!userId) {
 			return { error: 'Unauthorized', status: 401 };
 		}
-		const res = await deleteCart({ cart, userEmail });
-		revalidateTag(`cart-${userEmail}`);
+		const res = await deleteCart({ cart, userId });
+		revalidateTag(`cart-${userId}`);
 		return res;
 	} catch (error) {
 		return { error: 'Unexpected error', status: 500 };
@@ -62,13 +62,13 @@ export const addToWishlistAction = async (
 }> => {
 	try {
 		const session = await auth();
-		const userEmail = session?.user?.email;
-		if (!userEmail) {
+		const userId = session?.user?.id;
+		if (!userId) {
 			return { error: 'Unauthorized', status: 401 };
 		}
 
-		const res = await addToWishlist({ wishlist, userEmail });
-		revalidateTag(`wishlist-${userEmail}`);
+		const res = await addToWishlist({ wishlist, userId });
+		revalidateTag(`wishlist-${userId}`);
 		return res;
 	} catch (error) {
 		return { error: 'Unexpected error', status: 500 };
@@ -83,12 +83,12 @@ export const deleteWishlistAction = async (
 }> => {
 	try {
 		const session = await auth();
-		const userEmail = session?.user?.email;
-		if (!userEmail) {
+		const userId = session?.user?.id;
+		if (!userId) {
 			return { error: 'Unauthorized', status: 401 };
 		}
-		const res = await deleteWishlist({ wishlist, userEmail });
-		revalidateTag(`wishlist-${userEmail}`);
+		const res = await deleteWishlist({ wishlist, userId });
+		revalidateTag(`wishlist-${userId}`);
 		return res;
 	} catch (error) {
 		return { error: 'Unexpected error', status: 500 };
@@ -96,16 +96,15 @@ export const deleteWishlistAction = async (
 };
 
 export const addCheckoutSession = async (
-	email: string | null | undefined,
 	localStorageProducts: CartItemFull[] = [],
 ): Promise<{ status: 200 | 500; message?: string; url?: string | null }> => {
 	try {
 		const session = await auth();
 		let products: CartItemFull[];
 		// * we need to revalidate before so we can use fresh data from db instead of cached data to know if there is still stock.
-		revalidateTag(`cart-${session?.user?.email}`);
-		if (session?.user?.email) {
-			products = await getCart(session?.user?.email);
+		revalidateTag(`cart-${session?.user?.id}`);
+		if (session?.user?.id) {
+			products = await getCart(session?.user?.id);
 		} else {
 			products = await verifyAnonymousCartPrices(localStorageProducts);
 		}
@@ -132,7 +131,7 @@ export const addCheckoutSession = async (
 				quantity: product.quantity,
 			})),
 			mode: 'payment',
-			...(email && { customer_email: email }),
+			...(session?.user?.email && { customer_email: session?.user?.email }),
 			client_reference_id: session?.user?.id,
 			metadata: {
 				lineItems: JSON.stringify(
@@ -140,9 +139,16 @@ export const addCheckoutSession = async (
 						productId: p.productId,
 						skuId: p.skuId,
 						size: p.size,
+						color: p.color,
+						name: p.name,
+						image: p.image,
 						quantity: p.quantity,
+						price: p.price,
 					})),
 				),
+			},
+			shipping_address_collection: {
+				allowed_countries: ['US', 'CO', 'MX', 'ES', 'GB', 'CA'],
 			},
 		});
 
