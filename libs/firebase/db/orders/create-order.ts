@@ -16,7 +16,12 @@ export interface OrderLineItem {
 	color: string;
 }
 
-export type OrderStatus = 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+export type OrderStatus =
+	| 'confirmed'
+	| 'shipped'
+	| 'delivered'
+	| 'cancelled'
+	| 'pending';
 
 export interface Order {
 	id: string;
@@ -50,7 +55,7 @@ export async function createOrder({
 	userId,
 	userEmail,
 	lineItems,
-}: CreateOrderParams): Promise<Order> {
+}: CreateOrderParams) {
 	const orderRef = db.collection('orders').doc(session.id);
 
 	const existing = await orderRef.get();
@@ -73,7 +78,7 @@ export async function createOrder({
 		id: session.id,
 		userId,
 		userEmail,
-		status: 'confirmed',
+		status: 'pending',
 		items: lineItems,
 		pricing,
 		stripeSessionId: session.id,
@@ -82,5 +87,4 @@ export async function createOrder({
 	};
 
 	await orderRef.set(order);
-	return order;
 }

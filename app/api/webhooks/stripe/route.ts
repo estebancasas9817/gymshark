@@ -1,7 +1,3 @@
-import {
-	createOrder,
-	OrderLineItem,
-} from '@/libs/firebase/db/orders/create-order';
 import { updateStock } from '@/libs/firebase/db/products/update-products';
 import { db } from '@/libs/firebase/init-firestore';
 import { stripe } from '@/libs/stripe/init-stripe';
@@ -9,19 +5,8 @@ import { sendOrderEmail } from '@/services/email-service';
 import { headers } from 'next/headers';
 import { revalidateTag } from 'next/cache';
 import Stripe from 'stripe';
-
-// Stripe metadata solo tiene los campos que guardaste en addCheckoutSession.
-// Definimos el tipo exacto para no asumir campos que no existen.
-interface MetadataLineItem {
-	productId: string;
-	skuId: string;
-	size: string;
-	quantity: number;
-	price: number; // USD
-	name?: string;
-	image?: string;
-	color?: string;
-}
+import { updateOrder } from '@/libs/firebase/db/orders/update-order';
+import { getOrder } from '@/libs/firebase/db/orders/get-order';
 
 export async function POST(req: Request) {
 	const body = await req.text();
@@ -57,51 +42,23 @@ export async function POST(req: Request) {
 			return new Response('Missing required session fields', { status: 400 });
 		}
 
-		const rawItems: MetadataLineItem[] = JSON.parse(
-			session.metadata?.lineItems ?? '[]',
-		);
-
-		if (!rawItems.length) {
-			console.error('❌ Empty lineItems in metadata for session:', session.id);
-			return new Response('Empty lineItems', { status: 400 });
-		}
-
-		// Mapeamos MetadataLineItem → OrderLineItem
-		// name/image/color tienen fallback hasta que actualices addCheckoutSession
-		const lineItems: OrderLineItem[] = rawItems.map((item) => ({
-			productId: item.productId,
-			skuId: item.skuId,
-			size: item.size,
-			quantity: item.quantity,
-			unitPrice: item.price,
-			lineTotal: item.price * item.quantity,
-			name: item.name ?? '',
-			image: item.image ?? '',
-			color: item.color ?? '',
-		}));
-
 		try {
 			//* 1. Create order
-			const order = await createOrder({
-				session,
-				userId,
-				userEmail,
-				lineItems,
-			});
+			await updateOrder(session.id);
+			const order = await getOrder(session.id);
 
 			//* 2. Erase cart + update stock
 			const cartRef = db.collection('carts').doc(userId);
-			await Promise.all([cartRef.delete(), updateStock(lineItems)]);
+			await Promise.all([cartRef.delete(), updateStock(order.items)]);
 
 			//* 3. Invalidate cache to get fresh data for products
 			revalidateTag(`cart-${userId}`);
 			revalidateTag('products-by-category');
-
 			//* 4. Confirmation email
 			await sendOrderEmail({
 				email: userEmail,
 				name,
-				items: lineItems,
+				items: order.items,
 				orderNumber: order.id,
 				orderDate: new Date().toLocaleDateString('en-US', {
 					year: 'numeric',
@@ -113,8 +70,6 @@ export async function POST(req: Request) {
 				shipping: order.pricing.shipping,
 				total: order.pricing.total,
 			});
-
-			console.log(`✅ Order ${order.id} processed for ${userEmail}`);
 		} catch (error) {
 			console.error('❌ Error processing order:', error);
 			return new Response('Internal error processing order', { status: 500 });

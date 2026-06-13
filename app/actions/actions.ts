@@ -6,6 +6,10 @@ import { deleteCart } from '@/libs/firebase/db/cart/delete-cart';
 import { CartItemFull, getCart } from '@/libs/firebase/db/cart/get-cart';
 import { hasStock } from '@/libs/firebase/db/checkout/utils';
 import { verifyAnonymousCartPrices } from '@/libs/firebase/db/checkout/verify-anonymous-cart-prices';
+import {
+	createOrder,
+	OrderLineItem,
+} from '@/libs/firebase/db/orders/create-order';
 import { addToWishlist } from '@/libs/firebase/db/wishlist/add-to-wishlist';
 import { deleteWishlist } from '@/libs/firebase/db/wishlist/delete-wishlist';
 import { stripe } from '@/libs/stripe/init-stripe';
@@ -102,9 +106,9 @@ export const addCheckoutSession = async (
 		const session = await auth();
 		let products: CartItemFull[];
 		// * we need to revalidate before so we can use fresh data from db instead of cached data to know if there is still stock.
-		revalidateTag(`cart-${session?.user?.id}`);
 		if (session?.user?.id) {
-			products = await getCart(session?.user?.id);
+			revalidateTag(`cart-${session.user.id}`);
+			products = await getCart(session.user.id);
 		} else {
 			products = await verifyAnonymousCartPrices(localStorageProducts);
 		}
@@ -115,9 +119,20 @@ export const addCheckoutSession = async (
 		if (!hasStock(products)) {
 			return { status: 500, message: 'There is no stock' };
 		}
+		const lineItems: OrderLineItem[] = products.map((item) => ({
+			productId: item.productId,
+			skuId: item.skuId,
+			size: item.size,
+			quantity: item.quantity,
+			unitPrice: item.price,
+			lineTotal: item.price * item.quantity,
+			name: item.name ?? '',
+			image: item.image ?? '',
+			color: item.color ?? '',
+		}));
 
 		const checkoutSession = await stripe.checkout.sessions.create({
-			success_url: `${process.env.APP_URL}/checkout/success`,
+			success_url: `${process.env.APP_URL}/account`,
 			cancel_url: `${process.env.APP_URL}/checkout/cancel`,
 			line_items: products.map((product) => ({
 				price_data: {
@@ -133,24 +148,18 @@ export const addCheckoutSession = async (
 			mode: 'payment',
 			...(session?.user?.email && { customer_email: session?.user?.email }),
 			client_reference_id: session?.user?.id,
-			metadata: {
-				lineItems: JSON.stringify(
-					products.map((p) => ({
-						productId: p.productId,
-						skuId: p.skuId,
-						size: p.size,
-						color: p.color,
-						name: p.name,
-						image: p.image,
-						quantity: p.quantity,
-						price: p.price,
-					})),
-				),
-			},
 			shipping_address_collection: {
 				allowed_countries: ['US', 'CO', 'MX', 'ES', 'GB', 'CA'],
 			},
 		});
+		if (session?.user?.id && session.user.email) {
+			await createOrder({
+				session: checkoutSession,
+				userId: session.user.id,
+				userEmail: session.user.email,
+				lineItems,
+			});
+		}
 
 		return { status: 200, url: checkoutSession.url };
 	} catch (error) {
