@@ -4,6 +4,7 @@ import { auth } from '@/libs/auth/auth';
 import { addToCart } from '@/libs/firebase/db/cart/add-to-cart';
 import { deleteCart } from '@/libs/firebase/db/cart/delete-cart';
 import { CartItemFull, getCart } from '@/libs/firebase/db/cart/get-cart';
+import { hasStock } from '@/libs/firebase/db/checkout/utils';
 import { verifyAnonymousCartPrices } from '@/libs/firebase/db/checkout/verify-anonymous-cart-prices';
 import { addToWishlist } from '@/libs/firebase/db/wishlist/add-to-wishlist';
 import { deleteWishlist } from '@/libs/firebase/db/wishlist/delete-wishlist';
@@ -101,7 +102,8 @@ export const addCheckoutSession = async (
 	try {
 		const session = await auth();
 		let products: CartItemFull[];
-
+		// * we need to revalidate before so we can use fresh data from db instead of cached data to know if there is still stock.
+		revalidateTag(`cart-${session?.user?.email}`);
 		if (session?.user?.email) {
 			products = await getCart(session?.user?.email);
 		} else {
@@ -110,6 +112,9 @@ export const addCheckoutSession = async (
 
 		if (!products.length) {
 			return { status: 500, message: 'Cart is empty' };
+		}
+		if (!hasStock(products)) {
+			return { status: 500, message: 'There is no stock' };
 		}
 
 		const checkoutSession = await stripe.checkout.sessions.create({
@@ -128,6 +133,17 @@ export const addCheckoutSession = async (
 			})),
 			mode: 'payment',
 			...(email && { customer_email: email }),
+			client_reference_id: session?.user?.id,
+			metadata: {
+				lineItems: JSON.stringify(
+					products.map((p) => ({
+						productId: p.productId,
+						skuId: p.skuId,
+						size: p.size,
+						quantity: p.quantity,
+					})),
+				),
+			},
 		});
 
 		return { status: 200, url: checkoutSession.url };

@@ -12,6 +12,7 @@ export type CartItemFull = {
 	image: string;
 	color: string;
 	size: string;
+	sizes?: { size: string; stock: number }[];
 };
 
 export const getCart = (userEmail: string): Promise<CartItemFull[]> => {
@@ -82,6 +83,7 @@ export const getCart = (userEmail: string): Promise<CartItemFull[]> => {
 				price: productsById[item.productId].basePrice,
 				image: skusById[item.skuId].images[0],
 				color: skusById[item.skuId].color,
+				sizes: skusById[item.skuId].sizes,
 			}));
 			return cartItems;
 		},

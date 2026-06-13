@@ -1,5 +1,8 @@
 'use server';
 
+import PurchaseConfirmationEmail, {
+	OrderItem,
+} from '@/emails/purchase-confirmation-email';
 import VerifyAccountEmail from '@/emails/verify-account-email';
 import { resend } from '@/libs/resend/resend';
 
@@ -26,6 +29,66 @@ export async function sendVerificationEmail({
 			to: email,
 			subject: 'Verify your Gymshark Account',
 			react: VerifyAccountEmail({ name, url: verificationUrl }),
+		});
+
+		return { success: true, data };
+	} catch (error) {
+		console.error('Error sending verification email:', error);
+		throw new Error('Error sending verification email', { cause: error });
+	}
+}
+
+export interface PurchaseConfirmationEmailProps {
+	name?: string;
+	email: string;
+	orderNumber?: string;
+	orderDate?: string;
+	items?: OrderItem[];
+	subtotal?: number;
+	shipping?: number;
+	tax?: number;
+	total?: number;
+	shippingAddress?: {
+		fullName: string;
+		line1: string;
+		line2?: string;
+		city: string;
+		state: string;
+		postalCode: string;
+		country: string;
+	};
+	trackingUrl?: string;
+}
+
+export async function sendOrderEmail({
+	email,
+	name,
+	total,
+	items,
+	orderDate,
+	orderNumber,
+	subtotal,
+	tax,
+	shipping,
+	shippingAddress,
+}: PurchaseConfirmationEmailProps) {
+	try {
+		const data = await resend.emails.send({
+			from: 'Gymshark Clone <onboarding@resend.dev>',
+			to: email,
+			subject: `Order Confirmed ${orderNumber}`,
+			react: PurchaseConfirmationEmail({
+				name,
+				email,
+				total,
+				items,
+				orderDate,
+				orderNumber,
+				subtotal,
+				tax,
+				shipping,
+				shippingAddress,
+			}),
 		});
 
 		return { success: true, data };
