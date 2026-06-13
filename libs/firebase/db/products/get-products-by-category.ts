@@ -4,12 +4,12 @@ import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
 import { getSkusForProducts } from './get-skus-for-products';
 import { getCategoryBySlug } from '../categories/categories';
+import { normalizeColor, SIZE_MAP, splitSlug } from './utils';
 import {
 	Color,
 	Size,
 	SortBy,
-} from '@/app/(public)/[category]/[subCategory]/types/product-list-types';
-import { normalizeColor, SIZE_MAP, splitSlug } from './utils';
+} from '@/app/(core)/(public)/[category]/[subCategory]/types/product-list-types';
 
 type GetProductByCategoryProps = {
 	page: number;
