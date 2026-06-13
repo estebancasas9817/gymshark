@@ -1,13 +1,7 @@
 import { db } from '../../init-firestore';
+import { OrderLineItem } from '../orders/create-order';
 
-export const updateStock = async (
-	lineItems: Array<{
-		productId: string;
-		skuId: string;
-		size: string;
-		quantity: number;
-	}>,
-) => {
+export const updateStock = async (lineItems: Array<OrderLineItem>) => {
 	const promises = lineItems.map(async (item) => {
 		const skuRef = db
 			.collection('products')
