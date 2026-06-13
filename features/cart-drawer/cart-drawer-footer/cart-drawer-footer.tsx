@@ -8,11 +8,9 @@ import { Conditional } from '@/components/layout/conditional';
 import { Stack } from '@/components/layout/stack';
 import { Button } from '@/components/ui/button';
 import { PaymentMethods } from '@/components/ui/payment-methods';
-import { Text } from '@/components/ui/text';
 import { PAYMENT_METHODS } from '@/features/footer/footer-promos/constants';
 import { cn } from '@/utils/cn/cn';
 import { ShoppingBag } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 
 interface CartDrawerFooterProps {
@@ -22,7 +20,6 @@ interface CartDrawerFooterProps {
 export const CartDrawerFooter = ({ isScrolling }: CartDrawerFooterProps) => {
 	const { optimisticState } = useCart();
 	const { drawer } = useDrawer();
-	const session = useSession();
 	const toast = useToast();
 	const [isPending, setIsPending] = useState<boolean>(false);
 
@@ -30,9 +27,8 @@ export const CartDrawerFooter = ({ isScrolling }: CartDrawerFooterProps) => {
 		optimisticState.length > 0 && drawer === 'cart';
 
 	const handleCheckout = async () => {
-		const email = session.data?.user?.email;
 		setIsPending(true);
-		const { status, url } = await addCheckoutSession(email, optimisticState);
+		const { status, url } = await addCheckoutSession(optimisticState);
 		if (status === 200 && url) {
 			toast.success('Redirecting...');
 			window.location.href = url;

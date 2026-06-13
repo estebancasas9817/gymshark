@@ -18,7 +18,6 @@ import { useRouter } from 'next/navigation';
 import { deleteItemsInLocalStorage } from '@/utils/local-storage/delete-items';
 import { WishlistItemFull } from '@/libs/firebase/db/wishlist/get-wishlist';
 import { mergeWishlist } from '@/libs/firebase/db/wishlist/merge-wishlist';
-import { useDrawer } from './drawer-context';
 
 type Context = {
 	handleAddToWishlist: ({
@@ -48,15 +47,13 @@ const WishlistContext = createContext<Context | null>(null);
 export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 	const router = useRouter();
 	const session = useSession();
-	const { handleOpenDrawer } = useDrawer();
-
 	const [optimisticState, setOptimisticState] = useState<
 		WishlistItemFull[] | []
 	>([]);
 	const [wishlistVersion, setwishlistVersion] = useState<number>(0);
 	const [isPending, startTransition] = useTransition();
 
-	const user = session.data?.user?.email;
+	const user = session.data?.user?.id;
 
 	useEffect(() => {
 		// * FETCH GET-WISHLIST ON FIRST CALL OR WHEN ADD-TO-WISHLIST FAILS

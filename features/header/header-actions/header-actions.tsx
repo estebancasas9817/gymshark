@@ -16,8 +16,8 @@ export const HeaderActions = () => {
 		(acc, cart) => acc + cart.quantity,
 		0,
 	);
-	const user = session.data?.user?.email;
-	const href = user ? '/account' : '/sign-in';
+	const userId = session.data?.user?.id;
+	const href = userId ? '/account' : '/sign-in';
 
 	return (
 		<Stack as="nav" direction="row" gap="xl" align="center">

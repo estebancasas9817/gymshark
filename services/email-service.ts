@@ -1,9 +1,8 @@
 'use server';
 
-import PurchaseConfirmationEmail, {
-	OrderItem,
-} from '@/emails/purchase-confirmation-email';
+import PurchaseConfirmationEmail from '@/emails/purchase-confirmation-email';
 import VerifyAccountEmail from '@/emails/verify-account-email';
+import { OrderLineItem } from '@/libs/firebase/db/orders/create-order';
 import { resend } from '@/libs/resend/resend';
 
 interface SendVerificationEmailParams {
@@ -43,21 +42,11 @@ export interface PurchaseConfirmationEmailProps {
 	email: string;
 	orderNumber?: string;
 	orderDate?: string;
-	items?: OrderItem[];
+	items?: OrderLineItem[];
 	subtotal?: number;
 	shipping?: number;
 	tax?: number;
 	total?: number;
-	shippingAddress?: {
-		fullName: string;
-		line1: string;
-		line2?: string;
-		city: string;
-		state: string;
-		postalCode: string;
-		country: string;
-	};
-	trackingUrl?: string;
 }
 
 export async function sendOrderEmail({
@@ -70,7 +59,6 @@ export async function sendOrderEmail({
 	subtotal,
 	tax,
 	shipping,
-	shippingAddress,
 }: PurchaseConfirmationEmailProps) {
 	try {
 		const data = await resend.emails.send({
@@ -87,7 +75,6 @@ export async function sendOrderEmail({
 				subtotal,
 				tax,
 				shipping,
-				shippingAddress,
 			}),
 		});
 

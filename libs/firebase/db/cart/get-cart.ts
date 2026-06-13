@@ -15,10 +15,10 @@ export type CartItemFull = {
 	sizes?: { size: string; stock: number }[];
 };
 
-export const getCart = (userEmail: string): Promise<CartItemFull[]> => {
+export const getCart = (userId: string): Promise<CartItemFull[]> => {
 	return unstable_cache(
 		async () => {
-			const cartSnap = await db.collection('carts').doc(userEmail).get();
+			const cartSnap = await db.collection('carts').doc(userId).get();
 			if (!cartSnap.exists) return [];
 			const { items } = cartSnap.data() as {
 				items: CartItem[];
@@ -87,7 +87,7 @@ export const getCart = (userEmail: string): Promise<CartItemFull[]> => {
 			}));
 			return cartItems;
 		},
-		['cart', userEmail],
-		{ tags: [`cart-${userEmail}`] },
+		['cart', userId],
+		{ tags: [`cart-${userId}`] },
 	)();
 };

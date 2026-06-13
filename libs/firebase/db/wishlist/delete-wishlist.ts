@@ -4,14 +4,14 @@ import { mergewishlistItems } from './merge-wishlist';
 import { WishlistItem } from '@/types/wishlist';
 
 type DeleteWishlistTypes = {
-	userEmail: string;
+	userId: string;
 	wishlist: WishlistItem;
 };
 export const deleteWishlist = async ({
 	wishlist,
-	userEmail,
+	userId,
 }: DeleteWishlistTypes): Promise<{ status: 200 }> => {
-	const wishlistRef = db.collection('wishlists').doc(userEmail);
+	const wishlistRef = db.collection('wishlists').doc(userId);
 	const wishlistItems = [{ ...wishlist, shouldDecreaseQuantity: true }];
 	const snap = await wishlistRef.get();
 	const wishlistDataFirebase = snap.data();
