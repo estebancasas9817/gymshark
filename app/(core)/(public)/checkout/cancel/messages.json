@@ -1,0 +1,14 @@
+{
+	"checkoutCancel": {
+		"common": {
+			"brand": "GYMSHARK CLONE"
+		},
+		"status": {
+			"title": "CANCELLED",
+			"subtitle": "PAYMENT WAS NOT COMPLETED",
+			"description": "Your checkout process was cancelled or interrupted. No charges were made to your card and your items are still secured in your cart.",
+			"buttonCart": "RETURN TO CART",
+			"buttonHome": "GO TO HOME"
+		}
+	}
+}

@@ -72,11 +72,11 @@ The project follows a modular structure designed for maintainability and Separat
 - [x] Global state management and cart persistence.
 - [x] Global state management and wishlist persistence.
 
-### Phase 8 & 9: Checkout & Orders (In Progress 📍)
+### Phase 8 & 9: Checkout & Orders (Completed ✅)
 
-- [ ] Stripe UI integration and Webhook validation for order processing.
+- [x] Stripe UI integration and Webhook validation for order processing.
 
-### Phase 10: Advanced Security
+### Phase 10: Advanced Security (In Progress 📍)
 
 - [ ] 2FA Implementation (QR Code generation and OTP validation).
 
