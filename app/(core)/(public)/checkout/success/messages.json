@@ -1,0 +1,14 @@
+{
+	"checkoutSuccess": {
+		"common": {
+			"brand": "GYMSHARK CLONE"
+		},
+		"thanks": {
+			"title": "CONFIRMED",
+			"subtitle": "YOUR ORDER IS ON ITS WAY",
+			"description": "We have successfully received your payment. An email with your order details and tracking number will be sent shortly.",
+			"buttonOrders": "VIEW MY ORDERS",
+			"buttonContinue": "CONTINUE SHOPPING"
+		}
+	}
+}

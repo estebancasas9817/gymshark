@@ -9,6 +9,8 @@ import SignUp from '@/app/(auth)/sign-up/messages.json';
 import ProductListPage from '@/app/(core)/(public)/[category]/[subCategory]/messages.json';
 import RootPage from '@/app/messages.json';
 import VerifyAccount from '@/app/(auth)/verify-account/messages.json';
+import SuccessCheckout from '@/app/(core)/(public)/checkout/success/messages.json';
+import CancelCheckout from '@/app/(core)/(public)/checkout/cancel/messages.json';
 
 export const messages = {
 	AnnouncementBar,
@@ -22,4 +24,6 @@ export const messages = {
 	ProductListPage,
 	RootPage,
 	VerifyAccount,
+	SuccessCheckout,
+	CancelCheckout,
 };
