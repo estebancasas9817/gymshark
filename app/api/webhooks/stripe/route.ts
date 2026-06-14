@@ -1,7 +1,10 @@
 import { updateStock } from '@/libs/firebase/db/products/update-products';
 import { db } from '@/libs/firebase/init-firestore';
 import { stripe } from '@/libs/stripe/init-stripe';
-import { sendOrderEmail } from '@/services/email-service';
+import {
+	sendFailOrderEmail,
+	sendSuccessOrderEmail,
+} from '@/services/email-service';
 import { headers } from 'next/headers';
 import { revalidateTag } from 'next/cache';
 import Stripe from 'stripe';
@@ -29,6 +32,7 @@ export async function POST(req: Request) {
 		return new Response(`Webhook Error: ${err.message}`, { status: 400 });
 	}
 
+	// *SUCESS
 	if (event.type === 'checkout.session.completed') {
 		const session = event.data.object as Stripe.Checkout.Session;
 
@@ -38,13 +42,12 @@ export async function POST(req: Request) {
 
 		if (!userId || !userEmail) {
 			console.error('❌ Missing userId or userEmail in session:', session.id);
-			// Retornamos 400 para que Stripe NO reintente — es un error nuestro de configuración
 			return new Response('Missing required session fields', { status: 400 });
 		}
 
 		try {
-			//* 1. Create order
-			await updateOrder(session.id);
+			//* 1. Update order from pending to confirmed
+			await updateOrder(session.id, 'confirmed');
 			const order = await getOrder(session.id);
 
 			//* 2. Erase cart + update stock
@@ -55,7 +58,7 @@ export async function POST(req: Request) {
 			revalidateTag(`cart-${userId}`);
 			revalidateTag('products-by-category');
 			//* 4. Confirmation email
-			await sendOrderEmail({
+			await sendSuccessOrderEmail({
 				email: userEmail,
 				name,
 				items: order.items,
@@ -73,6 +76,28 @@ export async function POST(req: Request) {
 		} catch (error) {
 			console.error('❌ Error processing order:', error);
 			return new Response('Internal error processing order', { status: 500 });
+		}
+		// * FAIL
+	} else if (
+		event.type === 'checkout.session.async_payment_failed' ||
+		event.type === 'payment_intent.payment_failed'
+	) {
+		try {
+			const paymentIntent = event.data.object as Stripe.PaymentIntent;
+			const name =
+				paymentIntent.last_payment_error?.payment_method?.billing_details.name;
+			const email =
+				paymentIntent.last_payment_error?.payment_method?.billing_details.email;
+			paymentIntent.payment_details?.order_reference;
+			await updateOrder(
+				paymentIntent.payment_details?.order_reference as string,
+				'cancelled',
+			);
+			await sendFailOrderEmail(name as string, email as string);
+		} catch (error) {
+			return new Response('Internal error handling failed payment', {
+				status: 500,
+			});
 		}
 	}
 

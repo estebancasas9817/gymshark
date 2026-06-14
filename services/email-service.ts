@@ -1,5 +1,6 @@
 'use server';
 
+import PaymentFailedEmail from '@/emails/payment-failed-email';
 import PurchaseConfirmationEmail from '@/emails/purchase-confirmation-email';
 import VerifyAccountEmail from '@/emails/verify-account-email';
 import { OrderLineItem } from '@/libs/firebase/db/orders/create-order';
@@ -49,7 +50,7 @@ export interface PurchaseConfirmationEmailProps {
 	total?: number;
 }
 
-export async function sendOrderEmail({
+export async function sendSuccessOrderEmail({
 	email,
 	name,
 	total,
@@ -76,6 +77,27 @@ export async function sendOrderEmail({
 				tax,
 				shipping,
 			}),
+		});
+
+		return { success: true, data };
+	} catch (error) {
+		console.error('Error sending verification email:', error);
+		throw new Error('Error sending verification email', { cause: error });
+	}
+}
+
+export async function sendFailOrderEmail(name: string, email: string) {
+	const baseUrl =
+		process.env.NODE_ENV === 'production'
+			? process.env.APP_URL
+			: process.env.APP_LOCAL_URL;
+	console.log('[baseUrl]', baseUrl);
+	try {
+		const data = await resend.emails.send({
+			from: 'Gymshark Clone <onboarding@resend.dev>',
+			to: email,
+			subject: `Order Failed`,
+			react: PaymentFailedEmail({ name, url: baseUrl as string }),
 		});
 
 		return { success: true, data };
