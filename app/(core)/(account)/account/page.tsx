@@ -11,6 +11,8 @@ import { Text } from '@/components/ui/text';
 import { FaAppStoreIos } from 'react-icons/fa';
 import { ImAndroid } from 'react-icons/im';
 import { TbTruckReturn } from 'react-icons/tb';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 export default function Page() {
 	return (
@@ -28,7 +30,12 @@ export default function Page() {
 			</Container>
 			<Container as="section" fullWidth>
 				<Stack className="p-16 gap-6" direction="row">
-					<RecentOrders />
+					<ErrorBoundary fallback={<>error displaying the orders</>}>
+						<Suspense>
+							<RecentOrders />
+						</Suspense>
+					</ErrorBoundary>
+
 					<Stack className="gap-6 basis-1/2">
 						<AccountShortcutCard
 							title="RETURNS"
