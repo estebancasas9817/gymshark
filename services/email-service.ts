@@ -91,7 +91,7 @@ export async function sendFailOrderEmail(name: string, email: string) {
 		process.env.NODE_ENV === 'production'
 			? process.env.APP_URL
 			: process.env.APP_LOCAL_URL;
-	console.log('[baseUrl]', baseUrl);
+
 	try {
 		const data = await resend.emails.send({
 			from: 'Gymshark Clone <onboarding@resend.dev>',

@@ -12,6 +12,7 @@ export type CartItemFull = {
 	image: string;
 	color: string;
 	size: string;
+	discount?: number;
 	sizes?: { size: string; stock: number }[];
 };
 

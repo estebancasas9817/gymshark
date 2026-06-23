@@ -14,6 +14,12 @@ import { cn } from '@/utils/cn/cn';
 export const CartDrawerBody = () => {
 	const { optimisticState, isPending } = useCart();
 	const { handleCloseDrawer } = useDrawer();
+	const total = optimisticState.reduce((acc, item) => {
+		const finalPrice = item.price + (item.discount ?? 0);
+		const total = acc + finalPrice;
+		return total;
+	}, 0);
+
 	return (
 		<Conditional
 			test={optimisticState.length > 0}
@@ -38,9 +44,10 @@ export const CartDrawerBody = () => {
 							size,
 							skuId,
 							productId,
+							discount,
 						}) => (
 							<CartItem
-								key={skuId}
+								key={`${skuId} ${size}`}
 								name={name}
 								color={color}
 								id={skuId}
@@ -49,12 +56,13 @@ export const CartDrawerBody = () => {
 								quantity={quantity}
 								imageSrc={image}
 								productId={productId}
+								discountPrice={discount}
 							/>
 						),
 					)}
 				</div>
 				<DiscountCode />
-				<OrderSummary shippingCost={10} subTotal={30} />
+				<OrderSummary shippingCost={10} subTotal={total} />
 			</>
 		</Conditional>
 	);

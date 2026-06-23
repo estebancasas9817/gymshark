@@ -54,9 +54,10 @@ export async function POST(req: Request) {
 			const cartRef = db.collection('carts').doc(userId);
 			await Promise.all([cartRef.delete(), updateStock(order.items)]);
 
-			//* 3. Invalidate cache to get fresh data for products
+			//* 3. Invalidate cache to get fresh data for products, delete cart items and update orders
 			revalidateTag(`cart-${userId}`);
 			revalidateTag('products-by-category');
+			revalidateTag(`orders-${userId}`);
 			//* 4. Confirmation email
 			await sendSuccessOrderEmail({
 				email: userEmail,

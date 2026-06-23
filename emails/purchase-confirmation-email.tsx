@@ -73,7 +73,9 @@ export default function PurchaseConfirmationEmail({
 							<Row>
 								<Column>
 									<Text style={metaLabel}>ORDER</Text>
-									<Text style={metaValue}>#{orderNumber}</Text>
+									<Text style={metaValue}>
+										#{orderNumber.slice(-8).toUpperCase()}
+									</Text>
 								</Column>
 								<Column style={{ textAlign: 'right' }}>
 									<Text style={metaLabel}>DATE</Text>

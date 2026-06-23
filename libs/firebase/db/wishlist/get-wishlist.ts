@@ -10,6 +10,7 @@ export type WishlistItemFull = {
 	price: number;
 	image: string;
 	color: string;
+	discount?: number;
 	sizes: { size: string; stock: number }[];
 };
 

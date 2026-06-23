@@ -73,6 +73,7 @@ export const ProductCard = ({
 		price,
 		image,
 		sizes,
+		discount,
 	}: WishlistItemFull) => {
 		if (isInFavorites) {
 			toast.success('Item removed from your wishlist.');
@@ -84,6 +85,7 @@ export const ProductCard = ({
 				price,
 				image,
 				sizes,
+				discount,
 			});
 		} else {
 			toast.success('Item added to your wishlist.');
@@ -95,6 +97,7 @@ export const ProductCard = ({
 				price,
 				image,
 				sizes,
+				discount,
 			});
 		}
 	};
@@ -141,6 +144,7 @@ export const ProductCard = ({
 											name,
 											price,
 											image: imgSrc,
+											...(discount && { discount }),
 										},
 										true,
 									)
@@ -167,6 +171,7 @@ export const ProductCard = ({
 							price,
 							image: imgSrc,
 							sizes: variant.sizes,
+							...(discount && { discount }),
 						});
 					}}
 				>
