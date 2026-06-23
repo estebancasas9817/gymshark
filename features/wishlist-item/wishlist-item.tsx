@@ -16,6 +16,7 @@ interface WishlistItemProps {
 	price: number;
 	currency?: string;
 	imageUrl: string;
+	discount?: number;
 	sizes: { size: string; stock: number }[];
 }
 
@@ -28,6 +29,7 @@ export function WishlistItem({
 	currency = '$',
 	imageUrl,
 	sizes,
+	discount,
 }: WishlistItemProps) {
 	const { handleDeleteWishlist } = useWishlist();
 	const { handleAddToCart, isPending } = useCart();
@@ -56,6 +58,7 @@ export function WishlistItem({
 		skuId,
 		quantity,
 		size,
+		discount,
 	}: CartItemFull) {
 		if (!selectedSize) {
 			setShowSizeError(true);
@@ -71,6 +74,7 @@ export function WishlistItem({
 			skuId,
 			quantity,
 			size,
+			...(discount && { discount }),
 		});
 	}
 
@@ -129,6 +133,7 @@ export function WishlistItem({
 											size: selectedSize,
 											skuId,
 											quantity: 1,
+											...(discount && { discount }),
 										});
 										setMenuOpen(false);
 									}}
@@ -159,6 +164,7 @@ export function WishlistItem({
 											productId,
 											sizes,
 											skuId,
+											...(discount && { discount }),
 										});
 										setMenuOpen(false);
 									}}
@@ -245,6 +251,7 @@ export function WishlistItem({
 								size: selectedSize,
 								skuId,
 								quantity: 1,
+								...(discount && { discount }),
 							})
 						}
 						aria-label="Add to bag"

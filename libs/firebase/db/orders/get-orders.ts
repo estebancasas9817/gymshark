@@ -38,7 +38,6 @@ export const getOrders = (userId: string): Promise<Order[]> => {
 			const ordersSnap = await db
 				.collection('orders')
 				.where('userId', '==', userId)
-				.where('status', '==', 'confirmed')
 				.orderBy('createdAt', 'desc')
 				.get();
 

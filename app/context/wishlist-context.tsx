@@ -28,6 +28,7 @@ type Context = {
 		image,
 		price,
 		sizes,
+		discount,
 	}: WishlistItemFull) => Promise<void>;
 	handleDeleteWishlist: ({
 		productId,
@@ -37,6 +38,7 @@ type Context = {
 		image,
 		price,
 		sizes,
+		discount,
 	}: WishlistItemFull) => Promise<void>;
 	optimisticState: WishlistItemFull[] | [];
 	isPending: boolean;

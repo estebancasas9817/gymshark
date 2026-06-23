@@ -5,6 +5,7 @@ import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { Stack } from '@/components/layout/stack';
 import { useCart } from '@/app/context/cart-context';
+import { Conditional } from '@/components/layout/conditional';
 
 export interface CartItemProduct {
 	id: string;
@@ -27,6 +28,7 @@ interface CartItemProps {
 	isFavorite?: boolean;
 	imageSrc: string;
 	productId: string;
+	discountPrice?: number;
 	onToggleFavorite?: (id: string) => void;
 }
 
@@ -40,9 +42,11 @@ export const CartItem: React.FC<CartItemProps> = ({
 	isFavorite,
 	imageSrc,
 	productId,
+	discountPrice,
 	onToggleFavorite,
 }) => {
 	const { handleAddToCart, handleDecreaseCartQuantity } = useCart();
+	const fullPrice = price + (discountPrice ?? 0);
 	const handleDecrease = async () => {
 		await handleDecreaseCartQuantity({
 			size,
@@ -53,6 +57,7 @@ export const CartItem: React.FC<CartItemProps> = ({
 			name,
 			price,
 			image: imageSrc,
+			...(discountPrice && { discount: discountPrice }),
 		});
 	};
 
@@ -66,6 +71,7 @@ export const CartItem: React.FC<CartItemProps> = ({
 			name,
 			price,
 			image: imageSrc,
+			...(discountPrice && { discount: discountPrice }),
 		});
 	};
 
@@ -117,16 +123,14 @@ export const CartItem: React.FC<CartItemProps> = ({
 						<Text as="span" className="text-xs">
 							${price.toFixed(2).replace('.00', '')}
 						</Text>
-						{true && (
+						<Conditional test={!!discountPrice}>
 							<Text
 								as="span"
 								className="text-xs font-normal text-red-600 line-through"
 							>
-								{/* ${10.toFixed(2).replace('.00', '')}
-								 */}
-								10
+								{fullPrice}
 							</Text>
-						)}
+						</Conditional>
 					</div>
 
 					<div className="flex items-center border border-transparent bg-white">
