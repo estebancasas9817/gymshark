@@ -7,7 +7,9 @@ import { BackButton } from '@/components/ui/back-button';
 
 const Page = async () => {
 	const session = await auth();
-	const orders = await getOrders(session?.user?.id as string);
+	const userId = session?.user?.id;
+
+	const orders = await getOrders(userId as string);
 
 	return (
 		<Container className="py-16">
