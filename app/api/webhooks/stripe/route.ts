@@ -48,7 +48,7 @@ export async function POST(req: Request) {
 		try {
 			//* 1. Update order from pending to confirmed
 			await updateOrder(session.id, 'confirmed');
-			const order = await getOrder(session.id);
+			const order = await getOrder(session.id, userId);
 
 			//* 2. Erase cart + update stock
 			const cartRef = db.collection('carts').doc(userId);

@@ -12,8 +12,8 @@ const Page = async () => {
 	const orders = await getOrders(userId as string);
 
 	return (
-		<Container className="py-16">
-			<BackButton />
+		<Container className="py-16" as="main">
+			<BackButton text="Back to account" href="/account" />
 			<Heading as="h1" size="base" className="my-10">
 				ORDERS
 			</Heading>
