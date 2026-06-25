@@ -36,12 +36,13 @@ export default function PurchaseConfirmationEmail({
 	tax = 11.04,
 	total = 149.04,
 }: PurchaseConfirmationEmailProps) {
+	const orderId = orderNumber.slice(-8).toUpperCase();
+
 	return (
 		<Html lang="en">
 			<Head />
 			<Preview>
-				Your Gymshark order #{orderNumber} is confirmed — thanks for your
-				purchase!
+				Your Gymshark order #{orderId} is confirmed — thanks for your purchase!
 			</Preview>
 			<Body style={main}>
 				<Container style={container}>
@@ -73,9 +74,7 @@ export default function PurchaseConfirmationEmail({
 							<Row>
 								<Column>
 									<Text style={metaLabel}>ORDER</Text>
-									<Text style={metaValue}>
-										#{orderNumber.slice(-8).toUpperCase()}
-									</Text>
+									<Text style={metaValue}>#{orderId}</Text>
 								</Column>
 								<Column style={{ textAlign: 'right' }}>
 									<Text style={metaLabel}>DATE</Text>
