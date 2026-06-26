@@ -1,7 +1,7 @@
 import { Timestamp } from 'firebase-admin/firestore';
 
 export type User = {
-	firstName: string;
+	name: string;
 	lastName: string;
 	email: string;
 	password: string;

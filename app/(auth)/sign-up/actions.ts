@@ -81,7 +81,7 @@ export const SignUpAction = async (
 			email,
 			password: hashedPassword,
 			emailVerified: null,
-			firstName,
+			name: firstName,
 			lastName,
 		});
 	} catch (error) {

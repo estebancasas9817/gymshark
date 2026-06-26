@@ -6,6 +6,7 @@ import Women from '@/app/(core)/(public)/[category]/women-messages.json';
 import Men from '@/app/(core)/(public)/[category]/men-messages.json';
 import Login from '@/app/(auth)/sign-in/messages.json';
 import SignUp from '@/app/(auth)/sign-up/messages.json';
+import ResetPassword from '@/app/(auth)/reset-password/messages.json';
 import ProductListPage from '@/app/(core)/(public)/[category]/[subCategory]/messages.json';
 import RootPage from '@/app/messages.json';
 import VerifyAccount from '@/app/(auth)/verify-account/messages.json';
@@ -26,4 +27,5 @@ export const messages = {
 	VerifyAccount,
 	SuccessCheckout,
 	CancelCheckout,
+	ResetPassword,
 };
