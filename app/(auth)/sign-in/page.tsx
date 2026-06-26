@@ -74,7 +74,7 @@ export default function Page() {
 							variant="inline"
 							className="text-primary hover:text-none text-sm pt-0"
 						>
-							{t('form.forgot_password')}
+							<Link href="/reset-password">{t('form.forgot_password')}</Link>
 						</Button>
 						<Button
 							radius="md"

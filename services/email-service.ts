@@ -2,6 +2,7 @@
 
 import PaymentFailedEmail from '@/emails/payment-failed-email';
 import PurchaseConfirmationEmail from '@/emails/purchase-confirmation-email';
+import ResetPassword from '@/emails/reset-password';
 import VerifyAccountEmail from '@/emails/verify-account-email';
 import { OrderLineItem } from '@/libs/firebase/db/orders/create-order';
 import { resend } from '@/libs/resend/resend';
@@ -104,5 +105,34 @@ export async function sendFailOrderEmail(name: string, email: string) {
 	} catch (error) {
 		console.error('Error sending verification email:', error);
 		throw new Error('Error sending verification email', { cause: error });
+	}
+}
+
+export async function sendResetPassword(
+	name: string,
+	email: string,
+	token: string,
+) {
+	const baseUrl =
+		process.env.NODE_ENV === 'production'
+			? process.env.APP_URL
+			: process.env.APP_LOCAL_URL;
+	const verificationUrl = `${baseUrl}/reset-password/request?token=${token}&email=${encodeURIComponent(email)}`;
+
+	try {
+		const data = await resend.emails.send({
+			from: 'Gymshark Clone <onboarding@resend.dev>',
+			to: email,
+			subject: `Order Failed`,
+			react: ResetPassword({
+				userFirstname: name,
+				resetUrl: verificationUrl as string,
+			}),
+		});
+
+		return { success: true, data };
+	} catch (error) {
+		console.error('Error sending reseting password email:', error);
+		throw new Error('Error sending reseting password email', { cause: error });
 	}
 }
