@@ -1,4 +1,5 @@
 import { Stack } from '@/components/layout/stack';
+import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { OrderItem } from '@/libs/firebase/db/orders/get-orders';
 import Image from 'next/image';
@@ -17,13 +18,21 @@ export const OrderCard = ({
 				<figure className="relative w-30 h-40">
 					<Image src={image} alt={name} className="object-cover" fill />
 				</figure>
-				<Stack gap="sm">
-					<Text>{name}</Text>
+				<Stack className="gap-2">
+					<Heading as="h2" className="text-base">
+						{name}
+					</Heading>
 					<Text>
-						<Text as="span">{color}</Text> |<Text as="span">{size}</Text>
+						<Text as="span" className="text-base">
+							{color}
+						</Text>{' '}
+						|{' '}
+						<Text as="span" className="text-base">
+							{size}
+						</Text>
 					</Text>
-					<Text>{unitPrice}</Text>
-					<Text>Quantity: {quantity}</Text>
+					<Text className="text-base">US${unitPrice}</Text>
+					<Text className="text-base">Quantity: {quantity}</Text>
 				</Stack>
 			</Stack>
 		</div>
