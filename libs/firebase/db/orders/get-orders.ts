@@ -21,7 +21,7 @@ export type OrderPricing = {
 };
 
 export type Order = {
-	id: string; // same as stripeSessionId / doc id
+	id: string;
 	items: OrderItem[];
 	pricing: OrderPricing;
 	status: string;

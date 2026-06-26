@@ -3,17 +3,10 @@
 import { Stack } from '@/components/layout/stack';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/utils/cn/cn';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Order } from '@/libs/firebase/db/orders/get-orders';
-
-const STATUS_CONFIG = {
-	pending: { label: 'Order placed', progress: 25, color: 'bg-blue-500' },
-	confirmed: { label: "It's confirmed", progress: 50, color: 'bg-blue-500' },
-	shipped: { label: "It's on the way", progress: 75, color: 'bg-blue-500' },
-	fulfilled: { label: "It's fulfilled", progress: 100, color: 'bg-blue-500' },
-} as const;
+import { ProgressionBar } from '@/features/progression-bar';
 
 const MAX_VISIBLE_THUMBNAILS = 3;
 
@@ -22,10 +15,6 @@ interface OrderCardProps {
 }
 
 export const OrderCard = ({ order }: OrderCardProps) => {
-	const status =
-		STATUS_CONFIG[order.status as keyof typeof STATUS_CONFIG] ??
-		STATUS_CONFIG.pending;
-
 	const visibleItems = order.items.slice(0, MAX_VISIBLE_THUMBNAILS);
 	const remainingCount = order.items.length - MAX_VISIBLE_THUMBNAILS;
 
@@ -51,21 +40,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
 				<Text as="p" size="sm" variant="tertiary">
 					{`Ordered on ${orderedOn}`}
 				</Text>
-
-				<Stack gap="xs" className="mt-2">
-					<Text as="p" size="sm" className="font-bold uppercase">
-						Status
-					</Text>
-					<div className="w-48 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-						<div
-							className={cn('h-full rounded-full', status.color)}
-							style={{ width: `${status.progress}%` }}
-						/>
-					</div>
-					<Text as="p" size="sm" variant="tertiary">
-						{status.label}
-					</Text>
-				</Stack>
+				<ProgressionBar orderStatus={order.status} />
 			</Stack>
 
 			<Stack direction="row" align="center" gap="md">
