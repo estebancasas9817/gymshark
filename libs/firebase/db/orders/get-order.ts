@@ -1,7 +1,7 @@
 import { unstable_cache } from 'next/cache';
 import { db } from '../../init-firestore';
-import { Order } from './create-order';
 import { cache } from 'react';
+import { Order } from './get-orders';
 
 export const _getOrder = async (
 	orderId: string,
@@ -12,7 +12,10 @@ export const _getOrder = async (
 		.where('userId', '==', userId)
 		.where('id', '==', orderId)
 		.get();
-	return orderSnap.docs[0]?.data() as Order;
+	return {
+		...(orderSnap.docs[0]?.data() as Order),
+		createdAt: orderSnap.docs[0]?.data().createdAt?.toMillis?.() ?? null,
+	};
 };
 
 export const getOrder = cache(async (orderId: string, userId: string) => {

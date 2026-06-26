@@ -2,15 +2,13 @@ import { db } from '@/libs/firebase/init-firestore';
 import { FieldValue } from 'firebase-admin/firestore';
 import Stripe from 'stripe';
 
-// Refleja exactamente lo que guardas en metadata + campos display
 export interface OrderLineItem {
 	productId: string;
 	skuId: string;
 	size: string;
 	quantity: number;
-	unitPrice: number; // en USD (no centavos) — igual que tu CartItemFull
+	unitPrice: number;
 	lineTotal: number;
-	// campos display — vendrán del metadata extendido
 	name: string;
 	image: string;
 	color: string;

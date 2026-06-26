@@ -6,14 +6,19 @@ import { redirect } from 'next/navigation';
 import { Container } from '@/components/layout/container';
 import { BackButton } from '@/components/ui/back-button';
 import { Heading } from '@/components/ui/heading';
+import { Stack } from '@/components/layout/stack';
+import { OrderSideBar } from './components/order-sidebar';
+import { OrderList } from './components/order-list';
+import { Suspense } from 'react';
 
 const Page = async (props: PageProps<RouteParams>) => {
 	const [{ orderId }, session] = await Promise.all([props.params, auth()]);
+
 	const order = await getOrder(orderId, session?.user?.id as string);
 	if (!order) {
 		redirect('/not-found');
 	}
-	const { id } = order;
+	const { id, status } = order;
 	//TODO: Update to use a translation
 	const orderHeading = `ORDER #${id.slice(-8).toUpperCase()}`;
 
@@ -23,6 +28,12 @@ const Page = async (props: PageProps<RouteParams>) => {
 			<Heading as="h1" size="base" className="my-10">
 				{orderHeading}
 			</Heading>
+			<Stack direction="row" className="gap-16">
+				<OrderSideBar orderStatus={status} orderId={orderId} />
+				<Suspense>
+					<OrderList orderId={orderId} />
+				</Suspense>
+			</Stack>
 		</Container>
 	);
 };
