@@ -11,7 +11,7 @@ import { cn } from '@/utils/cn/cn';
 import { LoginHeader } from '../../sign-in/components/login-header';
 import { Conditional } from '@/components/layout/conditional';
 import { Text } from '@/components/ui/text';
-import { CircleX } from 'lucide-react';
+import { BadgeCheck, CircleX } from 'lucide-react';
 import { resetPasswordAction } from './actions';
 import { useSearchParams } from 'next/navigation';
 
@@ -27,7 +27,8 @@ export default function Page() {
 	});
 	const { errors, message, status } = state ?? {};
 	const isFailedStatus = status === 'UNEXPECTED_ERROR';
-	const emailError = errors?.password?.[0];
+	const isSuccessStatus = status === 'SUCCESS';
+	const passwordError = errors?.password?.[0];
 
 	return (
 		<Container as="main" fullWidth className="relative h-screen">
@@ -43,14 +44,14 @@ export default function Page() {
 						type="password"
 						placeholder={t('input_placeholder_password')}
 						required
-						error={emailError}
+						error={passwordError}
 					/>
 					<Input
 						name="confirmPassword"
 						type="password"
 						placeholder={t('input_placeholder_confirm_password')}
 						required
-						error={emailError}
+						error={passwordError}
 					/>
 
 					<Stack gap="sm">
@@ -77,7 +78,17 @@ export default function Page() {
 								)}
 							>
 								<CircleX size={16} />
-
+								{message}
+							</Text>
+						</Conditional>
+						<Conditional test={isSuccessStatus}>
+							<Text
+								className={cn(
+									'flex gap-2 items-center justify-center text-sm',
+									'text-green-700',
+								)}
+							>
+								<BadgeCheck size={16} />
 								{message}
 							</Text>
 						</Conditional>
