@@ -3,7 +3,10 @@
 import { signIn } from '@/libs/auth/auth';
 import { EmailNotVerifiedError } from '@/libs/auth/auth-errors';
 import { db } from '@/libs/firebase/init-firestore';
-import { sendResetPassword } from '@/services/email-service';
+import {
+	sendOathAccountEmail,
+	sendResetPassword,
+} from '@/services/email-service';
 import { generateToken } from '@/utils/generate-token/generate-token';
 import { AuthError } from 'next-auth';
 import { success, z } from 'zod';
@@ -113,6 +116,17 @@ export const forgotPasswordAction = async (
 		if (userSnapshot.empty) {
 			// *wrong email
 			return { success: true };
+		}
+		const user = userSnapshot.docs[0].data();
+
+		try {
+			// * IF user is using a provider for auth
+			if (!user.password) {
+				await sendOathAccountEmail(user.name, user.email);
+				return { success: true };
+			}
+		} catch (error) {
+			return { success: false };
 		}
 
 		try {

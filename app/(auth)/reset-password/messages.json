@@ -1,7 +1,11 @@
 {
 	"title": "FORGOT YOUR PASSWORD?",
+	"sub_title": "CHANGE YOUR PASSWORD",
 	"description": "No problem. Enter your account email address and we’ll send you instructions so you can reset your password.",
+	"sub_description": "Please enter a new password below.",
 	"input_placeholder": "Email address*",
+	"input_placeholder_password": "New password*",
+	"input_placeholder_confirm_password": "Re-enter new password*",
 	"button_text": "RESET PASSWORD",
 	"link_text": "Back to login"
 }

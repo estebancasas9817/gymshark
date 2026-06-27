@@ -1,5 +1,6 @@
 'use server';
 
+import OAuthAccountEmail from '@/emails/oath-account-email';
 import PaymentFailedEmail from '@/emails/payment-failed-email';
 import PurchaseConfirmationEmail from '@/emails/purchase-confirmation-email';
 import ResetPassword from '@/emails/reset-password';
@@ -127,6 +128,32 @@ export async function sendResetPassword(
 			react: ResetPassword({
 				userFirstname: name,
 				resetUrl: verificationUrl as string,
+			}),
+		});
+
+		return { success: true, data };
+	} catch (error) {
+		console.error('Error sending reseting password email:', error);
+		throw new Error('Error sending reseting password email', { cause: error });
+	}
+}
+
+export async function sendOathAccountEmail(name: string, email: string) {
+	const baseUrl =
+		process.env.NODE_ENV === 'production'
+			? process.env.APP_URL
+			: process.env.APP_LOCAL_URL;
+	const verificationUrl = `${baseUrl}/sign-in`;
+
+	try {
+		const data = await resend.emails.send({
+			from: 'Gymshark Clone <onboarding@resend.dev>',
+			to: email,
+			subject: `Order Failed`,
+			react: OAuthAccountEmail({
+				userFirstname: name,
+				userEmail: email,
+				loginUrl: verificationUrl,
 			}),
 		});
 
