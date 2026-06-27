@@ -76,11 +76,7 @@ The project follows a modular structure designed for maintainability and Separat
 
 - [x] Stripe UI integration and Webhook validation for order processing.
 
-### Phase 10: Advanced Security (In Progress 📍)
-
-- [ ] 2FA Implementation (QR Code generation and OTP validation).
-
-### Phase 11 to 14: Final Polish & Deploy
+### Phase 10 to 13: Final Polish & Deploy (In Progress 📍)
 
 - [ ] User Dashboard, Performance Optimization, Error Boundaries, and Production Deploy.
 
