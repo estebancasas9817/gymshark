@@ -9,7 +9,7 @@ import {
 } from '@/services/email-service';
 import { generateToken } from '@/utils/generate-token/generate-token';
 import { AuthError } from 'next-auth';
-import { success, z } from 'zod';
+import { z } from 'zod';
 
 type ActionState = {
 	message?: string;
@@ -25,6 +25,7 @@ const loginSchema = z.object({
 	email: z.email({ message: 'The format of the email is not valid' }),
 	password: z.string(),
 });
+
 export const signInAction = async (
 	prevState: ActionState | undefined,
 	formData: FormData,
@@ -91,22 +92,8 @@ type ForgotPasswordState = {
 };
 
 export const forgotPasswordAction = async (
-	prevState: ForgotPasswordState | undefined,
-	formData: FormData,
+	email: string,
 ): Promise<ForgotPasswordState | undefined> => {
-	const rawData = {
-		email: formData.get('email'),
-	};
-	const signInResult = loginSchema.safeParse(rawData);
-	if (!signInResult.success) {
-		return {
-			success: false,
-			errors: signInResult.error.flatten((error) => error.message).fieldErrors,
-			status: 'WRONG_INPUT',
-		};
-	}
-	const { email } = signInResult.data;
-
 	try {
 		const userSnapshot = await db
 			.collection('users')
@@ -130,6 +117,7 @@ export const forgotPasswordAction = async (
 		}
 
 		try {
+			// * GENERATION OF PASSWORD TOKEN
 			const validationToken = generateToken();
 			const user = userSnapshot.docs[0].data();
 			const expiresAt = new Date();
@@ -147,4 +135,28 @@ export const forgotPasswordAction = async (
 	} catch (error) {
 		return { success: false, status: 'UNEXPECTED_ERROR' };
 	}
+};
+
+const emailSchema = z.object({
+	email: z.email({ message: 'The format of the email is not valid' }),
+});
+
+export const forgotPasswordFormAction = async (
+	prevState: ForgotPasswordState | undefined,
+	formData: FormData,
+): Promise<ForgotPasswordState | undefined> => {
+	const rawData = {
+		email: formData.get('email'),
+	};
+	const signInResult = emailSchema.safeParse(rawData);
+	if (!signInResult.success) {
+		return {
+			success: false,
+			errors: signInResult.error.flatten((error) => error.message).fieldErrors,
+			status: 'WRONG_INPUT',
+		};
+	}
+	const { email } = signInResult.data;
+
+	return await forgotPasswordAction(email);
 };

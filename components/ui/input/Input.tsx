@@ -1,7 +1,7 @@
 'use client';
 
 import { EyeOff, Eye, AlertCircle } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styles from './input.module.css';
 import { cn } from '@/utils/cn/cn';
 import { Conditional } from '@/components/layout/conditional';
@@ -14,6 +14,7 @@ interface InputProps {
 	min?: number;
 	max?: number;
 	error?: string;
+	onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Input = ({
@@ -24,6 +25,7 @@ export const Input = ({
 	min,
 	max,
 	error,
+	onChange,
 }: InputProps) => {
 	const [isFloatingLabel, setIsFloatingLabel] = useState<boolean>(false);
 	const [showPassword, setShowPassword] = useState(false);
@@ -61,6 +63,7 @@ export const Input = ({
 				max={max}
 				aria-invalid={!!error}
 				aria-describedby={error ? `${name}-error` : undefined}
+				onChange={onChange}
 			/>
 			<label
 				className={cn(
