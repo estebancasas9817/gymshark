@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/utils/cn/cn';
 import { Mail } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -42,7 +43,7 @@ export function CheckEmail({
 	const isDisabled = isSending || cooldown > 0;
 
 	return (
-		<div className="mx-auto max-w-md rounded-2xl bg-white px-8 py-10 text-center">
+		<div className="mx-auto max-w-md rounded-2xl bg-white px-8 py-10 text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
 			<div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border-2 border-emerald-600">
 				<Mail className="h-9 w-9 text-emerald-600" strokeWidth={1.75} />
 			</div>
@@ -62,7 +63,10 @@ export function CheckEmail({
 				type="button"
 				onClick={handleResend}
 				disabled={isDisabled}
-				className="text-sm font-semibold text-gray-900 underline-offset-2 hover:underline disabled:cursor-not-allowed disabled:text-gray-400 disabled:hover:no-underline"
+				className={cn(
+					'text-sm font-semibold text-gray-900 underline-offset-2 hover:underline disabled:cursor-not-allowed disabled:text-gray-400 disabled:hover:no-underline',
+					cooldown === 0 && 'cursor-pointer',
+				)}
 			>
 				{isSending
 					? 'Sending...'

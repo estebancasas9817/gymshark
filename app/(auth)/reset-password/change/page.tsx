@@ -24,11 +24,11 @@ export default function Page() {
 		errors: undefined,
 		message: '',
 		success: false,
+		status: undefined,
 	});
 	const { errors, message, status } = state ?? {};
 	const isFailedStatus = status === 'UNEXPECTED_ERROR';
-	const isSuccessStatus = status === 'SUCCESS';
-	const passwordError = errors?.password?.[0];
+	const passwordError = errors?.confirmPassword?.[0] ?? errors?.password?.[0];
 
 	return (
 		<Container as="main" fullWidth className="relative h-screen">
@@ -81,14 +81,19 @@ export default function Page() {
 								{message}
 							</Text>
 						</Conditional>
-						<Conditional test={isSuccessStatus}>
+						<Conditional test={!!message}>
 							<Text
 								className={cn(
-									'flex gap-2 items-center justify-center text-sm',
-									'text-green-700',
+									'flex gap-2 items-center justify-center text-sm max-w-80',
+									status === 'SUCCESS' ? 'text-green-700' : 'text-error',
 								)}
 							>
-								<BadgeCheck size={16} />
+								<Conditional
+									test={!!state.success}
+									fallback={<CircleX size={30} />}
+								>
+									<BadgeCheck size={30} />
+								</Conditional>
 								{message}
 							</Text>
 						</Conditional>

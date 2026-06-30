@@ -118,7 +118,7 @@ export async function sendResetPassword(
 		process.env.NODE_ENV === 'production'
 			? process.env.APP_URL
 			: process.env.APP_LOCAL_URL;
-	const verificationUrl = `${baseUrl}/reset-password/request?token=${token}&email=${encodeURIComponent(email)}`;
+	const verificationUrl = `${baseUrl}/reset-password/change?token=${token}&email=${encodeURIComponent(email)}`;
 
 	try {
 		const data = await resend.emails.send({

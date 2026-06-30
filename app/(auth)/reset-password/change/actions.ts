@@ -9,6 +9,7 @@ type ResetPasswordState = {
 	success?: boolean;
 	errors?: {
 		password?: string[];
+		confirmPassword?: string[];
 	};
 	status?:
 		| 'UNEXPECTED_ERROR'
@@ -60,19 +61,14 @@ export const resetPasswordAction = async (
 	try {
 		const verifyQuery = db.collection('passwordResetTokens').doc(email);
 		const verificationTokenSnap = await verifyQuery.get();
-
-		if (!verificationTokenSnap.exists) {
-			return {
-				status: 'INVALID',
-				success: false,
-			};
-		}
-
 		const data = verificationTokenSnap.data();
-		if (!data) {
+
+		if (!verificationTokenSnap.exists || !data) {
 			return {
 				status: 'INVALID',
 				success: false,
+				message:
+					'The link you followed is invalid or has already been used. Please request a new password reset.',
 			};
 		}
 
@@ -83,9 +79,13 @@ export const resetPasswordAction = async (
 
 		if (!isEqualToken || hasExpired) {
 			const status = !isEqualToken ? 'INVALID' : 'EXPIRED';
+			const message = !isEqualToken
+				? 'he link you followed is invalid or has already been used. Please request a new password reset.'
+				: 'This password reset link is no longer valid. Please go back and request a new one.';
 			return {
 				status,
 				success: false,
+				message,
 			};
 		}
 		await verifyQuery.delete();
@@ -96,11 +96,26 @@ export const resetPasswordAction = async (
 			await userQuery.update({
 				password: hashedPassword,
 			});
-			return { success: true, status: 'SUCCESS' };
+			return {
+				success: true,
+				status: 'SUCCESS',
+				message:
+					'Your password has been successfully reset. You can now log in with your new credentials.',
+			};
 		} catch (error) {
-			return { success: false, status: 'UNEXPECTED_ERROR' };
+			return {
+				success: false,
+				status: 'UNEXPECTED_ERROR',
+				message:
+					'An unexpected error occurred on our end. Please try again in a few moments.',
+			};
 		}
 	} catch (error) {
-		return { success: false, status: 'UNEXPECTED_ERROR' };
+		return {
+			success: false,
+			status: 'UNEXPECTED_ERROR',
+			message:
+				'An unexpected error occurred on our end. Please try again in a few moments.',
+		};
 	}
 };
