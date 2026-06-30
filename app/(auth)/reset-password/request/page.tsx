@@ -33,6 +33,7 @@ export default function Page() {
 	const { errors, message, status } = state ?? {};
 	const isFailedStatus = status === 'UNEXPECTED_ERROR';
 	const isSuccessStatus = status === 'SUCCESS';
+	console.log('[status]', { status });
 	const emailError = errors?.email?.[0];
 
 	const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {

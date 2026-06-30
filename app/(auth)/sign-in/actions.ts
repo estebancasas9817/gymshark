@@ -93,7 +93,7 @@ type ForgotPasswordState = {
 
 export const forgotPasswordAction = async (
 	email: string,
-): Promise<ForgotPasswordState | undefined> => {
+): Promise<ForgotPasswordState> => {
 	try {
 		const userSnapshot = await db
 			.collection('users')
@@ -102,7 +102,7 @@ export const forgotPasswordAction = async (
 
 		if (userSnapshot.empty) {
 			// *wrong email
-			return { success: true };
+			return { success: true, status: 'SUCCESS' };
 		}
 		const user = userSnapshot.docs[0].data();
 
@@ -110,7 +110,7 @@ export const forgotPasswordAction = async (
 			// * IF user is using a provider for auth
 			if (!user.password) {
 				await sendOathAccountEmail(user.name, user.email);
-				return { success: true };
+				return { success: true, status: 'SUCCESS' };
 			}
 		} catch (error) {
 			return { success: false };
@@ -128,7 +128,7 @@ export const forgotPasswordAction = async (
 				expires: expiresAt,
 			});
 			await sendResetPassword(user.name, user.email, validationToken);
-			return { success: true };
+			return { success: true, status: 'SUCCESS' };
 		} catch (error) {
 			return { success: false };
 		}
@@ -144,7 +144,7 @@ const emailSchema = z.object({
 export const forgotPasswordFormAction = async (
 	prevState: ForgotPasswordState | undefined,
 	formData: FormData,
-): Promise<ForgotPasswordState | undefined> => {
+): Promise<ForgotPasswordState> => {
 	const rawData = {
 		email: formData.get('email'),
 	};
@@ -157,6 +157,7 @@ export const forgotPasswordFormAction = async (
 		};
 	}
 	const { email } = signInResult.data;
-
-	return await forgotPasswordAction(email);
+	const res = await forgotPasswordAction(email);
+	console.log('[res]', { res });
+	return res;
 };
