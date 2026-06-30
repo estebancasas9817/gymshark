@@ -9,24 +9,26 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import Link from 'next/link';
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { signInAction } from './actions';
 import { cn } from '@/utils/cn/cn';
 import { Conditional } from '@/components/layout/conditional';
 import { CircleX } from 'lucide-react';
 import { Divider } from '@/components/ui/divider';
 import { FcGoogle } from 'react-icons/fc';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
 	const t = useTranslations('Login.auth');
+	const router = useRouter();
+	const { update } = useSession();
 	const [state, formAction, isPending] = useActionState(signInAction, {
 		errors: undefined,
 		message: '',
 		success: false,
 	});
 	const [isGooglePending, setIsGooglePending] = useState<boolean>(false);
-
 	const { errors, message, status } = state ?? {};
 	let emailError = errors?.email?.[0];
 	let passwordError = errors?.password?.[0];
@@ -36,6 +38,14 @@ export default function Page() {
 		emailError = undefined;
 		passwordError = undefined;
 	}
+
+	useEffect(() => {
+		if (state?.status === 'SUCCESS') {
+			update().then(() => {
+				router.push('/account');
+			});
+		}
+	}, [state?.status, router]);
 
 	const handleGoogleLogin = async () => {
 		setIsGooglePending(true);

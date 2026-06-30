@@ -9,6 +9,7 @@ import {
 } from '@/services/email-service';
 import { generateToken } from '@/utils/generate-token/generate-token';
 import { AuthError } from 'next-auth';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 type ActionState = {
@@ -18,7 +19,7 @@ type ActionState = {
 		email?: string[];
 		password?: string[];
 	};
-	status?: 'UNEXPECTED_ERROR' | 'WRONG_INPUT' | 'NOT_VERIFIED';
+	status?: 'UNEXPECTED_ERROR' | 'WRONG_INPUT' | 'NOT_VERIFIED' | 'SUCCESS';
 };
 
 const loginSchema = z.object({
@@ -29,7 +30,7 @@ const loginSchema = z.object({
 export const signInAction = async (
 	prevState: ActionState | undefined,
 	formData: FormData,
-): Promise<ActionState | undefined> => {
+): Promise<ActionState> => {
 	const rawData = {
 		email: formData.get('email'),
 		password: formData.get('password'),
@@ -47,8 +48,9 @@ export const signInAction = async (
 		await signIn('credentials', {
 			email,
 			password,
-			redirectTo: '/account',
+			redirect: false,
 		});
+		return { success: true, status: 'SUCCESS' };
 	} catch (error) {
 		// * IF USER HASN'T VERIFIED ACCOUNT
 		if (error instanceof EmailNotVerifiedError) {
@@ -65,6 +67,10 @@ export const signInAction = async (
 					return {
 						success: false,
 						message: 'Wrong email or password',
+						errors: {
+							email: ['Wrong email or password'],
+							password: ['Wrong email or password'],
+						},
 						status: 'WRONG_INPUT',
 					};
 				default:
@@ -75,10 +81,11 @@ export const signInAction = async (
 					};
 			}
 		}
-		// * IF LOGIN WAS SUCCESSFULL NEXT REDIRECTS TO /my-account
-		// ! EVEN WITH A SUCCESSFULL LOGIN, IT WILL ENTER THE CATCH BLOCK AND NEXT UNDER THE HOOK REDIRECTS, THERE IS NO NEED TO ADD A SUCCESS RETURN IN THE TRY BLOCK, SINCE IT WILL ALWAYS ENTER THE CATCH BLOCK
-
-		throw error;
+		return {
+			success: false,
+			message: 'Something went wrong',
+			status: 'UNEXPECTED_ERROR',
+		};
 	}
 };
 
