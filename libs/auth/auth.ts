@@ -13,6 +13,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 	callbacks: {
 		// * CALLBACK FOR UPDATING THE EMAIL_VERIFIED FIELD WHEN LOGGING WITH GOOGLE PROVIDER
 		jwt: async ({ token, account, user }) => {
+			if (user) {
+				token.sub = user.id;
+			}
+
 			if (account?.provider === 'google' && user?.email) {
 				await db
 					.collection('users')
@@ -30,7 +34,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			return token;
 		},
 		session: ({ session, token }) => {
-			session.user.id = token.sub!;
+			if (session.user && token.sub) {
+				session.user.id = token.sub;
+			}
 			return session;
 		},
 	},
