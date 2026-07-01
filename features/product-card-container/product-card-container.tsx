@@ -10,10 +10,12 @@ type ProductCard = Product & {
 interface ProductCardContainer {
 	stackClassNames?: string;
 	products?: ProductCard[];
+	shouldUpdateImgOnHover?: boolean;
 }
 export const ProductCardContainer = ({
 	stackClassNames,
 	products,
+	shouldUpdateImgOnHover = false,
 }: ProductCardContainer) => {
 	return (
 		<Stack direction="row" className={cn('gap-1', stackClassNames)}>
@@ -28,6 +30,7 @@ export const ProductCardContainer = ({
 					imageSrc={skus.images}
 					discount={discount}
 					variant={skus}
+					shouldUpdateImgOnHover={shouldUpdateImgOnHover}
 				/>
 			))}
 		</Stack>

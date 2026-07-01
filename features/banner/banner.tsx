@@ -5,7 +5,14 @@ import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import Image from 'next/image';
 
-export const Banner = () => {
+interface BannerProps {
+	title: string;
+	description: string;
+	button: string;
+	href: string;
+}
+
+export const Banner = ({ title, description, button, href }: BannerProps) => {
 	return (
 		<Container fullWidth className="w-full overflow-hidden relative h-150">
 			<figure>
@@ -22,18 +29,17 @@ export const Banner = () => {
 			</figure>
 			<Stack className="absolute m-12 bottom-0 w-100" gap="lg">
 				<Heading as="h2" className="text-secondary text-2xl">
-					WHITNEY, JUST A LITTLE LOWER
+					{title}
 				</Heading>
 				<Text as="p" className="text-secondary text-sm font-bold">
-					Same Whitney, just with a lower waistband. Sculpting, buttery soft and
-					still your go-to.
+					{description}
 				</Text>
 				<Stack direction="row" gap="lg">
 					<Button variant="inline" className="p-0" size="md">
 						Shop Now
 					</Button>
 					<Button variant="inline" className="p-0" size="md">
-						Shop Leggings
+						{button}
 					</Button>
 				</Stack>
 			</Stack>
