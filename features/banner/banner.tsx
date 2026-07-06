@@ -4,22 +4,28 @@ import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface BannerProps {
 	title: string;
 	description: string;
 	button: string;
 	href: string;
+	image: string;
 }
 
-export const Banner = ({ title, description, button, href }: BannerProps) => {
+export const Banner = ({
+	title,
+	description,
+	button,
+	href,
+	image,
+}: BannerProps) => {
 	return (
 		<Container fullWidth className="w-full overflow-hidden relative h-150">
 			<figure>
 				<Image
-					src={
-						'https://res.cloudinary.com/dqfcdiyvm/image/upload/v1777426471/photo-1723117976381-d4dd0d0fa846_jofv0h.jpg'
-					}
+					src={image}
 					alt=""
 					className="w-full h-full object-cover object-[center_30%]"
 					fill
@@ -36,10 +42,7 @@ export const Banner = ({ title, description, button, href }: BannerProps) => {
 				</Text>
 				<Stack direction="row" gap="lg">
 					<Button variant="inline" className="p-0" size="md">
-						Shop Now
-					</Button>
-					<Button variant="inline" className="p-0" size="md">
-						{button}
+						<Link href={href}>{button}</Link>
 					</Button>
 				</Stack>
 			</Stack>

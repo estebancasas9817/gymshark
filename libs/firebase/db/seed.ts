@@ -282,3 +282,142 @@ export async function seedEditorialBanners(): Promise<void> {
 		}
 	});
 }
+
+// ------------
+
+const DEPARTMENT_DATA = [
+	{
+		department: 'home',
+		slugs: [
+			'accessories/all-accessories',
+			'women/shorts',
+			'men/tanks',
+			'women/sport-bras',
+		],
+		sectionsName: [
+			'WE RECOMMEND',
+			'TOP 10 SHORTS',
+			'WELCOME TO YOUR EDIT',
+			"WOMEN'S BESTSELLERS",
+		],
+		banners: [
+			{
+				title: 'GEAR UP, LOCK IN',
+				description:
+					'Premium gym essentials engineered for maximum support, grip, and utility. From heavy lifts to daily commutes, carry your progress with confidence.',
+				button: 'Shop Accessories',
+				href: '',
+				image: '',
+			},
+			{
+				title: 'ELEMENT, ZERO LIMITS',
+				description:
+					'Ultra-durable, lightweight ripstop fabric designed to withstand your most intense sessions. Engineered for ventilation where you need it most.',
+				button: 'Shop Tops',
+				href: '',
+				image: '',
+			},
+			{
+				title: 'VITAL, PURE FREEDOM',
+				description:
+					'A minimalist aesthetic meets maximum flexibility. Unmatched stretch and a contouring fit that feels completely weightless.',
+				button: 'Shop Shorts',
+				href: '',
+				image: '',
+			},
+		],
+	},
+	{
+		department: 'women',
+		slugs: [
+			'women/hoodies',
+			'women/leggings',
+			'women/t-shirts',
+			'women/sport-bras',
+		],
+		sectionsName: [
+			'WE RECOMMEND',
+			'NEW IN LEGGINGS',
+			'WELCOME TO YOUR EDIT',
+			'BESTSELLERS',
+		],
+		banners: [
+			{
+				title: 'WHITNEY, JUST A LITTLE LOWER',
+				description:
+					'Same Whitney, just with a lower waistband. Sculpting, buttery soft and still your go-to.',
+				button: 'Shop Leggings',
+				href: '',
+				image: '',
+			},
+			{
+				title: 'ELEVATE, SHAPED FOR MOTION',
+				description:
+					'High-waisted support meets zero-distraction fabric. Sculpting, moisture-wicking, and designed to hold its shape through your toughest workouts.',
+				button: 'Shop Shorts',
+				href: '',
+				image: '',
+			},
+			{
+				title: 'AURA, SEAMLESS COMFORT',
+				description:
+					'An ultra-lightweight knit with a second-skin feel. Breathable stretch that effortlessly transitions from the studio to your daily routine.',
+				button: 'Shop Shorts',
+				href: '',
+				image: '',
+			},
+		],
+	},
+	{
+		department: 'men',
+		slugs: ['men/t-shirts', 'men/joggers', 'men/hoodies', 'men/shorts'],
+		sectionsName: [
+			'WE RECOMMEND',
+			'NEW IN JOGGERS',
+			'WELCOME TO YOUR EDIT',
+			'BESTSELLERS',
+		],
+		banners: [
+			{
+				title: 'APEX, BUILT TO LAST',
+				description:
+					'High-endurance engineering, maximum breathability, and an athletic fit that moves with you. Push your limits today.',
+				button: 'Shop Training',
+				href: '',
+				image: '',
+			},
+			{
+				title: 'CORE, YOUR NEW ESSENTIALS',
+				description:
+					'The same durability, now with an ultra-lightweight, buttery-soft fabric. Designed for breaking PRs and rest days alike.',
+				button: 'Shop Hoodies',
+				href: '',
+				image: '',
+			},
+			{
+				title: 'POWER, STRONGER THAN EVER',
+				description:
+					'Ergonomic cuts to highlight your physique and sweat-wicking tech to keep you cool through every set. Your new training uniform.',
+				button: 'Shop Shorts',
+				href: '',
+				image: '',
+			},
+		],
+	},
+];
+
+export async function SeedMyBanners() {
+	console.log('🌱 Seeding editorialBanners...');
+
+	for (const data of DEPARTMENT_DATA) {
+		await db
+			.collection('banners')
+			.doc(data.department)
+			.set(data, { merge: true });
+
+		console.log(`✅ Seeded department: ${data.department}`);
+	}
+
+	console.log('🎉 Done seeding editorialBanners!');
+	process.exit(0);
+}
