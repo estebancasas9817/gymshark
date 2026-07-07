@@ -17,6 +17,7 @@ import { useCart } from '@/app/context/cart-context';
 import { useWishlist } from '@/app/context/wishlist-context';
 import { WishlistItemFull } from '@/libs/firebase/db/wishlist/get-wishlist';
 import { useToast } from '@/app/context/toast-context';
+import { getPdpUrl } from './utils';
 
 interface ProductCardProps {
 	color: string;
@@ -107,7 +108,7 @@ export const ProductCard = ({
 			className={cn(styles['product-card'], 'mb-6', productCardClassNames)}
 		>
 			<figure className={cn('relative w-full h-90', imageClassNames)}>
-				<Link href={href}>
+				<Link href={getPdpUrl(href, color)}>
 					<Image
 						src={imgSrc}
 						alt={desc}
@@ -178,7 +179,7 @@ export const ProductCard = ({
 					<Heart size={16} fill={isInFavorites ? 'black' : 'transparent'} />
 				</ActionPill>
 			</figure>
-			<Link href={href}>
+			<Link href={getPdpUrl(href, color)}>
 				<Text as="p" size="sm" className="mb-1 mt-2">
 					{name}
 				</Text>
