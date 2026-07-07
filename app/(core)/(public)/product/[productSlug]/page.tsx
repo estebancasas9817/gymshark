@@ -20,19 +20,26 @@ import { ShopTheLook } from './components/shop-the-look';
 import { RecentlyView } from './components/recently-view';
 
 type RouteParams = { productSlug: string };
-type QueryParams = {};
+type QueryParams = { color: 'red' | 'black' | 'white' | 'blue' };
 
-const Page = async ({ params }: PageProps<RouteParams, QueryParams>) => {
-	const { productSlug } = await params;
-	const product = await getProduct(productSlug);
+const Page = async ({
+	params,
+	searchParams,
+}: PageProps<RouteParams, QueryParams>) => {
+	const [{ productSlug }, { color }] = await Promise.all([
+		params,
+		searchParams,
+	]);
+	const product = await getProduct(productSlug, color);
 	if (!product) {
 		notFound();
 	}
-	const { name, variants, price, discount, parentCategoryId } = product;
+	console.log('[first]', product);
+	const { name, activeSku, basePrice, discount, skus } = product;
 
 	return (
 		<Container as="main" fullWidth>
-			<ProductDisplayContextProvider variant={variants[0]}>
+			<ProductDisplayContextProvider variant={activeSku}>
 				<Stack direction="row" className="gap-0">
 					<Gallery />
 					<Container fullWidth className="px-37.5 w-1/2">
@@ -43,7 +50,7 @@ const Page = async ({ params }: PageProps<RouteParams, QueryParams>) => {
 							Regular
 						</Text>
 						<Text as="span" className="font-bold">
-							${price}
+							${basePrice}
 						</Text>
 						<Stack direction="row" gap="lg" className="py-12">
 							<ActionPill className="cursor-pointer hover:bg-gray-200">
@@ -67,9 +74,9 @@ const Page = async ({ params }: PageProps<RouteParams, QueryParams>) => {
 								<Share size={18} />
 							</ActionPill>
 						</Stack>
-						<VariantSelectorGrid variants={variants} />
+						<VariantSelectorGrid variants={skus} />
 						<SizePicker />
-						<PaymentSuggestions price={price} />
+						<PaymentSuggestions price={basePrice} />
 						<PaymentCarousel />
 						<ShopTheLook />
 					</Container>

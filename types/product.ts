@@ -33,4 +33,6 @@ export type Sku = {
 	isInStock: boolean;
 	totalStock: number;
 	sizeKeys: string[];
+	isDefault: boolean;
+	isActive: boolean;
 };
