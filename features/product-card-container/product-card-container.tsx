@@ -4,7 +4,7 @@ import { cn } from '@/utils/cn/cn';
 import { Product, Sku } from '@/types/product';
 
 type ProductCard = Product & {
-	skus: Sku;
+	sku: Sku;
 	href: string;
 };
 interface ProductCardContainer {
@@ -19,17 +19,17 @@ export const ProductCardContainer = ({
 }: ProductCardContainer) => {
 	return (
 		<Stack direction="row" className={cn('gap-1', stackClassNames)}>
-			{products?.map(({ id, name, skus, basePrice, href, discount }) => (
+			{products?.map(({ id, name, sku, basePrice, href, discount }) => (
 				<ProductCard
 					key={id}
 					name={name}
 					price={basePrice}
-					color={skus.color}
+					color={sku.color}
 					desc={name}
 					href={href}
-					imageSrc={skus.images}
+					imageSrc={sku.images}
 					discount={discount}
-					variant={skus}
+					variant={sku}
 					shouldUpdateImgOnHover={shouldUpdateImgOnHover}
 				/>
 			))}

@@ -11,7 +11,6 @@ import { Text } from '@/components/ui/text';
 import { VariantSelectorGrid } from './components/variant-selector-grid';
 import { SizePicker } from './components/size-picker';
 import { ProductCollection } from './components/product-collection';
-import { ProductCardContainer } from '@/features/product-card-container';
 import { Carousel } from '@/features/carousel';
 import { PaymentCarousel } from './components/payment-carousel';
 import { PaymentSuggestions } from './components/payment-suggestions';
@@ -19,6 +18,8 @@ import { ShopTheLook } from './components/shop-the-look';
 import { RecentlyView } from './components/recently-view';
 import { Suspense } from 'react';
 import { Conditional } from '@/components/layout/conditional';
+import { ProductsYouMightLike } from './components/products-you-might-like';
+import { ProductsRecommended } from './components/products-recommended';
 
 type RouteParams = { productSlug: string };
 type QueryParams = { color: 'red' | 'black' | 'white' | 'blue' };
@@ -35,7 +36,16 @@ const Page = async ({
 	if (!product) {
 		notFound();
 	}
-	const { name, activeSku, basePrice, discount = 0, skus } = product;
+	console.log('[product]', { product });
+	const {
+		name,
+		activeSku,
+		basePrice,
+		discount = 0,
+		skus,
+		id,
+		categorySlug,
+	} = product;
 	const fullPrice = basePrice + discount;
 
 	return (
@@ -101,11 +111,21 @@ const Page = async ({
 					</Text>
 				}
 			>
-				<ProductCardContainer stackClassNames="flex-wrap" />
+				<Suspense>
+					<ProductsYouMightLike
+						categorySlug={categorySlug}
+						excludeProductId={id}
+					/>
+				</Suspense>
 			</ProductCollection>
 
 			<Carousel sectionName="WE RECOMMEND" className="w-full">
-				<ProductCardContainer />
+				<Suspense>
+					<ProductsRecommended
+						categorySlug={categorySlug}
+						excludeProductId={id}
+					/>
+				</Suspense>
 			</Carousel>
 
 			<RecentlyView />
