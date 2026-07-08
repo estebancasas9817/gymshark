@@ -1,17 +1,16 @@
 'use client';
 
 import Image from 'next/image';
-import { useProductDisplayContext } from '../../context/product-display-context';
 import { cn } from '@/utils/cn/cn';
 import styles from './gallery.module.css';
 import { GalleryScroller } from '../gallery-scroller';
 import { useRef, useState, MouseEvent } from 'react';
 
-export const Gallery = () => {
-	const {
-		selectedVariant: { images },
-	} = useProductDisplayContext();
+interface GalleryProps {
+	galleryImages: string[];
+}
 
+export const Gallery = ({ galleryImages }: GalleryProps) => {
 	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
 	const [zoom, setZoom] = useState({
@@ -67,7 +66,7 @@ export const Gallery = () => {
 							: styles['gallery-img-cursor-zoom-in'],
 					)}
 				>
-					{images.map((imageUrl, index) => {
+					{galleryImages.map((imageUrl, index) => {
 						const isMainImage = index === 2;
 						const shouldZoom = zoom.isZoomed && index === zoom.imgPosition;
 

@@ -4,13 +4,15 @@ import { Stack } from '@/components/layout/stack';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Check, Ruler } from 'lucide-react';
-import { useProductDisplayContext } from '../../context/product-display-context';
 import { cn } from '@/utils/cn/cn';
 import { useState } from 'react';
 import { Tooltip } from '@/components/ui/tooltip';
+import { Sku } from '@/types/product';
 
-export const SizePicker = () => {
-	const { selectedVariant } = useProductDisplayContext();
+interface SizePickerProps {
+	selectedVariant: Sku;
+}
+export const SizePicker = ({ selectedVariant }: SizePickerProps) => {
 	const [pickedSize, setPickedsize] = useState<string | null>(null);
 	const handleSizePick = (size: string) => {
 		setPickedsize(size);
@@ -38,12 +40,12 @@ export const SizePicker = () => {
 			</Stack>
 			<Stack className="border border-particles-grey mt-1 px-2 py-6 rounded-md gap-0">
 				<Stack direction="row" gap="xs">
-					{selectedVariant.sizes.map(({ size, inStock }) => (
+					{selectedVariant.sizes.map(({ size, stock }) => (
 						<Button
 							variant="ghost"
 							className={cn(
 								'text-xs flex-1 hover:bg-primary hover:text-secondary font-body font-normal',
-								!inStock && 'underline',
+								stock === 0 && 'underline',
 								pickedSize === size && 'bg-primary text-secondary',
 							)}
 							key={size}
