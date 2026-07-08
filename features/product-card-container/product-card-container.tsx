@@ -21,7 +21,7 @@ export const ProductCardContainer = ({
 		<Stack direction="row" className={cn('gap-1', stackClassNames)}>
 			{products?.map(({ id, name, sku, basePrice, href, discount }) => (
 				<ProductCard
-					key={id}
+					key={`${id} ${sku.color}`}
 					name={name}
 					price={basePrice}
 					color={sku.color}
