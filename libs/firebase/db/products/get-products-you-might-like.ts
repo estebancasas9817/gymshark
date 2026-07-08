@@ -1,32 +1,58 @@
-import { Product } from '@/types/product';
+import { Product, Sku } from '@/types/product';
 import { unstable_cache } from 'next/cache';
 import { db } from '../../init-firestore';
+
+type ProductWithSku = Product & { sku: Sku; href: string };
 
 export const getYouMightLike = (
 	categorySlug: string,
 	excludeProductId: string,
-): Promise<Product[]> => {
-	const department = categorySlug.split('/')[0]; // 'women', 'men', 'accessories'
-
+): Promise<ProductWithSku[]> => {
 	return unstable_cache(
 		async () => {
+			const randomOffset = Math.floor(Math.random() * 10);
 			const snap = await db
 				.collection('products')
 				.where('categorySlug', '!=', categorySlug)
 				.where('isActive', '==', true)
+				.offset(randomOffset)
 				.limit(20)
 				.get();
-
 			if (snap.empty) return [];
 
-			return snap.docs
-				.filter(
-					(doc) =>
-						doc.id !== excludeProductId &&
-						doc.data().categorySlug?.startsWith(department),
-				)
-				.slice(0, 8)
-				.map((doc) => ({ id: doc.id, ...(doc.data() as Omit<Product, 'id'>) }));
+			const filteredDocs = snap.docs
+				.filter((doc) => {
+					return doc.id !== excludeProductId;
+				})
+				.slice(0, 8);
+
+			const productsWithSkus = await Promise.all(
+				filteredDocs.map(async (doc) => {
+					const skusSnap = await db
+						.collection('products')
+						.doc(doc.id)
+						.collection('skus')
+						.where('isDefault', '==', true)
+						.limit(1)
+						.get();
+
+					const sku = skusSnap.empty
+						? null
+						: ({ id: skusSnap.docs[0].id, ...skusSnap.docs[0].data() } as Sku);
+					const product = doc.data();
+
+					return {
+						id: doc.id,
+						...(product as Omit<Product, 'id'>),
+						sku,
+						href: `/product${product.slug}`,
+					};
+				}),
+			);
+
+			return productsWithSkus.filter(
+				(p): p is ProductWithSku => p.sku !== null,
+			);
 		},
 		['you-might-like', categorySlug, excludeProductId],
 		{ tags: [`you-might-like-${categorySlug}`] },
