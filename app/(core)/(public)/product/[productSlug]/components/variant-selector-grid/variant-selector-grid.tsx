@@ -1,24 +1,33 @@
 'use client';
 
 import { Stack } from '@/components/layout/stack';
-import { Variant } from '@/types/product';
+import { Sku } from '@/types/product';
 import Image from 'next/image';
-import { useProductDisplayContext } from '../../context/product-display-context';
 import { Text } from '@/components/ui/text';
 import { useState } from 'react';
 import { Conditional } from '@/components/layout/conditional';
 import { cn } from '@/utils/cn/cn';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { QUERY_PARAMS } from '@/app/(core)/(public)/[category]/[subCategory]/hooks/constants';
 
 interface VariantSelectorGridProps {
-	variants: Variant[];
+	variants: Sku[];
+	selectedVariant: Sku;
 }
-export const VariantSelectorGrid = ({ variants }: VariantSelectorGridProps) => {
-	const { setSelectedVariant, selectedVariant } = useProductDisplayContext();
+
+export const VariantSelectorGrid = ({
+	variants,
+	selectedVariant,
+}: VariantSelectorGridProps) => {
+	const router = useRouter();
+	const searchParams = useSearchParams();
 	const [variantColor, setVariantColor] = useState<string>(
 		selectedVariant.color,
 	);
-	const handleClick = (variant: Variant) => {
-		setSelectedVariant(variant);
+	const handleClick = (variant: Sku) => {
+		const params = new URLSearchParams(searchParams.toString());
+		params.set(QUERY_PARAMS.color, variant.color.toLowerCase());
+		router.push(`?${params.toString()}`);
 	};
 
 	const handleMouseEnter = (color: string) => {

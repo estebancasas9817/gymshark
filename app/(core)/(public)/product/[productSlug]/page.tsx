@@ -1,5 +1,4 @@
 import { Container } from '@/components/layout/container';
-import { ProductDisplayContextProvider } from './context/product-display-context';
 import { Gallery } from './components/gallery';
 import { Stack } from '@/components/layout/stack';
 import { Heading } from '@/components/ui/heading';
@@ -18,6 +17,8 @@ import { PaymentCarousel } from './components/payment-carousel';
 import { PaymentSuggestions } from './components/payment-suggestions';
 import { ShopTheLook } from './components/shop-the-look';
 import { RecentlyView } from './components/recently-view';
+import { Suspense } from 'react';
+import { Conditional } from '@/components/layout/conditional';
 
 type RouteParams = { productSlug: string };
 type QueryParams = { color: 'red' | 'black' | 'white' | 'blue' };
@@ -34,54 +35,61 @@ const Page = async ({
 	if (!product) {
 		notFound();
 	}
-	console.log('[first]', product);
-	const { name, activeSku, basePrice, discount, skus } = product;
+	const { name, activeSku, basePrice, discount = 0, skus } = product;
+	const fullPrice = basePrice + discount;
 
 	return (
 		<Container as="main" fullWidth>
-			<ProductDisplayContextProvider variant={activeSku}>
-				<Stack direction="row" className="gap-0">
-					<Gallery />
-					<Container fullWidth className="px-37.5 w-1/2">
-						<Heading as="h1" size="sm" className="mb-2">
-							{name}
-						</Heading>
-						<Text as="span" className="text-tertiary block mb-2">
-							Regular
-						</Text>
+			<Stack direction="row" className="gap-0">
+				<Gallery galleryImages={activeSku.images} />
+				<Container fullWidth className="px-37.5 w-1/2">
+					<Heading as="h1" size="sm" className="mb-2">
+						{name}
+					</Heading>
+					<Text as="span" className="text-tertiary block mb-2">
+						Regular
+					</Text>
+					<Stack direction="row" gap="xs">
 						<Text as="span" className="font-bold">
 							${basePrice}
 						</Text>
-						<Stack direction="row" gap="lg" className="py-12">
-							<ActionPill className="cursor-pointer hover:bg-gray-200">
-								<Stack
-									direction="row"
-									align="center"
-									justify="center"
-									className="gap-1"
-								>
-									<Star size={12} fill="black" />
-									<Text as="span" className="text-xs">
-										4.1
-									</Text>
-									<Text className="underline text-xs">(66)</Text>
-								</Stack>
-							</ActionPill>
-							<ActionPill className="cursor-pointer hover:bg-gray-200">
-								<Heart size={18} />
-							</ActionPill>
-							<ActionPill className="cursor-pointer hover:bg-gray-200">
-								<Share size={18} />
-							</ActionPill>
-						</Stack>
-						<VariantSelectorGrid variants={skus} />
-						<SizePicker />
-						<PaymentSuggestions price={basePrice} />
-						<PaymentCarousel />
-						<ShopTheLook />
-					</Container>
-				</Stack>
-			</ProductDisplayContextProvider>
+						<Conditional test={!!discount}>
+							<Text as="span" className="font-bold text-text-sale line-through">
+								${fullPrice}
+							</Text>
+						</Conditional>
+					</Stack>
+					<Stack direction="row" gap="lg" className="py-12">
+						<ActionPill className="cursor-pointer hover:bg-gray-200">
+							<Stack
+								direction="row"
+								align="center"
+								justify="center"
+								className="gap-1"
+							>
+								<Star size={12} fill="black" />
+								<Text as="span" className="text-xs">
+									4.1
+								</Text>
+								<Text className="underline text-xs">(66)</Text>
+							</Stack>
+						</ActionPill>
+						<ActionPill className="cursor-pointer hover:bg-gray-200">
+							<Heart size={18} />
+						</ActionPill>
+						<ActionPill className="cursor-pointer hover:bg-gray-200">
+							<Share size={18} />
+						</ActionPill>
+					</Stack>
+					<Suspense>
+						<VariantSelectorGrid variants={skus} selectedVariant={activeSku} />
+					</Suspense>
+					<SizePicker selectedVariant={activeSku} />
+					<PaymentSuggestions price={basePrice} />
+					<PaymentCarousel />
+					<ShopTheLook />
+				</Container>
+			</Stack>
 
 			<ProductCollection
 				sectionName="YOU MIGHT LIKE"
