@@ -3,8 +3,8 @@ import { Product, Sku } from '@/types/product';
 
 export const getProduct = async (
 	productSlug: string,
-	color?: string,
-): Promise<(Product & { activeSku: Sku; skus: Sku[] }) | null> => {
+	color: string,
+): Promise<(Product & { sku: Sku; skus: Sku[]; href: string }) | null> => {
 	const snapshot = await db
 		.collection('products')
 		.where('id', '==', productSlug)
@@ -28,10 +28,10 @@ export const getProduct = async (
 		(skuDoc) => ({ id: skuDoc.id, ...skuDoc.data() }) as Sku,
 	);
 
-	const activeSku =
+	const sku =
 		skus.find((sku) => sku.color.toLowerCase() === color?.toLowerCase()) ??
 		skus.find((sku) => sku.isDefault) ??
 		skus[0];
 
-	return { ...product, activeSku, skus };
+	return { ...product, sku, skus, href: `/product${product.slug}` };
 };

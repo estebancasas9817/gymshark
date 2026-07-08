@@ -1,6 +1,7 @@
 'use client';
 
 import { useCarousel } from '@/app/(core)/(public)/product/[productSlug]/components/product-collection/use-carousel';
+import { Conditional } from '@/components/layout/conditional';
 import { Container } from '@/components/layout/container';
 import { Stack } from '@/components/layout/stack';
 import { ActionPill } from '@/components/ui/action-pill';
@@ -17,6 +18,7 @@ interface CarouselProps {
 	childrenToShow?: 'xs' | 'sm' | 'md';
 	stackClassNames?: string;
 	size?: Size;
+	shouldDisplayCarouselButtons?: boolean;
 }
 export const Carousel = ({
 	children,
@@ -25,6 +27,7 @@ export const Carousel = ({
 	childrenToShow = 'sm',
 	stackClassNames,
 	size = 'lg',
+	shouldDisplayCarouselButtons = true,
 }: CarouselProps) => {
 	const { handleClickChevron, handleScroll, scroll, ref } =
 		useCarousel(childrenToShow);
@@ -39,36 +42,38 @@ export const Carousel = ({
 				<Heading className="mb-6" size={size}>
 					{sectionName}
 				</Heading>
-				<Stack direction="row">
-					<ActionPill
-						className={cn(
-							'rounded-full p-0 w-8 h-8 flex items-center justify-center cursor-pointer bg-primary',
-							scroll.isScrollLeftMax &&
-								'cursor-not-allowed bg-(--color-gray-200)',
-						)}
-						disabled={scroll.isScrollLeftMax}
-						onClick={() => handleClickChevron('left')}
-					>
-						<ChevronLeft
-							color={!scroll.isScrollLeftMax ? 'white' : 'black'}
-							size={16}
-						/>
-					</ActionPill>
-					<ActionPill
-						className={cn(
-							'rounded-full p-0 w-8 h-8 flex items-center justify-center cursor-pointer bg-primary',
-							scroll.isScrollRightMax &&
-								'cursor-not-allowed bg-(--color-gray-200)',
-						)}
-						onClick={() => handleClickChevron('right')}
-						disabled={scroll.isScrollRightMax}
-					>
-						<ChevronRight
-							size={16}
-							color={!scroll.isScrollRightMax ? 'white' : 'black'}
-						/>
-					</ActionPill>
-				</Stack>
+				<Conditional test={shouldDisplayCarouselButtons}>
+					<Stack direction="row">
+						<ActionPill
+							className={cn(
+								'rounded-full p-0 w-8 h-8 flex items-center justify-center cursor-pointer bg-primary',
+								scroll.isScrollLeftMax &&
+									'cursor-not-allowed bg-(--color-gray-200)',
+							)}
+							disabled={scroll.isScrollLeftMax}
+							onClick={() => handleClickChevron('left')}
+						>
+							<ChevronLeft
+								color={!scroll.isScrollLeftMax ? 'white' : 'black'}
+								size={16}
+							/>
+						</ActionPill>
+						<ActionPill
+							className={cn(
+								'rounded-full p-0 w-8 h-8 flex items-center justify-center cursor-pointer bg-primary',
+								scroll.isScrollRightMax &&
+									'cursor-not-allowed bg-(--color-gray-200)',
+							)}
+							onClick={() => handleClickChevron('right')}
+							disabled={scroll.isScrollRightMax}
+						>
+							<ChevronRight
+								size={16}
+								color={!scroll.isScrollRightMax ? 'white' : 'black'}
+							/>
+						</ActionPill>
+					</Stack>
+				</Conditional>
 			</Stack>
 			<div
 				onScroll={handleScroll}

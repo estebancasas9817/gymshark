@@ -20,6 +20,8 @@ import { Suspense } from 'react';
 import { Conditional } from '@/components/layout/conditional';
 import { ProductsYouMightLike } from './components/products-you-might-like';
 import { ProductsRecommended } from './components/products-recommended';
+import { SetRecentlyProducts } from './components/set-recently-products';
+import { Recommendedkeletons } from '@/components/ui/recommended-skeletons';
 
 type RouteParams = { productSlug: string };
 type QueryParams = { color: 'red' | 'black' | 'white' | 'blue' };
@@ -36,10 +38,10 @@ const Page = async ({
 	if (!product) {
 		notFound();
 	}
-	console.log('[product]', { product });
+
 	const {
 		name,
-		activeSku,
+		sku,
 		basePrice,
 		discount = 0,
 		skus,
@@ -51,7 +53,7 @@ const Page = async ({
 	return (
 		<Container as="main" fullWidth>
 			<Stack direction="row" className="gap-0">
-				<Gallery galleryImages={activeSku.images} />
+				<Gallery galleryImages={sku.images} />
 				<Container fullWidth className="px-37.5 w-1/2">
 					<Heading as="h1" size="sm" className="mb-2">
 						{name}
@@ -92,9 +94,9 @@ const Page = async ({
 						</ActionPill>
 					</Stack>
 					<Suspense>
-						<VariantSelectorGrid variants={skus} selectedVariant={activeSku} />
+						<VariantSelectorGrid variants={skus} selectedVariant={sku} />
 					</Suspense>
-					<SizePicker selectedVariant={activeSku} />
+					<SizePicker selectedVariant={sku} />
 					<PaymentSuggestions price={basePrice} />
 					<PaymentCarousel />
 					<ShopTheLook />
@@ -111,7 +113,7 @@ const Page = async ({
 					</Text>
 				}
 			>
-				<Suspense>
+				<Suspense fallback={<Recommendedkeletons />}>
 					<ProductsYouMightLike
 						categorySlug={categorySlug}
 						excludeProductId={id}
@@ -120,15 +122,15 @@ const Page = async ({
 			</ProductCollection>
 
 			<Carousel sectionName="WE RECOMMEND" className="w-full">
-				<Suspense>
+				<Suspense fallback={<Recommendedkeletons />}>
 					<ProductsRecommended
 						categorySlug={categorySlug}
 						excludeProductId={id}
 					/>
 				</Suspense>
 			</Carousel>
-
-			<RecentlyView />
+			<SetRecentlyProducts productSlug={productSlug} color={color} />
+			<RecentlyView productSlug={productSlug} color={color} />
 		</Container>
 	);
 };
