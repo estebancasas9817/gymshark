@@ -99,7 +99,9 @@ const Page = async ({
 					<SizePicker selectedVariant={sku} />
 					<PaymentSuggestions price={basePrice} />
 					<PaymentCarousel />
-					<ShopTheLook />
+					<Suspense>
+						<ShopTheLook categorySlug={categorySlug} excludeProductId={id} />
+					</Suspense>
 				</Container>
 			</Stack>
 

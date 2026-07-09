@@ -146,6 +146,7 @@ export const ProductCard = ({
 											price,
 											image: imgSrc,
 											...(discount && { discount }),
+											sizes: variant.sizes,
 										},
 										true,
 									)

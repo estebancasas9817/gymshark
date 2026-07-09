@@ -39,7 +39,7 @@ export const ProductListGrid = async ({
 
 	return (
 		<div className="grid grid-cols-4 gap-2">
-			{products?.map(({ id, name, skus, basePrice, href, discount }, index) => {
+			{products?.map(({ id, name, sku, basePrice, href, discount }, index) => {
 				const shouldDisplayDesktopBanner =
 					index === 7 && currentPage === 1 && products.length >= 12;
 
@@ -49,12 +49,12 @@ export const ProductListGrid = async ({
 							key={id}
 							name={name}
 							price={basePrice}
-							color={skus.color}
+							color={sku.color}
 							desc={name}
 							href={href}
-							imageSrc={skus.images}
+							imageSrc={sku.images}
 							discount={discount}
-							variant={skus}
+							variant={sku}
 						/>
 						<Conditional test={shouldDisplayDesktopBanner}>
 							<ErrorBoundary fallback={null}>
