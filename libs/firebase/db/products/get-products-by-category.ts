@@ -22,8 +22,8 @@ type GetProductByCategoryProps = {
 };
 
 type ProductCard = Product & {
-	skus: Sku;
 	href: string;
+	sku: Sku;
 };
 
 const _getProductsByCategory = async ({
@@ -103,10 +103,10 @@ const _getProductsByCategory = async ({
 		.filter((product) => !!skusByProductId[product.id])
 		.map((product) => ({
 			...product,
-			skus: (skusByProductId[product.id] as Sku) ?? {},
+			sku: (skusByProductId[product.id] as Sku) ?? {},
 			href: `/product${product.slug}`,
 		}))
-		.filter((product) => product.skus !== undefined); // safety net
+		.filter((product) => product.sku !== undefined); // safety net
 
 	return { products: finalProducts };
 };

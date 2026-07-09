@@ -31,7 +31,7 @@ export const RecentOrders = async () => {
 									<Link href="/women">SHOP WOMENS</Link>
 								</Button>
 								<Button radius="md" className="px-8 text-sm font-sans">
-									<Link href="/men">SHOP WOMENS</Link>
+									<Link href="/men">SHOP MENS</Link>
 								</Button>
 							</Stack>
 						</>
