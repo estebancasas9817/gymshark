@@ -1,31 +1,35 @@
-'use server';
+import { success } from 'zod';
+('use server');
 
 import { signIn } from '@/libs/auth/auth';
 import { EmailNotVerifiedError } from '@/libs/auth/auth-errors';
 import { db } from '@/libs/firebase/init-firestore';
+import { ForgotPasswordSchema, LoginSchema } from '@/schemas/auth.schema';
 import {
 	sendOathAccountEmail,
 	sendResetPassword,
 } from '@/services/email-service';
 import { generateToken } from '@/utils/generate-token/generate-token';
 import { AuthError } from 'next-auth';
-import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
 
-type ActionState = {
-	message?: string;
-	success?: boolean;
-	errors?: {
-		email?: string[];
-		password?: string[];
-	};
-	status?: 'UNEXPECTED_ERROR' | 'WRONG_INPUT' | 'NOT_VERIFIED' | 'SUCCESS';
-};
-
-const loginSchema = z.object({
-	email: z.email({ message: 'The format of the email is not valid' }),
-	password: z.string(),
-});
+type ActionState =
+	| { status: 'SUCCESS'; success: boolean }
+	| {
+			status: 'WRONG_INPUT';
+			success: boolean;
+			errors: { email?: string[]; password?: string[] };
+	  }
+	| {
+			status: 'UNEXPECTED_ERROR';
+			success: boolean;
+			message: string;
+	  }
+	| {
+			status: 'NOT_VERIFIED';
+			success: boolean;
+			message: string;
+	  }
+	| { status: 'INITIAL'; success: boolean };
 
 export const signInAction = async (
 	prevState: ActionState | undefined,
@@ -35,7 +39,7 @@ export const signInAction = async (
 		email: formData.get('email'),
 		password: formData.get('password'),
 	};
-	const signInResult = loginSchema.safeParse(rawData);
+	const signInResult = LoginSchema.safeParse(rawData);
 	if (!signInResult.success) {
 		return {
 			success: false,
@@ -66,7 +70,6 @@ export const signInAction = async (
 				case 'CredentialsSignin':
 					return {
 						success: false,
-						message: 'Wrong email or password',
 						errors: {
 							email: ['Wrong email or password'],
 							password: ['Wrong email or password'],
@@ -89,14 +92,16 @@ export const signInAction = async (
 	}
 };
 
-type ForgotPasswordState = {
-	message?: string;
-	success?: boolean;
-	errors?: {
-		email?: string[];
-	};
-	status?: 'UNEXPECTED_ERROR' | 'WRONG_INPUT' | 'SUCCESS';
-};
+type ForgotPasswordState =
+	| {
+			status: 'SUCCESS';
+			success: boolean;
+	  }
+	| { status: 'WRONG_INPUT'; success: boolean; errors: { email: string[] } }
+	| {
+			status: 'UNEXPECTED_ERROR';
+			success: boolean;
+	  };
 
 export const forgotPasswordAction = async (
 	email: string,
@@ -120,7 +125,7 @@ export const forgotPasswordAction = async (
 				return { success: true, status: 'SUCCESS' };
 			}
 		} catch (error) {
-			return { success: false };
+			return { success: false, status: 'UNEXPECTED_ERROR' };
 		}
 
 		try {
@@ -137,16 +142,12 @@ export const forgotPasswordAction = async (
 			await sendResetPassword(user.name, user.email, validationToken);
 			return { success: true, status: 'SUCCESS' };
 		} catch (error) {
-			return { success: false };
+			return { success: false, status: 'UNEXPECTED_ERROR' };
 		}
 	} catch (error) {
 		return { success: false, status: 'UNEXPECTED_ERROR' };
 	}
 };
-
-const emailSchema = z.object({
-	email: z.email({ message: 'The format of the email is not valid' }),
-});
 
 export const forgotPasswordFormAction = async (
 	prevState: ForgotPasswordState | undefined,
@@ -155,16 +156,18 @@ export const forgotPasswordFormAction = async (
 	const rawData = {
 		email: formData.get('email'),
 	};
-	const signInResult = emailSchema.safeParse(rawData);
+	const signInResult = ForgotPasswordSchema.safeParse(rawData);
 	if (!signInResult.success) {
 		return {
 			success: false,
-			errors: signInResult.error.flatten((error) => error.message).fieldErrors,
+			errors: {
+				email: signInResult.error.flatten((error) => error.message).fieldErrors
+					.email as string[],
+			},
 			status: 'WRONG_INPUT',
 		};
 	}
 	const { email } = signInResult.data;
 	const res = await forgotPasswordAction(email);
-	console.log('[res]', { res });
 	return res;
 };

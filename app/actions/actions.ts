@@ -17,12 +17,22 @@ import { CartItem } from '@/types/cart';
 import { WishlistItem } from '@/types/wishlist';
 import { revalidateTag } from 'next/cache';
 
+type AddToCartActionPromise =
+	| {
+			status: 200;
+	  }
+	| {
+			status: 401;
+			error: string;
+	  }
+	| {
+			status: 500;
+			error: string;
+	  };
+
 export const addToCartAction = async (
 	cart: CartItem | CartItem[],
-): Promise<{
-	status: 401 | 500 | 200;
-	error?: string;
-}> => {
+): Promise<AddToCartActionPromise> => {
 	try {
 		const session = await auth();
 		const userId = session?.user?.id;
@@ -38,12 +48,22 @@ export const addToCartAction = async (
 	}
 };
 
+type DeleteCartActionPromise =
+	| {
+			status: 200;
+	  }
+	| {
+			status: 401;
+			error: string;
+	  }
+	| {
+			status: 500;
+			error: string;
+	  };
+
 export const deleteCartAction = async (
 	cart: CartItem,
-): Promise<{
-	status: 401 | 500 | 200;
-	error?: string;
-}> => {
+): Promise<DeleteCartActionPromise> => {
 	try {
 		const session = await auth();
 		const userId = session?.user?.id;
@@ -58,12 +78,22 @@ export const deleteCartAction = async (
 	}
 };
 
+type AddToWishlistActionPromise =
+	| {
+			status: 200;
+	  }
+	| {
+			status: 401;
+			error: string;
+	  }
+	| {
+			status: 500;
+			error: string;
+	  };
+
 export const addToWishlistAction = async (
 	wishlist: WishlistItem | WishlistItem[],
-): Promise<{
-	status: 401 | 500 | 200;
-	error?: string;
-}> => {
+): Promise<AddToWishlistActionPromise> => {
 	try {
 		const session = await auth();
 		const userId = session?.user?.id;
@@ -79,12 +109,22 @@ export const addToWishlistAction = async (
 	}
 };
 
+type DeleteWishlistActionPromise =
+	| {
+			status: 200;
+	  }
+	| {
+			status: 401;
+			error: string;
+	  }
+	| {
+			status: 500;
+			error: string;
+	  };
+
 export const deleteWishlistAction = async (
 	wishlist: WishlistItem,
-): Promise<{
-	status: 401 | 500 | 200;
-	error?: string;
-}> => {
+): Promise<DeleteWishlistActionPromise> => {
 	try {
 		const session = await auth();
 		const userId = session?.user?.id;
@@ -99,9 +139,23 @@ export const deleteWishlistAction = async (
 	}
 };
 
+type AddCheckoutSessionPromise =
+	| {
+			status: 200;
+			url: string | null;
+	  }
+	| {
+			status: 401;
+			message: string;
+	  }
+	| {
+			status: 500;
+			message: string;
+	  };
+
 export const addCheckoutSession = async (
 	localStorageProducts: CartItemFull[] = [],
-): Promise<{ status: 200 | 500; message?: string; url?: string | null }> => {
+): Promise<AddCheckoutSessionPromise> => {
 	try {
 		const session = await auth();
 		let products: CartItemFull[];

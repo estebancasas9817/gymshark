@@ -2,21 +2,9 @@ import { CartItem } from '@/types/cart';
 import { db } from '../../init-firestore';
 import { Product, Sku } from '@/types/product';
 import { unstable_cache } from 'next/cache';
+import { CartItemsFull } from '@/schemas/cart.schema';
 
-export type CartItemFull = {
-	productId: string;
-	skuId: string;
-	quantity: number;
-	name: string;
-	price: number;
-	image: string;
-	color: string;
-	size: string;
-	discount?: number;
-	sizes?: { size: string; stock: number }[];
-};
-
-export const getCart = (userId: string): Promise<CartItemFull[]> => {
+export const getCart = (userId: string): Promise<CartItemsFull> => {
 	return unstable_cache(
 		async () => {
 			const cartSnap = await db.collection('carts').doc(userId).get();

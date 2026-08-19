@@ -18,10 +18,27 @@ import { Conditional } from '@/components/layout/conditional';
 export default function Page() {
 	const t = useTranslations('SignUp.auth');
 	const [state, formAction, isPending] = useActionState(SignUpAction, {
-		errors: undefined,
-		message: '',
-		success: undefined,
+		status: 'INITIAL',
 	});
+	let nameError: string | undefined = undefined;
+	let lastNameError: string | undefined = undefined;
+	let emailError: string | undefined = undefined;
+	let passwordError: string | undefined = undefined;
+	if (state.status === 'WRONG_INPUT') {
+		nameError = state.errors.name?.[0];
+		lastNameError = state.errors.lastName?.[0];
+		emailError = state.errors.email?.[0];
+		passwordError = state.errors.password?.[0];
+	}
+
+	let shouldDisplayNotification = false;
+	let notificationMessage = '';
+	let isSuccess = false;
+	if (state.status !== 'WRONG_INPUT' && state.status !== 'INITIAL') {
+		shouldDisplayNotification = !!state.message;
+		notificationMessage = state.message;
+		isSuccess = state.success;
+	}
 
 	return (
 		<Container as="main" fullWidth className="relative h-screen">
@@ -36,38 +53,38 @@ export default function Page() {
 				/>
 				<AuthForm action={formAction}>
 					<Input
-						name="firstName"
+						name="name"
 						type="text"
 						placeholder={t('form.first_name_label')}
 						required
-						min={1}
+						min={2}
 						max={30}
-						error={state.errors?.firstName?.[0]}
+						error={nameError}
 					/>
 					<Input
 						name="lastName"
 						type="text"
 						placeholder={t('form.last_name_label')}
 						required
-						min={1}
+						min={2}
 						max={30}
-						error={state.errors?.lastName?.[0]}
+						error={lastNameError}
 					/>
 					<Input
 						name="email"
 						type="email"
 						placeholder={t('form.email_label')}
 						required
-						error={state.errors?.email?.[0]}
+						error={emailError}
 					/>
 					<Input
 						name="password"
 						type="password"
 						placeholder={t('form.password_label')}
 						required
-						min={8}
+						min={3}
 						max={12}
-						error={state.errors?.password?.[0]}
+						error={passwordError}
 					/>
 					<Stack gap="sm">
 						<Button
@@ -83,20 +100,17 @@ export default function Page() {
 							)}
 						</Button>
 
-						<Conditional test={!!state.message}>
+						<Conditional test={shouldDisplayNotification}>
 							<Text
 								className={cn(
 									'flex gap-2 items-center justify-center text-sm',
-									state.success ? 'text-green-700' : 'text-error',
+									isSuccess ? 'text-green-700' : 'text-error',
 								)}
 							>
-								<Conditional
-									test={!!state.success}
-									fallback={<CircleX size={16} />}
-								>
+								<Conditional test={isSuccess} fallback={<CircleX size={16} />}>
 									<BadgeCheck size={16} />
 								</Conditional>
-								{state.message}
+								{notificationMessage}
 							</Text>
 						</Conditional>
 						<Text as="p" className="self-center mt-2">

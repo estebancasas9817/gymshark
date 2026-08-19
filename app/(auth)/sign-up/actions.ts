@@ -1,60 +1,61 @@
 'use server';
 
 import { db } from '@/libs/firebase/init-firestore';
+import { RegisterSchema } from '@/schemas/auth.schema';
 import { sendVerificationEmail } from '@/services/email-service';
 import { generateToken } from '@/utils/generate-token/generate-token';
 import { hash } from 'bcrypt-ts';
-import { z } from 'zod';
 
-type ActionState = {
-	message?: string | null;
-	success?: boolean;
-	errors?: {
-		email?: string[];
-		password?: string[];
-		firstName?: string[];
-		lastName?: string[];
-	};
-};
-
-const userRegisterSchema = z.object({
-	email: z.email({ message: 'The format of the email is not valid' }),
-	password: z
-		.string()
-		.min(8, { message: 'The password must have at least 8 characters' })
-		.max(15, { message: `The password can't have more than 15 characters` }),
-	firstName: z
-		.string()
-		.trim()
-		.min(1, { message: 'The first name is required' })
-		.max(30, { message: `The first name can't have more than 30 characters` }),
-
-	lastName: z
-		.string()
-		.trim()
-		.min(1, { message: 'The last name is required' })
-		.max(30, { message: `The first name can't have more than 30 characters` }),
-});
+type ActionState =
+	| {
+			status: 'INITIAL';
+	  }
+	| {
+			status: 'SUCCESS';
+			success: boolean;
+			message: string;
+	  }
+	| {
+			status: 'WRONG_INPUT';
+			success: boolean;
+			errors: {
+				email?: string[];
+				password?: string[];
+				name?: string[];
+				lastName?: string[];
+			};
+	  }
+	| {
+			status: 'UNEXPECTED_ERROR';
+			success: boolean;
+			message: string;
+	  }
+	| {
+			status: 'USER_ALREADY_EXISTS';
+			success: boolean;
+			message: string;
+	  };
 
 export const SignUpAction = async (
 	prevState: ActionState,
 	formData: FormData,
 ): Promise<ActionState> => {
 	const rawData = {
-		firstName: formData.get('firstName'),
+		name: formData.get('name'),
 		email: formData.get('email'),
 		password: formData.get('password'),
 		lastName: formData.get('lastName'),
 	};
-	const signUpResult = userRegisterSchema.safeParse(rawData);
+	const signUpResult = RegisterSchema.safeParse(rawData);
 	// * SCHEMA NOT VALID
 	if (!signUpResult.success) {
 		return {
+			status: 'WRONG_INPUT',
 			success: false,
 			errors: signUpResult.error.flatten((error) => error.message).fieldErrors,
 		};
 	}
-	const { firstName, email, password, lastName } = signUpResult.data;
+	const { name, email, password, lastName } = signUpResult.data;
 
 	const query = db.collection('users').where('email', '==', email);
 	try {
@@ -63,12 +64,14 @@ export const SignUpAction = async (
 
 		if (!snap.empty) {
 			return {
+				status: 'USER_ALREADY_EXISTS',
 				success: false,
 				message: 'User with that email already exists',
 			};
 		}
 	} catch (error) {
 		return {
+			status: 'UNEXPECTED_ERROR',
 			success: false,
 			message: 'Error creating the user, please try again',
 		};
@@ -81,11 +84,12 @@ export const SignUpAction = async (
 			email,
 			password: hashedPassword,
 			emailVerified: null,
-			name: firstName,
+			name,
 			lastName,
 		});
 	} catch (error) {
 		return {
+			status: 'UNEXPECTED_ERROR',
 			success: false,
 			message: 'Error creating the user, please try again',
 		};
@@ -104,7 +108,7 @@ export const SignUpAction = async (
 		try {
 			await sendVerificationEmail({
 				email,
-				name: firstName,
+				name,
 				token: validationToken,
 			});
 		} catch (error) {
@@ -113,17 +117,20 @@ export const SignUpAction = async (
 				error,
 			);
 			return {
+				status: 'SUCCESS',
 				success: true,
 				message: 'Email could not be sent',
 			};
 		}
 
 		return {
+			status: 'SUCCESS',
 			success: true,
 			message: 'Please check your email to verify your account.',
 		};
 	} catch (error) {
 		return {
+			status: 'UNEXPECTED_ERROR',
 			success: false,
 			message: 'Sorry something happened, please try again',
 		};
