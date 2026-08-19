@@ -3,7 +3,7 @@
 import { auth } from '@/libs/auth/auth';
 import { addToCart } from '@/libs/firebase/db/cart/add-to-cart';
 import { deleteCart } from '@/libs/firebase/db/cart/delete-cart';
-import { CartItemFull, getCart } from '@/libs/firebase/db/cart/get-cart';
+import { getCart } from '@/libs/firebase/db/cart/get-cart';
 import { hasStock } from '@/libs/firebase/db/checkout/utils';
 import { verifyAnonymousCartPrices } from '@/libs/firebase/db/checkout/verify-anonymous-cart-prices';
 import {
@@ -13,6 +13,7 @@ import {
 import { addToWishlist } from '@/libs/firebase/db/wishlist/add-to-wishlist';
 import { deleteWishlist } from '@/libs/firebase/db/wishlist/delete-wishlist';
 import { stripe } from '@/libs/stripe/init-stripe';
+import { CartItemFull } from '@/schemas/cart.schema';
 import { CartItem } from '@/types/cart';
 import { WishlistItem } from '@/types/wishlist';
 import { revalidateTag } from 'next/cache';

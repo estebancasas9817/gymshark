@@ -1,5 +1,4 @@
-import { success } from 'zod';
-('use server');
+'use server';
 
 import { signIn } from '@/libs/auth/auth';
 import { EmailNotVerifiedError } from '@/libs/auth/auth-errors';
