@@ -13,12 +13,17 @@ import {
 import { addToCartAction, deleteCartAction } from '../actions/actions';
 import { setItemsInLocalStorage } from '@/utils/local-storage/set-items';
 import { useSession } from 'next-auth/react';
-import { CartItemFull } from '@/libs/firebase/db/cart/get-cart';
 import { getItemsFromLocalStorage } from '@/utils/local-storage/get-items';
 import { useRouter } from 'next/navigation';
 import { mergeCart } from '@/libs/firebase/db/cart/merge-cart';
 import { deleteItemsInLocalStorage } from '@/utils/local-storage/delete-items';
 import { useDrawer } from './drawer-context';
+import {
+	CartItemFull,
+	CartItemFullArraySchema,
+	CartItemsFull,
+	GetCartSchema,
+} from '@/schemas/cart.schema';
 
 type Context = {
 	handleAddToCart: (
@@ -68,7 +73,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
 	useEffect(() => {
 		// * MERGE CART FROM LOCAL STORAGE WITH CART FROM DB
-		const addToCart = async (items: CartItemFull[]) => {
+		const addToCart = async (items: CartItemsFull) => {
 			const { status } = await addToCartAction(items);
 			if (status === 200) {
 				deleteItemsInLocalStorage('cart');
@@ -77,11 +82,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			}
 		};
 
-		const localStorageCartItems = getItemsFromLocalStorage<
-			CartItemFull[] | null
-		>('cart');
-		if (user && localStorageCartItems) {
-			addToCart(localStorageCartItems);
+		const res = getItemsFromLocalStorage<CartItemsFull | null>('cart');
+		const localStorageCartItems = CartItemFullArraySchema.safeParse(res);
+		if (user && localStorageCartItems.success) {
+			addToCart(localStorageCartItems.data);
 		}
 	}, [user, router]);
 
@@ -89,10 +93,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		// * FETCH GET-CART ON FIRST CALL OR WHEN ADD-TO-CART FAILS
 		const getCart = async () => {
 			const res = await fetch('/api/cart');
-			const { success = false, data, status } = await res.json();
-			if (success) {
-				setOptimisticState(data);
-			} else if (status === 401) {
+			const json = await res.json();
+			const cart = GetCartSchema.safeParse(json);
+			if (cart.success && cart.data.status === 'SUCCESS') {
+				setOptimisticState(cart.data.data);
+			} else if (cart.data?.status === 'UNAUTHORIZED') {
 				// * IF 401, meaning the session in the server expires, but in the client hasn't.
 				router.push('/sign-in');
 			}
@@ -100,9 +105,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		if (user) {
 			getCart();
 		} else {
-			const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
-			if (data) {
-				setOptimisticState(data);
+			const res = getItemsFromLocalStorage<CartItemsFull | null>('cart');
+			const localStorageCartItems = CartItemFullArraySchema.safeParse(res);
+			if (localStorageCartItems.success) {
+				setOptimisticState(localStorageCartItems.data);
 			}
 		}
 	}, [user, router, setOptimisticState, cartVersion]);
@@ -130,14 +136,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 					}
 				});
 			} else {
-				const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
-				if (data) {
+				const res = getItemsFromLocalStorage<CartItemsFull | null>('cart');
+				const localStorageCartItems = CartItemFullArraySchema.safeParse(res);
+				if (localStorageCartItems.success && localStorageCartItems.data) {
 					const item: NewItem = {
 						...rest,
 						shouldDecreaseQuantity: true,
 					};
 					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
-					const optimisticCart = mergeCart(data, item);
+					const optimisticCart = mergeCart(localStorageCartItems.data, item);
 					setItemsInLocalStorage('cart', optimisticCart);
 					setOptimisticState(optimisticCart);
 				}
@@ -166,10 +173,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 					}
 				});
 			} else {
-				const data = getItemsFromLocalStorage<CartItemFull[]>('cart');
-				if (data) {
+				const res = getItemsFromLocalStorage<CartItemsFull | null>('cart');
+				const localStorageCartItems = CartItemFullArraySchema.safeParse(res);
+				if (localStorageCartItems.success && localStorageCartItems.data) {
 					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
-					const updatedCart = mergeCart(data, rest);
+					const updatedCart = mergeCart(localStorageCartItems.data, rest);
 					setItemsInLocalStorage('cart', updatedCart);
 					setOptimisticState(updatedCart);
 				} else {

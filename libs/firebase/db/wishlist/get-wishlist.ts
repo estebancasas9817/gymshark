@@ -2,19 +2,9 @@ import { db } from '../../init-firestore';
 import { Product, Sku } from '@/types/product';
 import { unstable_cache } from 'next/cache';
 import { WishlistItem } from '@/types/wishlist';
+import { WishlistItemsFull } from '@/schemas/wishlist.schema';
 
-export type WishlistItemFull = {
-	productId: string;
-	skuId: string;
-	name: string;
-	price: number;
-	image: string;
-	color: string;
-	discount?: number;
-	sizes: { size: string; stock: number }[];
-};
-
-export const getWishlist = (userId: string): Promise<WishlistItemFull[]> => {
+export const getWishlist = (userId: string): Promise<WishlistItemsFull> => {
 	return unstable_cache(
 		async () => {
 			const wishlistSnap = await db.collection('wishlists').doc(userId).get();

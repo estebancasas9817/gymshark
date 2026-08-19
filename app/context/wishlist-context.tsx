@@ -16,8 +16,13 @@ import { useSession } from 'next-auth/react';
 import { getItemsFromLocalStorage } from '@/utils/local-storage/get-items';
 import { useRouter } from 'next/navigation';
 import { deleteItemsInLocalStorage } from '@/utils/local-storage/delete-items';
-import { WishlistItemFull } from '@/libs/firebase/db/wishlist/get-wishlist';
 import { mergeWishlist } from '@/libs/firebase/db/wishlist/merge-wishlist';
+import {
+	GetWishlistSchema,
+	WishlistItemFull,
+	WishlistItemFullArraySchema,
+	WishlistItemsFull,
+} from '@/schemas/wishlist.schema';
 
 type Context = {
 	handleAddToWishlist: ({
@@ -61,17 +66,21 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 		// * FETCH GET-WISHLIST ON FIRST CALL OR WHEN ADD-TO-WISHLIST FAILS
 		const getWishlist = async () => {
 			const res = await fetch('/api/wishlist');
-			const { success = false, data, status } = await res.json();
-			if (success) {
-				setOptimisticState(data);
-			} else if (status === 401) {
+			const json = await res.json();
+			const wishListRes = GetWishlistSchema.safeParse(json);
+			if (wishListRes.success && wishListRes.data.status === 'SUCCESS') {
+				setOptimisticState(wishListRes.data.data);
+			} else if (
+				wishListRes.success &&
+				wishListRes.data.status === 'UNAUTHORIZED'
+			) {
 				// * IF 401, meaning the session in the server expires, but in the client hasn't.
 				router.push('/sign-in');
 			}
 		};
 
 		// * MERGE WISHLIST FROM LOCAL STORAGE WITH WISHLIST FROM DB
-		const addToWishlist = async (items: WishlistItemFull[]) => {
+		const addToWishlist = async (items: WishlistItemsFull) => {
 			const { status } = await addToWishlistAction(items);
 			if (status === 200) {
 				deleteItemsInLocalStorage('wishlist');
@@ -79,20 +88,24 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 				router.push('/sign-in');
 			}
 		};
-		const localStorageWishlistItems = getItemsFromLocalStorage<
-			WishlistItemFull[] | null
-		>('wishlist');
+		const res = getItemsFromLocalStorage<WishlistItemsFull | null>('wishlist');
+		const localStorageWishlistItems =
+			WishlistItemFullArraySchema.safeParse(res);
 
 		const init = async () => {
 			if (user) {
-				if (localStorageWishlistItems) {
-					await addToWishlist(localStorageWishlistItems);
+				if (localStorageWishlistItems.success) {
+					await addToWishlist(localStorageWishlistItems.data);
 				}
 				await getWishlist();
 			} else {
-				const data = getItemsFromLocalStorage<WishlistItemFull[]>('wishlist');
-				if (data) {
-					setOptimisticState(data);
+				const res = getItemsFromLocalStorage<WishlistItemsFull | null>(
+					'wishlist',
+				);
+				const localStorageWishlistItems =
+					WishlistItemFullArraySchema.safeParse(res);
+				if (localStorageWishlistItems.success) {
+					setOptimisticState(localStorageWishlistItems.data);
 				}
 			}
 		};
@@ -123,11 +136,15 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 					}
 				});
 			} else {
-				const data = getItemsFromLocalStorage<WishlistItemFull[]>('wishlist');
-				if (data) {
+				const res = getItemsFromLocalStorage<WishlistItemsFull | null>(
+					'wishlist',
+				);
+				const localStorageWishlistItems =
+					WishlistItemFullArraySchema.safeParse(res);
+				if (localStorageWishlistItems.success) {
 					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
 					const optimisticWishlist = mergeWishlist(
-						data,
+						localStorageWishlistItems.data,
 						{
 							...rest,
 						},
@@ -159,10 +176,17 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 					}
 				});
 			} else {
-				const data = getItemsFromLocalStorage<WishlistItemFull[]>('wishlist');
-				if (data) {
+				const res = getItemsFromLocalStorage<WishlistItemsFull | null>(
+					'wishlist',
+				);
+				const localStorageWishlistItems =
+					WishlistItemFullArraySchema.safeParse(res);
+				if (localStorageWishlistItems.success) {
 					// * IF USER ALREADY HAVE ITEMS IN LOCAL STORAGE
-					const updatedWishlist = mergeWishlist(data, rest);
+					const updatedWishlist = mergeWishlist(
+						localStorageWishlistItems.data,
+						rest,
+					);
 					setItemsInLocalStorage('wishlist', updatedWishlist);
 					setOptimisticState(updatedWishlist);
 				} else {

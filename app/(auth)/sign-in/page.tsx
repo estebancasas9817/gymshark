@@ -24,19 +24,20 @@ export default function Page() {
 	const router = useRouter();
 	const { update } = useSession();
 	const [state, formAction, isPending] = useActionState(signInAction, {
-		errors: undefined,
-		message: '',
+		status: 'INITIAL',
 		success: false,
 	});
 	const [isGooglePending, setIsGooglePending] = useState<boolean>(false);
-	const { errors, message, status } = state ?? {};
-	let emailError = errors?.email?.[0];
-	let passwordError = errors?.password?.[0];
-	const isFailedStatus =
-		status === 'UNEXPECTED_ERROR' || status === 'NOT_VERIFIED';
-	if (isFailedStatus) {
-		emailError = undefined;
-		passwordError = undefined;
+	let emailError = undefined;
+	let passwordError = undefined;
+	if (state.status === 'WRONG_INPUT') {
+		passwordError = state.errors.password?.[0];
+		emailError = state.errors.email?.[0];
+	}
+	const isFailedStatus = state.status === 'UNEXPECTED_ERROR';
+	let errorMessage: string | undefined = undefined;
+	if (state.status === 'UNEXPECTED_ERROR') {
+		errorMessage = state.message;
 	}
 
 	useEffect(() => {
@@ -131,7 +132,7 @@ export default function Page() {
 							>
 								<CircleX size={16} />
 
-								{message}
+								{errorMessage}
 							</Text>
 						</Conditional>
 						<Text as="p" className="self-center mt-2">

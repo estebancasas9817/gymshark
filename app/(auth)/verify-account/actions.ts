@@ -79,11 +79,8 @@ export const resendTokenAction = async (
 	email: string,
 ): Promise<ResendTokenActionResponse> => {
 	try {
-		let name: string;
 		const userQuery = await db.collection('users').doc(email).get();
-		const { firstName = 'Atlete', emailVerified = null } =
-			userQuery.data() ?? {};
-		name = firstName;
+		const { name = 'Atlete', emailVerified = null } = userQuery.data() ?? {};
 
 		// * IF EMAIL IS ALREADY VERIFIED OR IS UNDEFINED
 		if (!!emailVerified || !userQuery.exists) {

@@ -6,11 +6,20 @@ export async function GET() {
 		const session = await auth();
 		const userId = session?.user?.id;
 		if (!userId) {
-			return Response.json({ error: 'Unauthorized' }, { status: 401 });
+			return Response.json(
+				{ error: 'Unauthorized', success: false, status: 'UNAUTHORIZED' },
+				{ status: 401 },
+			);
 		}
 		const cartData = await getCart(userId);
-		return Response.json({ success: true, data: cartData }, { status: 200 });
+		return Response.json(
+			{ success: true, data: cartData, status: 'SUCCESS' },
+			{ status: 200 },
+		);
 	} catch (error) {
-		return Response.json({ error: 'Unexpected error' }, { status: 500 });
+		return Response.json(
+			{ error: 'Unexpected_error', success: false, status: 'UNEXPECTED_ERROR' },
+			{ status: 500 },
+		);
 	}
 }
