@@ -72,6 +72,20 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const user = session.data?.user?.id;
 
 	useEffect(() => {
+		// * FETCH GET-CART ON FIRST CALL OR WHEN ADD-TO-CART FAILS
+		const getCart = async () => {
+			const res = await fetch('/api/cart');
+			const json = await res.json();
+			const cart = GetCartSchema.safeParse(json);
+
+			if (cart.success && cart.data.status === 'SUCCESS') {
+				setOptimisticState(cart.data.data);
+			} else if (cart.data?.status === 'UNAUTHORIZED') {
+				// * IF 401, meaning the session in the server expires, but in the client hasn't.
+				router.push('/sign-in');
+			}
+		};
+
 		// * MERGE CART FROM LOCAL STORAGE WITH CART FROM DB
 		const addToCart = async (items: CartItemsFull) => {
 			const { status } = await addToCartAction(items);
@@ -81,36 +95,23 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				router.push('/sign-in');
 			}
 		};
-
 		const res = getItemsFromLocalStorage<CartItemsFull | null>('cart');
 		const localStorageCartItems = CartItemFullArraySchema.safeParse(res);
-		if (user && localStorageCartItems.success) {
-			addToCart(localStorageCartItems.data);
-		}
-	}, [user, router]);
-
-	useEffect(() => {
-		// * FETCH GET-CART ON FIRST CALL OR WHEN ADD-TO-CART FAILS
-		const getCart = async () => {
-			const res = await fetch('/api/cart');
-			const json = await res.json();
-			const cart = GetCartSchema.safeParse(json);
-			if (cart.success && cart.data.status === 'SUCCESS') {
-				setOptimisticState(cart.data.data);
-			} else if (cart.data?.status === 'UNAUTHORIZED') {
-				// * IF 401, meaning the session in the server expires, but in the client hasn't.
-				router.push('/sign-in');
+		const init = async () => {
+			if (user) {
+				if (localStorageCartItems.success) {
+					await addToCart(localStorageCartItems.data);
+				}
+				await getCart();
+			} else {
+				const res = getItemsFromLocalStorage<CartItemsFull | null>('cart');
+				const localStorageCartItems = CartItemFullArraySchema.safeParse(res);
+				if (localStorageCartItems.success) {
+					setOptimisticState(localStorageCartItems.data);
+				}
 			}
 		};
-		if (user) {
-			getCart();
-		} else {
-			const res = getItemsFromLocalStorage<CartItemsFull | null>('cart');
-			const localStorageCartItems = CartItemFullArraySchema.safeParse(res);
-			if (localStorageCartItems.success) {
-				setOptimisticState(localStorageCartItems.data);
-			}
-		}
+		init();
 	}, [user, router, setOptimisticState, cartVersion]);
 
 	const handleDecreaseCartQuantity = useCallback(
