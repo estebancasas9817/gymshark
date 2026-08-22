@@ -4,7 +4,7 @@ import { getCategoryBySlug } from '../categories/categories';
 import {
 	Color,
 	Size,
-} from '@/app/(public)/[category]/[subCategory]/types/product-list-types';
+} from '@/app/(core)/(public)/[category]/[subCategory]/types/product-list-types';
 import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
 
