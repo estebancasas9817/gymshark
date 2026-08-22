@@ -1,4 +1,3 @@
-// utils/normalize/normalize-filters.ts
 export const SIZE_MAP: Record<string, string> = {
 	'one size': 'One Size',
 	xs: 'XS',

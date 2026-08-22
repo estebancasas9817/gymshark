@@ -1,4 +1,4 @@
-import { CartItemFull } from '../cart/get-cart';
+import { CartItemFull } from '@/schemas/cart.schema';
 
 export const hasStock = (products: CartItemFull[]): boolean => {
 	let hasProductStock = true;
