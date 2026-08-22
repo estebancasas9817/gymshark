@@ -19,6 +19,7 @@ export default defineConfig({
 			reporter: ['text', 'html'],
 			exclude: ['node_modules/', 'src/test/'],
 		},
+		clearMocks: true,
 	},
 	resolve: {
 		alias: {
