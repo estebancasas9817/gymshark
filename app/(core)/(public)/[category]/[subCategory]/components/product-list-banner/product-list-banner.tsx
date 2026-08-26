@@ -10,7 +10,7 @@ export const ProductListBanner = ({ imageUrl }: ProductListBannerProps) => {
 			<figure className="relative w-full h-100">
 				<Image
 					src={imageUrl}
-					alt="image"
+					alt="image banner"
 					fill
 					fetchPriority="high"
 					className="object-cover"

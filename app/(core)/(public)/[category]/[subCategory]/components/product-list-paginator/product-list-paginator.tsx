@@ -24,8 +24,6 @@ const cellDefault =
 
 const cellDisabled = 'text-[#aaa] cursor-not-allowed pointer-events-none';
 
-// ─── Paginator ────────────────────────────────────────────────────────────────
-
 export function ProductListPaginator({
 	totalPages,
 	currentPage,
