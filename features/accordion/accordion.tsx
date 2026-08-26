@@ -20,6 +20,7 @@ export const Accordion = ({
 	shouldExpand,
 }: AccordionProps) => {
 	const [isExpanded, setIsExpanded] = useState(shouldExpand);
+
 	const handleClick = () => {
 		setIsExpanded(!isExpanded);
 	};
