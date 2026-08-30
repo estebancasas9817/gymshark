@@ -5,8 +5,8 @@ import Image from 'next/image';
 import { Text } from '@/components/ui/text';
 import { useWishlist } from '@/app/context/wishlist-context';
 import { useCart } from '@/app/context/cart-context';
-import { CartItemFull } from '@/libs/firebase/db/cart/get-cart';
 import { Conditional } from '@/components/layout/conditional';
+import { CartItemFull } from '@/schemas/cart.schema';
 
 interface WishlistItemProps {
 	productId: string;

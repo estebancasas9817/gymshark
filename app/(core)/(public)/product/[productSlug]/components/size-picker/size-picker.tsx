@@ -12,6 +12,8 @@ import { Sku } from '@/types/product';
 interface SizePickerProps {
 	selectedVariant: Sku;
 }
+
+// TODO: Finish this component
 export const SizePicker = ({ selectedVariant }: SizePickerProps) => {
 	const [pickedSize, setPickedsize] = useState<string | null>(null);
 	const handleSizePick = (size: string) => {

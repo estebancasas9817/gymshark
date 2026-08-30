@@ -1,5 +1,4 @@
 import { Stack } from '@/components/layout/stack';
-import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { GrPaypal } from 'react-icons/gr';
 import { SiAfterpay, SiKlarna } from 'react-icons/si';

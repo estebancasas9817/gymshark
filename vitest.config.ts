@@ -3,23 +3,42 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-	plugins: [react()],
+	plugins: [
+		react(),
+		{
+			name: 'mock-css-modules',
+			transform(_, id) {
+				if (id.endsWith('.module.css') || id.endsWith('.css')) {
+					return {
+						code: 'export default new Proxy({}, { get: (_, key) => key })',
+						map: null,
+					};
+				}
+			},
+		},
+	],
 	test: {
-		// Enables global test methods like describe, it, and expect
 		globals: true,
-		// Simulates a browser environment in Node.js
 		environment: 'jsdom',
-		// Path to your test setup file
 		setupFiles: './test/setup.ts',
 		include: ['**/*.{test,spec}.{ts,tsx}'],
-		// Optional: handles CSS imports smoothly during testing
-		css: true,
+		css: false,
 		coverage: {
 			provider: 'v8',
 			reporter: ['text', 'html'],
 			exclude: ['node_modules/', 'src/test/'],
 		},
 		clearMocks: true,
+		server: {
+			deps: {
+				inline: ['next-auth'],
+			},
+		},
+	},
+	css: {
+		postcss: {
+			plugins: [], // override vacío — ignora postcss.config.mjs
+		},
 	},
 	resolve: {
 		alias: {

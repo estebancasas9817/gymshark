@@ -57,5 +57,6 @@ export const SetRecentlyProducts = ({
 			}
 		}
 	}, [recentlyViewedProduct.color, recentlyViewedProduct.productSlug]);
+
 	return null;
 };

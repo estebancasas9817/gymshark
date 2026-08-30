@@ -48,6 +48,7 @@
 		"@vitejs/plugin-react": "^6.0.5",
 		"eslint": "^9",
 		"eslint-config-next": "15.5.12",
+		"identity-obj-proxy": "^3.0.0",
 		"jsdom": "^30.0.1",
 		"react-email": "^6.3.2",
 		"tailwindcss": "^4",
