@@ -16,6 +16,7 @@ export const ActionPill = ({
 }: ActionPillProps) => {
 	return (
 		<button
+			aria-label="action-pill"
 			className={cn('bg-(--color-gray-100) rounded-2xl py-1.5 px-4', className)}
 			onClick={onClick}
 			disabled={disabled}
