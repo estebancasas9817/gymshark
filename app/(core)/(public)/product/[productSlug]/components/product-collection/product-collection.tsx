@@ -12,7 +12,7 @@ interface ProductCollectionProps {
 	className?: string;
 	sectionId?: string;
 }
-// cambiar el nombre a algo más común
+
 export const ProductCollection = ({
 	sectionName,
 	sectionDescription,

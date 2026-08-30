@@ -28,10 +28,10 @@ export const CartDrawerFooter = ({ isScrolling }: CartDrawerFooterProps) => {
 
 	const handleCheckout = async () => {
 		setIsPending(true);
-		const { status, url } = await addCheckoutSession(optimisticState);
-		if (status === 200 && url) {
+		const res = await addCheckoutSession(optimisticState);
+		if (res.status === 200 && res.url) {
 			toast.success('Redirecting...');
-			window.location.href = url;
+			window.location.href = res.url;
 		} else {
 			toast.error('Something went wrong.');
 		}

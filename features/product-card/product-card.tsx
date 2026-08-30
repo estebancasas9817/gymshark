@@ -15,9 +15,9 @@ import { useState } from 'react';
 import styles from './product-card.module.css';
 import { useCart } from '@/app/context/cart-context';
 import { useWishlist } from '@/app/context/wishlist-context';
-import { WishlistItemFull } from '@/libs/firebase/db/wishlist/get-wishlist';
 import { useToast } from '@/app/context/toast-context';
 import { getPdpUrl } from './utils';
+import { WishlistItemFull } from '@/schemas/wishlist.schema';
 
 interface ProductCardProps {
 	color: string;
