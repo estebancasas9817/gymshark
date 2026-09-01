@@ -11,7 +11,7 @@ import {
 	useState,
 } from 'react';
 
-type Drawer = 'cart' | 'wishlist' | null;
+export type Drawer = 'cart' | 'wishlist' | null;
 type Context = {
 	handleOpenDrawer: (drawer: Drawer) => void;
 	handleCloseDrawer: () => void;

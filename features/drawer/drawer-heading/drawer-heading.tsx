@@ -1,6 +1,5 @@
 'use client';
 
-import { useCart } from '@/app/context/cart-context';
 import { useDrawer } from '@/app/context/drawer-context';
 import { Stack } from '@/components/layout/stack';
 import { Heading } from '@/components/ui/heading';
@@ -32,7 +31,11 @@ export const DrawerHeading = ({ isScrolling }: DrawerHeadingProps) => {
 			</Heading>
 			<Stack direction="row" align="center" gap="lg">
 				<WishlistToggle />
-				<button onClick={handleCloseDrawer} className="cursor-pointer">
+				<button
+					onClick={handleCloseDrawer}
+					className="cursor-pointer"
+					aria-label="Close Drawer"
+				>
 					<X size={26} />
 				</button>
 			</Stack>
