@@ -100,7 +100,8 @@ type ForgotPasswordState =
 	| {
 			status: 'UNEXPECTED_ERROR';
 			success: boolean;
-	  };
+	  }
+	| { status: 'INITIAL'; success: boolean };
 
 export const forgotPasswordAction = async (
 	email: string,
