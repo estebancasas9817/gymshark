@@ -10,7 +10,7 @@ import { cn } from '@/utils/cn/cn';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ReactNode } from 'react';
 
-type Size = 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl';
+export type Size = 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl';
 interface CarouselProps {
 	children: ReactNode;
 	sectionName: string;
