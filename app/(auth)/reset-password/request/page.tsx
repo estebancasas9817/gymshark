@@ -24,17 +24,18 @@ export default function Page() {
 	const [state, formAction, isPending] = useActionState(
 		forgotPasswordFormAction,
 		{
-			errors: undefined,
-			message: '',
 			success: false,
+			status: 'INITIAL',
 		},
 	);
 	const [email, setEmail] = useState<string>('');
-	const { errors, message, status } = state ?? {};
-	const isFailedStatus = status === 'UNEXPECTED_ERROR';
-	const isSuccessStatus = status === 'SUCCESS';
-	console.log('[status]', { status });
-	const emailError = errors?.email?.[0];
+
+	let emailError: string | undefined = undefined;
+	if (state.status === 'WRONG_INPUT') {
+		emailError = state.errors.email?.[0];
+	}
+	const isFailedStatus = state.status === 'UNEXPECTED_ERROR';
+	const isSuccessStatus = state.status === 'SUCCESS';
 
 	const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
@@ -96,8 +97,7 @@ export default function Page() {
 									)}
 								>
 									<CircleX size={16} />
-
-									{message}
+									Unexpected Error
 								</Text>
 							</Conditional>
 						</Stack>
