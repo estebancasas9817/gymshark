@@ -21,14 +21,24 @@ export default function Page() {
 	const t = useTranslations('ResetPassword');
 	const actionWithParams = resetPasswordAction.bind(null, email, token);
 	const [state, formAction, isPending] = useActionState(actionWithParams, {
-		errors: undefined,
-		message: '',
 		success: false,
-		status: undefined,
+		status: 'INITIAL',
 	});
-	const { errors, message, status } = state ?? {};
+	const { status } = state ?? {};
+	let message: string | undefined = undefined;
+	if (
+		state.status !== 'NO_TOKEN' &&
+		state.status !== 'WRONG_INPUT' &&
+		state.status !== 'INITIAL'
+	) {
+		message = state.message;
+	}
+	let passwordError: string | undefined = undefined;
+	if (state.status === 'WRONG_INPUT') {
+		passwordError =
+			state.errors?.confirmPassword?.[0] ?? state.errors?.password?.[0];
+	}
 	const isFailedStatus = status === 'UNEXPECTED_ERROR';
-	const passwordError = errors?.confirmPassword?.[0] ?? errors?.password?.[0];
 
 	return (
 		<Container as="main" fullWidth className="relative h-screen">

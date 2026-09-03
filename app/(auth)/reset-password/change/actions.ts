@@ -4,21 +4,21 @@ import { db } from '@/libs/firebase/init-firestore';
 import z from 'zod';
 import { hash } from 'bcrypt-ts';
 
-type ResetPasswordState = {
-	message?: string;
-	success?: boolean;
-	errors?: {
-		password?: string[];
-		confirmPassword?: string[];
-	};
-	status?:
-		| 'UNEXPECTED_ERROR'
-		| 'WRONG_INPUT'
-		| 'SUCCESS'
-		| 'INVALID'
-		| 'NO_TOKEN'
-		| 'EXPIRED';
-};
+type ResetPasswordState =
+	| { status: 'NO_TOKEN'; success: boolean }
+	| { status: 'INITIAL'; success: boolean }
+	| {
+			status: 'WRONG_INPUT';
+			success: boolean;
+			errors?: {
+				password?: string[];
+				confirmPassword?: string[];
+			};
+	  }
+	| { status: 'INVALID'; success: boolean; message: string }
+	| { status: 'EXPIRED'; success: boolean; message: string }
+	| { status: 'UNEXPECTED_ERROR'; success: boolean; message: string }
+	| { status: 'SUCCESS'; success: boolean; message: string };
 
 const resetPasswordSchema = z
 	.object({
