@@ -14,6 +14,7 @@ Unlike a superficial clone, this project focuses on server-side robustness, adva
 - **Auth:** [Auth.js](https://authjs.dev/) + bcrypt (Custom Credentials Provider).
 - **Payments:** [Stripe SDK](https://stripe.com/) for checkout flows and webhooks.
 - **Communication:** [Resend](https://resend.com/) + [React Email](https://react.email/) for transactional emails.
+- **Testing:** [Vitest](https://vitest.dev/) for unit & integration tests, [Playwright](https://playwright.dev/) for end-to-end (E2E) testing.
 
 ---
 
@@ -76,7 +77,17 @@ The project follows a modular structure designed for maintainability and Separat
 
 - [x] Stripe UI integration and Webhook validation for order processing.
 
-### Phase 10 to 13: Final Polish & Deploy (In Progress 📍)
+### Phase 10: Unit & Integration tests (Completed ✅)
+
+- [x] Vitest config
+- [x] Unit and integration tests (server actions, custom hooks, contexts, components)
+
+### Phase 11: E2E tests (In Progress 📍)
+
+- [x] Playright config
+- [ ] E2E tests
+
+### Phase 12 to 13: Final Polish & Deploy 
 
 - [ ] User Dashboard, Performance Optimization, Error Boundaries, and Production Deploy.
 
