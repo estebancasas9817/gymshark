@@ -62,7 +62,6 @@ export const resetPasswordAction = async (
 		const verifyQuery = db.collection('passwordResetTokens').doc(email);
 		const verificationTokenSnap = await verifyQuery.get();
 		const data = verificationTokenSnap.data();
-
 		if (!verificationTokenSnap.exists || !data) {
 			return {
 				status: 'INVALID',
@@ -76,11 +75,10 @@ export const resetPasswordAction = async (
 
 		const isEqualToken = token === dbToken;
 		const hasExpired = expires.toDate() < new Date();
-
 		if (!isEqualToken || hasExpired) {
 			const status = !isEqualToken ? 'INVALID' : 'EXPIRED';
 			const message = !isEqualToken
-				? 'he link you followed is invalid or has already been used. Please request a new password reset.'
+				? 'The link you followed is invalid or has already been used. Please request a new password reset.'
 				: 'This password reset link is no longer valid. Please go back and request a new one.';
 			return {
 				status,
@@ -89,7 +87,6 @@ export const resetPasswordAction = async (
 			};
 		}
 		await verifyQuery.delete();
-
 		try {
 			const hashedPassword = await hash(password, 10);
 			const userQuery = db.collection('users').doc(email);
