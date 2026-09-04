@@ -84,7 +84,7 @@ The project follows a modular structure designed for maintainability and Separat
 
 ### Phase 11: E2E tests (In Progress 📍)
 
-- [x] Playright config
+- [x] Playwright config
 - [ ] E2E tests
 
 ### Phase 12 to 13: Final Polish & Deploy 
