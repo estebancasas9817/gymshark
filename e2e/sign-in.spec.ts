@@ -35,3 +35,12 @@ test('should sign in successfully', async ({ page }) => {
 
 	await expect(page).toHaveURL('/account');
 });
+
+test('should redirect to sign-up if user click Sign up button', async ({
+	page,
+}) => {
+	const signInPage = new SignInPage(page);
+	await signInPage.goto();
+	await page.getByRole('link', { name: 'Sign up' }).click();
+	await expect(page).toHaveURL('/sign-up');
+});
