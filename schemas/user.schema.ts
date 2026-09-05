@@ -6,7 +6,12 @@ export const UserSchema = z.object({
 		.trim()
 		.toLowerCase(),
 	emailVerified: z.coerce.date().nullish(),
-	lastName: z.string().trim().toLowerCase().min(2).max(50),
+	lastName: z
+		.string()
+		.trim()
+		.toLowerCase()
+		.min(2, { message: 'Last Name should have at least two characters' })
+		.max(50),
 	password: z
 		.string()
 		.min(3, { message: 'Password must have at least 3 characters' })

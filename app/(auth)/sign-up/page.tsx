@@ -106,6 +106,7 @@ export default function Page() {
 									'flex gap-2 items-center justify-center text-sm',
 									isSuccess ? 'text-green-700' : 'text-error',
 								)}
+								role="alert"
 							>
 								<Conditional test={isSuccess} fallback={<CircleX size={16} />}>
 									<BadgeCheck size={16} />
