@@ -34,7 +34,7 @@ test('should open wishlist drawer with products on it if user add product to wis
 		page.getByRole('heading', { level: 6, name: 'WISHLIST' }),
 	).toBeVisible();
 	await expect(
-		page.locator('p[class*="font-semibold"]').filter({ hasText: productName }),
+		page.getByTestId('wishlist-product-name').filter({ hasText: productName }),
 	).toBeVisible();
 });
 
@@ -60,13 +60,13 @@ test('should retain product wishlist after user sign in', async ({ page }) => {
 	// guest flow wishlist
 	await page.getByRole('button', { name: 'Wishlist drawer' }).click();
 	await expect(
-		page.locator('p[class*="font-semibold"]').filter({ hasText: productName }),
+		page.getByTestId('wishlist-product-name').filter({ hasText: productName }),
 	).toBeVisible();
 	await page.getByRole('button', { name: 'Close Drawer' }).click();
 	await signIn.login('estebancasas9817@gmail.com', '12345678');
 	// sign in flow wishlist
 	await page.getByRole('button', { name: 'Wishlist drawer' }).click();
 	await expect(
-		page.locator('p[class*="font-semibold"]').filter({ hasText: productName }),
+		page.getByTestId('wishlist-product-name').filter({ hasText: productName }),
 	).toBeVisible();
 });
