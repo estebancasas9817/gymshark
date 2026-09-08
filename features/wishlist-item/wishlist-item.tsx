@@ -97,7 +97,10 @@ export function WishlistItem({
 
 			<div className="flex flex-col flex-1 gap-1 min-w-0">
 				<div className="flex items-start justify-between gap-2">
-					<p className="text-sm font-semibold text-gray-900 leading-snug">
+					<p
+						className="text-sm font-semibold text-gray-900 leading-snug"
+						data-testid="wishlist-product-name"
+					>
 						{name}
 					</p>
 
