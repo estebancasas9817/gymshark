@@ -13,7 +13,12 @@ export const Footer = () => {
 		<>
 			<Divider />
 			<Container as="footer" className="py-8">
-				<Stack as="div" direction="row" align="start">
+				<Stack
+					as="div"
+					direction="column"
+					align="start"
+					className="lg:flex-row"
+				>
 					<FooterNav />
 					<FooterPromos />
 				</Stack>
