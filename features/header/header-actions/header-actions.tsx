@@ -21,12 +21,12 @@ export const HeaderActions = () => {
 
 	return (
 		<Stack as="nav" direction="row" gap="xl" align="center">
-			<Link href={''} aria-label="Search">
+			<Link href={''} aria-label="Search" className="hidden lg:block">
 				<Search size={20} />
 			</Link>
 			<button
 				onClick={() => handleOpenDrawer('wishlist')}
-				className="cursor-pointer"
+				className="hidden lg:block cursor-pointer"
 				aria-label="Wishlist drawer"
 			>
 				<Heart size={20} />

@@ -10,6 +10,7 @@ interface FlexContainerProps {
 	wrap?: boolean;
 	as?: 'div' | 'section' | 'article' | 'ul' | 'nav' | 'header' | 'aside';
 	className?: string;
+	onClick?: () => void;
 }
 
 export const Stack = ({
@@ -21,6 +22,7 @@ export const Stack = ({
 	wrap = false,
 	as = 'div',
 	className,
+	onClick,
 }: FlexContainerProps) => {
 	const Tag = as;
 	const directionStyles = {
@@ -59,6 +61,7 @@ export const Stack = ({
 				wrap ? 'flex-wrap' : 'flex-nowrap',
 				className,
 			)}
+			onClick={onClick}
 		>
 			{children}
 		</Tag>

@@ -11,6 +11,7 @@ import { cn } from '@/utils/cn/cn';
 import { SideMegaMenu } from './side-mega-menu';
 import { usePathname } from 'next/navigation';
 import { HeaderActions } from './header-actions';
+import { MenuIcon, Search } from 'lucide-react';
 
 interface HeaderProps {
 	navigationlist: NavigationItem[];
@@ -51,7 +52,12 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 				className="px-10 py-3.5 bg-secondary"
 			>
 				<Stack as="nav">
-					<Stack as="ul" direction="row" gap="lg" className="group/container">
+					<Stack
+						as="ul"
+						direction="row"
+						gap="lg"
+						className="hidden lg:flex group/container"
+					>
 						{navigationlist.map(({ id, href, label, order }) => (
 							<li key={id}>
 								<Link
@@ -69,6 +75,12 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 								</Link>
 							</li>
 						))}
+					</Stack>
+					<Stack as="ul" direction="row" className="lg:hidden" align="center">
+						<MenuIcon aria-label="hamburger menu" />
+						<Link href={''} aria-label="Search">
+							<Search size={20} />
+						</Link>
 					</Stack>
 				</Stack>
 				<figure>

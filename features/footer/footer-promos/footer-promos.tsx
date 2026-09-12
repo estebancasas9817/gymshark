@@ -9,6 +9,7 @@ import PromoCardStudents from '@/public/promo-card-students.avif';
 export const FooterPromos = () => {
 	const t = useTranslations('Footer.promos');
 	const promoKeys = Object.keys(t.raw('items'));
+
 	return (
 		<div>
 			<Text as="p" className="text-sm font-sans font-bold mb-6">
