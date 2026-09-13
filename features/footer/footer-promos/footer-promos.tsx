@@ -1,3 +1,5 @@
+'use client';
+
 import { Stack } from '@/components/layout/stack';
 import { PromoCard } from '@/components/ui/promo-card';
 import { Text } from '@/components/ui/text';
@@ -11,29 +13,31 @@ export const FooterPromos = () => {
 	const promoKeys = Object.keys(t.raw('items'));
 
 	return (
-		<div>
+		<div className="w-full border-x-0 border-t border-t-gray-200 py-4 lg:py-0 lg:border-0">
 			<Text as="p" className="text-sm font-sans font-bold mb-6">
 				{t('title')}
 			</Text>
-			<Stack as="div" direction="row" className="gap-1">
-				{promoKeys.map((promo) => {
-					let src = PromoCardGymshark;
-					if (promo === 'students') {
-						src = PromoCardStudents;
-					} else if (promo === 'newsletter') {
-						src = PromoCardEmail;
-					}
+			<div className="scroll-smooth overflow-x-auto scrollbar-none lg:overflow-x-visible lg:scroll-auto lg:scrollbar-default w-full">
+				<Stack as="div" direction="row" className="gap-1">
+					{promoKeys.map((promo) => {
+						let src = PromoCardGymshark;
+						if (promo === 'students') {
+							src = PromoCardStudents;
+						} else if (promo === 'newsletter') {
+							src = PromoCardEmail;
+						}
 
-					return (
-						<PromoCard
-							key={promo}
-							title={t(`items.${promo}.label`)}
-							alt={t(`items.${promo}.alt`)}
-							src={src}
-						/>
-					);
-				})}
-			</Stack>
+						return (
+							<PromoCard
+								key={promo}
+								title={t(`items.${promo}.label`)}
+								alt={t(`items.${promo}.alt`)}
+								src={src}
+							/>
+						);
+					})}
+				</Stack>
+			</div>
 		</div>
 	);
 };
