@@ -107,14 +107,14 @@ export const ProductCard = ({
 		<article
 			className={cn(styles['product-card'], 'mb-6', productCardClassNames)}
 		>
-			<figure className={cn('relative w-full h-90', imageClassNames)}>
+			<figure className={cn('relative w-full aspect-3/4', imageClassNames)}>
 				<Link href={getPdpUrl(href, color)}>
 					<Image
 						src={imgSrc}
 						alt={desc}
 						onMouseEnter={handleMouseEnter}
 						onMouseLeave={handleMouseLeave}
-						className={cn('h-82 w-full object-cover', imageClassNames)}
+						className={cn('w-full object-cover', imageClassNames)}
 						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 						fill
 					/>

@@ -33,20 +33,20 @@ export const Carousel = ({
 		useCarousel(childrenToShow);
 
 	return (
-		<Container as="section" className={cn('ps-10 mx-0 w-1/2 mt-4', className)}>
+		<Container as="section" className={cn('pl-4 mx-0 w-1/2 mt-4', className)}>
 			<Stack
 				direction="row"
 				justify="between"
 				className={cn('mt-10', stackClassNames)}
 			>
-				<Heading className="mb-6" size={size}>
+				<Heading className="mb-6 text-lg lg:text-2xl" size={size}>
 					{sectionName}
 				</Heading>
 				<Conditional test={shouldDisplayCarouselButtons}>
 					<Stack direction="row">
 						<ActionPill
 							className={cn(
-								'rounded-full p-0 w-8 h-8 flex items-center justify-center cursor-pointer bg-primary',
+								'rounded-full p-0 w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center cursor-pointer bg-primary',
 								scroll.isScrollLeftMax &&
 									'cursor-not-allowed bg-(--color-gray-200)',
 							)}
@@ -60,7 +60,7 @@ export const Carousel = ({
 						</ActionPill>
 						<ActionPill
 							className={cn(
-								'rounded-full p-0 w-8 h-8 flex items-center justify-center cursor-pointer bg-primary',
+								'rounded-full p-0 w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center cursor-pointer bg-primary',
 								scroll.isScrollRightMax &&
 									'cursor-not-allowed bg-(--color-gray-200)',
 							)}

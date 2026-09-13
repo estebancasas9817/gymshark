@@ -22,18 +22,22 @@ export const Banner = ({
 	image,
 }: BannerProps) => {
 	return (
-		<Container fullWidth className="w-full overflow-hidden relative h-150">
+		<Container
+			fullWidth
+			className="w-full overflow-hidden relative aspect-3/4 md:aspect-4/3 lg:aspect-video h-150"
+		>
 			<figure>
 				<Image
 					src={image}
-					alt=""
+					alt="Hero Banner"
 					className="w-full h-full object-cover object-[center_30%]"
 					fill
 					priority
 					fetchPriority="high"
+					sizes="100vw"
 				/>
 			</figure>
-			<Stack className="absolute m-12 bottom-0 w-100" gap="lg">
+			<Stack className="absolute m-4 lg:m-12 bottom-0 w-100" gap="lg">
 				<Heading as="h2" className="text-secondary text-2xl">
 					{title}
 				</Heading>
