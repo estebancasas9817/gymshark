@@ -7,18 +7,17 @@ import { useBreakpoint } from '@/hooks/use-breakpoint';
 import { Minus, Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface FooterNavLinksProps {
 	section: string;
-	index: number;
 }
-export const FooterNavLinks = ({ section, index }: FooterNavLinksProps) => {
+export const FooterNavLinks = ({ section }: FooterNavLinksProps) => {
 	const t = useTranslations('Footer.sections');
 	const [isOpen, setIsOpen] = useState(false);
 	const isDesktop = useBreakpoint('lg');
-	const displayClassnames = isOpen && !isDesktop ? 'block' : 'hidden';
-	const lastChildStyles = index === 2 ? 'border-b border-b-gray-200' : '';
+	const displayClassnames =
+		(!isOpen && isDesktop) || (isOpen && !isDesktop) ? 'block' : 'hidden';
 
 	const handleClick = () => {
 		if (!isDesktop) {
@@ -26,13 +25,19 @@ export const FooterNavLinks = ({ section, index }: FooterNavLinksProps) => {
 		}
 	};
 
+	useEffect(() => {
+		if (isDesktop) {
+			setIsOpen(false);
+		}
+	}, [isDesktop]);
+
 	return (
-		<Stack as="ul" gap="sm" className="gap-2">
+		<Stack as="ul" gap="sm" className="gap-2  basis-1/3">
 			<Stack
 				direction="row"
 				align="center"
 				justify="between"
-				className={`border-x-0 border-t ${lastChildStyles} border-t-gray-200 py-4 lg:py-0 lg:border-0`}
+				className="border-x-0 border-t border-t-gray-200 py-4 lg:py-0 lg:border-0"
 				onClick={handleClick}
 			>
 				<Text
@@ -41,8 +46,10 @@ export const FooterNavLinks = ({ section, index }: FooterNavLinksProps) => {
 				>
 					{t(`${section}.title`)}
 				</Text>
-				<Conditional test={isOpen} fallback={<Plus />}>
-					<Minus />
+				<Conditional test={!isDesktop}>
+					<Conditional test={isOpen} fallback={<Plus />}>
+						<Minus />
+					</Conditional>
 				</Conditional>
 			</Stack>
 			{Object.keys(t.raw(`${section}.links`)).map((linkKey) => {
@@ -51,14 +58,17 @@ export const FooterNavLinks = ({ section, index }: FooterNavLinksProps) => {
 						<Link
 							href={`/${linkKey}`}
 							key={linkKey}
-							className={`text-sm text-gray-600 hover:text-primary ${isOpen && !isDesktop ? 'block' : 'hidden'}`}
+							className={`text-sm text-gray-600 hover:text-primary ${displayClassnames} last:mb-4 lg:mb-0`}
 						>
 							{t(`${section}.links.${linkKey}`)}
 						</Link>
 					);
 				}
 				return (
-					<li key={linkKey} className={displayClassnames}>
+					<li
+						key={linkKey}
+						className={`${displayClassnames} last:mb-4 lg:mb-0`}
+					>
 						<a
 							href={`/${linkKey}`}
 							className="text-sm text-gray-600 hover:text-primary"
