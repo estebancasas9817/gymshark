@@ -29,7 +29,11 @@ export const AboutContentSection = ({
 				const headingSize = articleIndex === 0 ? 'xl' : 'lg';
 				return (
 					<ContentArticle key={id}>
-						<Heading as={headingTag} size={headingSize}>
+						<Heading
+							as={headingTag}
+							size={headingSize}
+							className="text-lg md:text-xl lg:text-3xl"
+						>
 							{title}
 						</Heading>
 						{paragraphs.map((_, pIndex) => (
