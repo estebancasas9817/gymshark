@@ -1,6 +1,15 @@
 import { Stack } from '@/components/layout/stack';
 import { useTranslations } from 'next-intl';
 
+const LINKS = [
+	'https://row.gymshark.com/pages/terms-and-conditions',
+	'https://row.gymshark.com/pages/terms-and-conditions',
+	'https://row.gymshark.com/pages/terms-of-use',
+	'https://row.gymshark.com/pages/privacy-notice',
+	'https://row.gymshark.com/pages/cookie-policy',
+	'https://row.gymshark.com/pages/modern-slavery',
+];
+
 export const LegalLinks = ({
 	direction = 'row',
 }: {
@@ -16,10 +25,10 @@ export const LegalLinks = ({
 				direction={direction}
 				className="text-sm text-primary lg:text-gray-700 gap-2 lg:gap-2 items-center md:items-start"
 			>
-				{legalKeys.map((key) => (
+				{legalKeys.map((key, index) => (
 					<li key={key}>
 						<a
-							href={`/${key}`}
+							href={LINKS[index]}
 							target="_blank"
 							className="hover:text-primary underline lg:no-underline lg:text-xs xl:text-sm"
 						>
