@@ -24,35 +24,26 @@ export const ProductListFilterBar = ({
 			justify="between"
 			align="center"
 		>
-			<Stack
-				direction="row"
-				className="border-r py-4 border-r-border-secondary flex-1"
-				justify="center"
-				align="center"
+			<button
+				className="flex justify-center items-center border-r py-4 border-r-border-secondary flex-1 gap-4"
+				onClick={() => handleOpenDrawer('sort')}
 			>
-				<button className="font-sans font-medium text-sm">{t('sort')}</button>
+				<span className="font-sans font-medium text-sm block">{t('sort')}</span>
 				<Stack className="gap-0">
 					<ChevronUp size={14} />
 					<ChevronDown size={14} />
 				</Stack>
-			</Stack>
+			</button>
 			<Text className="flex-1 text-center text-tertiary text-sm">
 				{productsCount}
 			</Text>
-			<Stack
-				direction="row"
-				className="border-l py-4 border-l-border-secondary flex-1"
-				justify="center"
-				align="center"
+			<button
+				className="flex flex-row justify-center items-center border-l py-4 border-l-border-secondary flex-1 gap-4"
+				onClick={() => handleOpenDrawer('filter')}
 			>
-				<button
-					className="font-sans font-medium text-sm"
-					onClick={() => handleOpenDrawer()}
-				>
-					{t('filter')}
-				</button>
+				<span className="font-sans font-medium text-sm">{t('filter')}</span>
 				<ListFilter size={14} className="block" />
-			</Stack>
+			</button>
 		</Stack>
 	);
 };

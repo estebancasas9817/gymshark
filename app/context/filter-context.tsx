@@ -8,10 +8,12 @@ import React, {
 	useState,
 } from 'react';
 
+type Drawer = 'sort' | 'filter';
 type Context = {
 	isFilterDrawerOpen: boolean;
-	handleOpenDrawer: () => void;
+	handleOpenDrawer: (drawer: Drawer) => void;
 	handleCloseDrawer: () => void;
+	drawerType: Drawer | null;
 };
 
 const FilterContext = createContext<Context | null>(null);
@@ -22,12 +24,15 @@ interface FilterProvider {
 
 export const FilterProvider = ({ children }: FilterProvider) => {
 	const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+	const [drawerType, setDrawerType] = useState<Drawer | null>(null);
 
-	const handleOpenDrawer = () => {
+	const handleOpenDrawer = (drawer: Drawer) => {
 		setIsFilterDrawerOpen(true);
+		setDrawerType(drawer);
 	};
 	const handleCloseDrawer = () => {
 		setIsFilterDrawerOpen(false);
+		setDrawerType(null);
 	};
 
 	const value = useMemo(
@@ -35,8 +40,9 @@ export const FilterProvider = ({ children }: FilterProvider) => {
 			isFilterDrawerOpen,
 			handleOpenDrawer,
 			handleCloseDrawer,
+			drawerType,
 		}),
-		[isFilterDrawerOpen, handleCloseDrawer, handleOpenDrawer],
+		[isFilterDrawerOpen, handleCloseDrawer, handleOpenDrawer, drawerType],
 	);
 
 	return (
