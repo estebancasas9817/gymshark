@@ -27,13 +27,17 @@ export const ProductListHeader = async ({
 
 	return (
 		<Stack as="section" className="mb-28">
-			<Heading as="h1" className="mt-10 text-[44px]">
+			<Heading as="h1" className="mt-10 text-[32px] lg:text-[44px]">
 				{name?.toUpperCase()}
 			</Heading>
 			<Text as="span" className="text-xs text-tertiary">
 				{productsCount}
 			</Text>
-			<Text as="p" size="xl" className="max-w-200 text-gray-700 mb-2">
+			<Text
+				as="p"
+				size="sm"
+				className="max-w-200 lg:text-xl text-gray-700 mb-2"
+			>
 				{description}
 			</Text>
 			<ProductListBanner imageUrl={imageUrl} />

@@ -19,7 +19,7 @@ export const ProductListMainContent = ({
 	const slug = `${category}/${subCategory}`;
 
 	return (
-		<Stack className="flex-1">
+		<Stack className="flex-1 w-full">
 			<Suspense>
 				<ProductListCarousel slug={slug} />
 			</Suspense>
