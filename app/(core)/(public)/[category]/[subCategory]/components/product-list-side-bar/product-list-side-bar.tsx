@@ -55,18 +55,15 @@ export const ProductListSideBar = () => {
 	};
 
 	return (
-		<Stack
-			as="aside"
-			className="hidden lg:flex lg:basis-80 shrink-0 lg:sticky lg:top-30 lg:h-[calc(100vh-7.5rem)] lg:overflow-y-auto scroll-smooth lg:pr-2 gap-0"
-		>
+		<nav className="w-full flex flex-col h-full lg:max-h-[calc(100vh-9rem)] overflow-hidden">
 			<Stack
 				direction="row"
-				align="start"
+				align="center"
 				justify="between"
-				className="pb-6"
+				className="sticky top-0 z-20 bg-secondary pb-4 pt-1 w-full flex-none border-b border-gray-100/50"
 				gap="xl"
 			>
-				<Heading as="h2" className="text-sm">
+				<Heading as="h2" className="text-sm font-bold uppercase tracking-wider">
 					{t('header.title')}
 				</Heading>
 				<Button
@@ -82,71 +79,73 @@ export const ProductListSideBar = () => {
 				</Button>
 			</Stack>
 
-			<Accordion
-				title={t('sections.sort_by.title')}
-				classNames="py-6"
-				shouldExpand
-			>
-				<RadioButton
-					inputs={sortOptions}
-					name="sort"
-					handleChange={handleSortChange}
-					checkedRadio={sortBy}
-				/>
-			</Accordion>
+			<div className="flex-1 min-h-0 overflow-y-auto overscroll-contain pt-2 pr-2">
+				<Accordion
+					title={t('sections.sort_by.title')}
+					classNames="py-4"
+					shouldExpand
+				>
+					<RadioButton
+						inputs={sortOptions}
+						name="sort"
+						handleChange={handleSortChange}
+						checkedRadio={sortBy}
+					/>
+				</Accordion>
 
-			<Accordion
-				title={t('sections.size.title')}
-				classNames="flex gap-2 flex-wrap py-6"
-				shouldExpand={!!size}
-			>
-				{sizeOptions.map(([key, value]) => (
-					<Button
-						className={cn(
-							'min-w-22 self-center h-10 border border-gray-300 text-gray-700',
-							value === size && 'bg-primary text-secondary',
-						)}
-						variant="secondary"
-						size="sm"
-						key={key}
-						onClick={() => {
-							setSize(value);
-							handleSize(value);
-						}}
-					>
-						{value}
-					</Button>
-				))}
-			</Accordion>
+				<Accordion
+					title={t('sections.size.title')}
+					classNames="flex gap-2 flex-wrap py-4"
+					shouldExpand={!!size}
+				>
+					{sizeOptions.map(([key, value]) => (
+						<Button
+							className={cn(
+								'min-w-22 self-center h-10 border border-gray-300 text-gray-700',
+								value === size && 'bg-primary text-secondary',
+							)}
+							variant="secondary"
+							size="sm"
+							key={key}
+							onClick={() => {
+								setSize(value);
+								handleSize(value);
+							}}
+						>
+							{value}
+						</Button>
+					))}
+				</Accordion>
 
-			<Accordion
-				title={t('sections.color.title')}
-				classNames="flex flex-wrap gap-2 py-6"
-				shouldExpand={!!colorParam}
-			>
-				<ProductListColorFilter colorOptions={colorOptions} />
-			</Accordion>
+				<Accordion
+					title={t('sections.color.title')}
+					classNames="flex flex-wrap gap-2 py-4"
+					shouldExpand={!!colorParam}
+				>
+					<ProductListColorFilter colorOptions={colorOptions} />
+				</Accordion>
 
-			<Accordion
-				title={t('sections.price.title')}
-				classNames="py-6 flex flex-wrap gap-2"
-				shouldExpand={!!price}
-			>
-				{priceOptions.map(([key, value]) => (
-					<Button
-						className={cn(
-							'h-10 border border-gray-300 flex-1 basis-1/3 text-gray-700',
-							price && key.includes(price) && 'bg-primary text-secondary',
-						)}
-						variant="secondary"
-						size="sm"
-						key={key}
-						onClick={() => handleClickPrice(key)}
-					>
-						{value}
-					</Button>
-				))}
-			</Accordion>
-		</Stack>
+				<Accordion
+					title={t('sections.price.title')}
+					classNames="py-4 flex flex-wrap gap-2"
+					shouldExpand={!!price}
+				>
+					{priceOptions.map(([key, value]) => (
+						<Button
+							className={cn(
+								'h-10 border border-gray-300 flex-1 basis-1/3 text-gray-700',
+								price && key.includes(price) && 'bg-primary text-secondary',
+							)}
+							variant="secondary"
+							size="sm"
+							key={key}
+							onClick={() => handleClickPrice(key)}
+						>
+							{value}
+						</Button>
+					))}
+				</Accordion>
+			</div>
+		</nav>
 	);
 };
