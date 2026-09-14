@@ -26,7 +26,11 @@ export default async function Page(props: PageProps<RouteParams, QueryParams>) {
 			<Suspense>
 				<ProductListHeader slug={slug} searchParams={searchParams} />
 			</Suspense>
-			<ProductListBody params={params} searchParams={searchParams} />
+			<ProductListBody
+				params={params}
+				searchParams={searchParams}
+				slug={slug}
+			/>
 		</Container>
 	);
 }

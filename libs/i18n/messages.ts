@@ -12,6 +12,7 @@ import RootPage from '@/app/messages.json';
 import VerifyAccount from '@/app/(auth)/verify-account/messages.json';
 import SuccessCheckout from '@/app/(core)/(public)/checkout/success/messages.json';
 import CancelCheckout from '@/app/(core)/(public)/checkout/cancel/messages.json';
+import FilterBar from '@/app/(core)/(public)/[category]/[subCategory]/components/product-list-filter-bar/messages.json';
 
 export const messages = {
 	AnnouncementBar,
@@ -28,4 +29,5 @@ export const messages = {
 	SuccessCheckout,
 	CancelCheckout,
 	ResetPassword,
+	FilterBar,
 };
