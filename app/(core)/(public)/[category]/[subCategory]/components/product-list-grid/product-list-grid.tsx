@@ -38,10 +38,9 @@ export const ProductListGrid = async ({
 	});
 
 	return (
-		<div className="grid grid-cols-4 gap-2">
+		<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 lg:gap-2">
 			{products?.map(({ id, name, sku, basePrice, href, discount }, index) => {
-				const shouldDisplayDesktopBanner =
-					index === 7 && currentPage === 1 && products.length >= 12;
+				const shouldDisplayBanner = currentPage === 1 && products.length >= 12;
 
 				return (
 					<Fragment key={id}>
@@ -56,10 +55,13 @@ export const ProductListGrid = async ({
 							discount={discount}
 							variant={sku}
 						/>
-						<Conditional test={shouldDisplayDesktopBanner}>
+						<Conditional test={shouldDisplayBanner}>
 							<ErrorBoundary fallback={null}>
 								<Suspense>
-									<ProductListCollectionHighlight category={category} />
+									<ProductListCollectionHighlight
+										category={category}
+										index={index}
+									/>
 								</Suspense>
 							</ErrorBoundary>
 						</Conditional>

@@ -57,7 +57,7 @@ export const ProductListSideBar = () => {
 	return (
 		<Stack
 			as="aside"
-			className="basis-80 shrink-0 sticky top-30 h-[calc(100vh-7.5rem)] overflow-y-auto scroll-smooth pr-2 gap-0"
+			className="hidden lg:flex lg:basis-80 shrink-0 lg:sticky lg:top-30 lg:h-[calc(100vh-7.5rem)] lg:overflow-y-auto scroll-smooth lg:pr-2 gap-0"
 		>
 			<Stack
 				direction="row"
