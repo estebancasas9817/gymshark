@@ -9,11 +9,16 @@ import { X } from 'lucide-react';
 
 interface DrawerHeadingProps {
 	isScrolling: boolean;
+	isMobile: boolean;
 }
 
-export const DrawerHeading = ({ isScrolling }: DrawerHeadingProps) => {
+export const DrawerHeading = ({
+	isScrolling,
+	isMobile,
+}: DrawerHeadingProps) => {
 	const { handleCloseDrawer, drawer } = useDrawer();
 	const drawerHeadingTitle = drawer === 'cart' ? 'YOUR BAG' : 'WISHLIST';
+
 	return (
 		<Stack
 			direction="row"
@@ -24,6 +29,7 @@ export const DrawerHeading = ({ isScrolling }: DrawerHeadingProps) => {
 				'fixed bg-secondary w-125 h-25 px-8 z-10',
 				isScrolling &&
 					'border-b border-gray-100 shadow-[0_0.9rem_0.9rem_0_rgba(0,0,0,0.11)]',
+				isMobile ? 'w-full' : 'w-125',
 			)}
 		>
 			<Heading as="h6" className="text-sm">

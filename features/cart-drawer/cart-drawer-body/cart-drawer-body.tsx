@@ -45,6 +45,7 @@ export const CartDrawerBody = () => {
 							skuId,
 							productId,
 							discount,
+							sizes,
 						}) => (
 							<CartItem
 								key={`${skuId} ${size}`}
@@ -57,6 +58,7 @@ export const CartDrawerBody = () => {
 								imageSrc={image}
 								productId={productId}
 								discountPrice={discount}
+								sizes={sizes}
 							/>
 						),
 					)}

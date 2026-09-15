@@ -5,11 +5,14 @@ import { DrawerHeading } from './drawer-heading';
 import { DrawerFooter } from './drawer-footer';
 import { DrawerBody } from './drawer-body/drawer-body';
 import { useDrawer } from '@/app/context/drawer-context';
+import { useBreakpoint } from '@/hooks/use-breakpoint';
+import { cn } from '@/utils/cn/cn';
 
 export const Drawer = () => {
 	const [isMounted, setIsMounted] = useState<boolean>(false);
 	const { isDrawerOpen } = useDrawer();
 	const [isScrolling, setIsScrolling] = useState<boolean>(false);
+	const isMobile = !useBreakpoint('md');
 
 	useEffect(() => {
 		setIsMounted(true);
@@ -44,8 +47,13 @@ export const Drawer = () => {
 
 	return (
 		<div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-100">
-			<div className="absolute right-0 top-0 bg-secondary w-125 h-screen flex flex-col overflow-hidden">
-				<DrawerHeading isScrolling={isScrolling} />
+			<div
+				className={cn(
+					'absolute right-0 top-0 bg-secondary w-125 h-screen flex flex-col overflow-hidden',
+					isMobile ? 'w-full' : 'w-125',
+				)}
+			>
+				<DrawerHeading isScrolling={isScrolling} isMobile={isMobile} />
 				<DrawerBody onScroll={handleScroll} />
 				<DrawerFooter isScrolling={isScrolling} />
 			</div>
