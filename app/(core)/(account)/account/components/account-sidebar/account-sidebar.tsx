@@ -13,10 +13,10 @@ export const AccountSidebar = () => {
 		e.preventDefault();
 		signOut({ redirectTo: '/' });
 	};
-
+	// TODO UPDATE HARCODED VALUES WITH DB VALUES
 	return (
-		<Stack className="mt-40">
-			<Heading as="h2" className="text-3xl">
+		<Stack className="mt-12 md:mt-20 lg:items-start" align="center">
+			<Heading as="h2" className="text-lg md:text-2xl lg:text-3xl">
 				Esteban Casas
 			</Heading>
 			<Text as="span">esteban@gmail.com</Text>

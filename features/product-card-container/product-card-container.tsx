@@ -9,7 +9,7 @@ type ProductCard = Product & {
 };
 interface ProductCardContainer {
 	stackClassNames?: string;
-	products?: ProductCard[];
+	products: ProductCard[];
 	shouldUpdateImgOnHover?: boolean;
 }
 export const ProductCardContainer = ({
@@ -19,12 +19,12 @@ export const ProductCardContainer = ({
 }: ProductCardContainer) => {
 	return (
 		<Stack direction="row" className={cn('gap-1', stackClassNames)}>
-			{products?.map(({ id, name, sku, basePrice, href, discount }) => (
+			{products.map(({ id, name, sku, basePrice, href, discount }) => (
 				<ProductCard
 					key={`${id} ${sku.color}`}
 					name={name}
 					price={basePrice}
-					color={sku.color}
+					color={sku?.color}
 					desc={name}
 					href={href}
 					imageSrc={sku.images}

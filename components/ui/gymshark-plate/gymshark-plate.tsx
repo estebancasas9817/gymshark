@@ -1,8 +1,31 @@
+'use client';
+
 import Image from 'next/image';
 import Plate from '@/public/tier-1.png';
-export const GymsharkPlate = () => {
+import { cn } from '@/utils/cn/cn';
+import { useBreakpoint } from '@/hooks/use-breakpoint';
+
+interface GymsharkPlateProps {
+	isDesktopInstance?: boolean;
+}
+export const GymsharkPlate = ({
+	isDesktopInstance = false,
+}: GymsharkPlateProps) => {
+	const isTablet = !useBreakpoint('lg');
+	const figurePlateStyles =
+		(isTablet && isDesktopInstance) || (!isDesktopInstance && !isTablet)
+			? 'hidden'
+			: '';
+
 	return (
-		<figure className="absolute bottom-0 left-1/2 -translate-x-1/2">
+		<figure
+			className={cn(
+				!isTablet &&
+					isDesktopInstance &&
+					'absolute bottom-0 left-1/2 -translate-x-1/2',
+				figurePlateStyles,
+			)}
+		>
 			<Image src={Plate} alt="Tier 1 plate" width={600} height={600} />
 		</figure>
 	);

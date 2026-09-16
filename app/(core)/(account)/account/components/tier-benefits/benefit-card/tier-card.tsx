@@ -5,8 +5,8 @@ import { Check } from 'lucide-react';
 export const TierCard = () => {
 	return (
 		<Stack
-			direction="row"
-			className="bg-[#cecfd0] p-4.5 w-74"
+			direction="column"
+			className="bg-[#cecfd0] p-4.5 w-55 lg:w-74 lg:flex-row shrink-0"
 			align="center"
 			gap="lg"
 		>

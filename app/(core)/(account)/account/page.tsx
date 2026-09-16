@@ -2,7 +2,6 @@ import { Container } from '@/components/layout/container';
 import { Stack } from '@/components/layout/stack';
 import { XpProgressTracker } from './components/xp-progress-tracker';
 import { TierBenefits } from './components/tier-benefits';
-import { XpProgressBar } from './components/xp-progress-tracker/xp-counter/xp-progress-bar';
 import { GymsharkPlate } from '@/components/ui/gymshark-plate';
 import { AccountSidebar } from './components/account-sidebar';
 import { RecentOrders } from './components/recent-orders';
@@ -17,19 +16,29 @@ import { ErrorBoundary } from 'react-error-boundary';
 export default function Page() {
 	return (
 		<Container as="main" fullWidth>
-			<Container as="section" fullWidth className="bg-[#dbdbdb] h-160 relative">
-				<Stack direction="row" className="w-full px-16" justify="between">
+			<Container
+				as="section"
+				fullWidth
+				className="bg-[#dbdbdb] lg:h-160 relative"
+			>
+				<Stack
+					direction="column"
+					className="w-full px-6 md:px-16 lg:pt-20 lg:flex-row lg:items-start"
+					justify="between"
+					align="center"
+				>
 					<AccountSidebar />
 					<XpProgressTracker />
-					<div>
-						<TierBenefits />
-					</div>
+					<TierBenefits />
+					<GymsharkPlate />
 				</Stack>
-				<XpProgressBar />
-				<GymsharkPlate />
+				<GymsharkPlate isDesktopInstance />
 			</Container>
 			<Container as="section" fullWidth>
-				<Stack className="p-16 gap-6" direction="row">
+				<Stack
+					className="p-4 md:p-8 lg:p-16 lg:gap-6 lg:flex-row"
+					direction="column"
+				>
 					<ErrorBoundary fallback={<>error displaying the orders</>}>
 						<Suspense>
 							<RecentOrders />
