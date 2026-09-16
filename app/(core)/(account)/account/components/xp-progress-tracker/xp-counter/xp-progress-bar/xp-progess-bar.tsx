@@ -3,7 +3,7 @@ import { Text } from '@/components/ui/text';
 
 export const XpProgressBar = () => {
 	return (
-		<div className="w-68 absolute top-60 left-144">
+		<div className="w-60">
 			<progress
 				value={0}
 				max={1250}
