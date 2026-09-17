@@ -5,8 +5,6 @@ import { Heading } from '@/components/ui/heading';
 import { getProduct } from '@/libs/firebase/db/products/get-product';
 import { PageProps } from '@/types/next';
 import { notFound } from 'next/navigation';
-import { ActionPill } from '@/components/ui/action-pill';
-import { Heart, Share, Star } from 'lucide-react';
 import { Text } from '@/components/ui/text';
 import { VariantSelectorGrid } from './components/variant-selector-grid';
 import { SizePicker } from './components/size-picker';
@@ -22,6 +20,7 @@ import { ProductsYouMightLike } from './components/products-you-might-like';
 import { ProductsRecommended } from './components/products-recommended';
 import { SetRecentlyProducts } from './components/set-recently-products';
 import { Recommendedkeletons } from '@/components/ui/recommended-skeletons';
+import { ActionPillWrapper } from './components/action-pill-wrapper';
 
 type RouteParams = { productSlug: string };
 type QueryParams = { color: 'red' | 'black' | 'white' | 'blue' };
@@ -71,28 +70,11 @@ const Page = async ({
 							</Text>
 						</Conditional>
 					</Stack>
-					<Stack direction="row" gap="lg" className="py-12">
-						<ActionPill className="cursor-pointer hover:bg-gray-200">
-							<Stack
-								direction="row"
-								align="center"
-								justify="center"
-								className="gap-1"
-							>
-								<Star size={12} fill="black" />
-								<Text as="span" className="text-xs">
-									4.1
-								</Text>
-								<Text className="underline text-xs">(66)</Text>
-							</Stack>
-						</ActionPill>
-						<ActionPill className="cursor-pointer hover:bg-gray-200">
-							<Heart size={18} />
-						</ActionPill>
-						<ActionPill className="cursor-pointer hover:bg-gray-200">
-							<Share size={18} />
-						</ActionPill>
-					</Stack>
+					<ActionPillWrapper
+						selectedVariant={sku}
+						name={name}
+						discount={discount}
+					/>
 					<Suspense>
 						<VariantSelectorGrid variants={skus} selectedVariant={sku} />
 					</Suspense>
