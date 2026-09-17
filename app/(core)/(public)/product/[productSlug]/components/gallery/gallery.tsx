@@ -74,8 +74,8 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 							<div
 								key={imageUrl}
 								className={cn(
-									'relative overflow-hidden bg-gray-100',
-									isMainImage && 'col-span-2 h-225',
+									'relative overflow-hidden bg-gray-100 aspect-square',
+									isMainImage && 'col-span-2 aspect-4/5',
 								)}
 								onMouseMove={(e) => handleMouseMove(e, index)}
 								onMouseLeave={() =>
@@ -85,20 +85,25 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 							>
 								<Image
 									src={imageUrl.trim()}
-									alt={`Product image ${index}`}
-									width={isMainImage ? 710 : 360}
-									fetchPriority="high"
-									height={isMainImage ? 900 : 360}
+									alt={`Product image ${index + 1}`}
+									fill
+									// sizes={
+									// 	isMainImage
+									// 		? '(min-width: 768px) 50vw, 100vw'
+									// 		: '(min-width: 768px) 25vw, 50vw'
+									// }
+									sizes="100vw"
 									className={cn(
-										'w-full h-full object-cover transition-transform duration-300 ease-out',
+										'object-cover transition-transform duration-300 ease-out',
 										shouldZoom ? 'scale-[2.5]' : 'scale-100',
 									)}
+									quality={100}
 									style={{
 										transformOrigin: shouldZoom
 											? `${zoom.x}% ${zoom.y}%`
 											: 'center',
 									}}
-									priority
+									priority={index < 2}
 								/>
 							</div>
 						);

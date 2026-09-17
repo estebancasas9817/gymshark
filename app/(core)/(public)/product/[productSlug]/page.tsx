@@ -51,7 +51,7 @@ const Page = async ({
 	const fullPrice = basePrice + discount;
 
 	return (
-		<Container as="main" fullWidth>
+		<Container as="main" fullWidth className="pb-25">
 			<Stack direction="row" className="gap-0">
 				<Gallery galleryImages={sku.images} />
 				<Container fullWidth className="px-37.5 w-1/2">
@@ -96,7 +96,7 @@ const Page = async ({
 					<Suspense>
 						<VariantSelectorGrid variants={skus} selectedVariant={sku} />
 					</Suspense>
-					<SizePicker selectedVariant={sku} />
+					<SizePicker selectedVariant={sku} name={name} discount={discount} />
 					<PaymentSuggestions price={basePrice} />
 					<PaymentCarousel />
 					<Suspense>
@@ -107,7 +107,7 @@ const Page = async ({
 
 			<ProductCollection
 				sectionName="YOU MIGHT LIKE"
-				className="mt-30 px-10 w-full"
+				className="mt-30 px-10 w-full scroll-mt-40"
 				sectionId="GET_THE_LOOK"
 				sectionDescription={
 					<Text as="span" variant="tertiary">

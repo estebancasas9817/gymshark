@@ -8,20 +8,33 @@ import { cn } from '@/utils/cn/cn';
 import { useState } from 'react';
 import { Tooltip } from '@/components/ui/tooltip';
 import { Sku } from '@/types/product';
+import { useCart } from '@/app/context/cart-context';
+import { Conditional } from '@/components/layout/conditional';
+import { CartItemFull } from '@/schemas/cart.schema';
 
 interface SizePickerProps {
 	selectedVariant: Sku;
+	name: string;
+	discount?: number;
 }
 
 // TODO: Finish this component
-export const SizePicker = ({ selectedVariant }: SizePickerProps) => {
-	const [pickedSize, setPickedsize] = useState<string | null>(null);
+export const SizePicker = ({
+	selectedVariant,
+	name,
+	discount,
+}: SizePickerProps) => {
+	const { handleAddToCart, isPending } = useCart();
+	const [pickedSize, setPickedsize] = useState<string>(
+		selectedVariant.sizes[0].size,
+	);
+
+	const handleAddToBag = (cart: CartItemFull) => {
+		handleAddToCart(cart);
+	};
+
 	const handleSizePick = (size: string) => {
 		setPickedsize(size);
-	};
-	const handleAddToBag = async () => {
-		console.log(pickedSize);
-		// IF no user, then add in to the bag via local storage, if user, then call addToCart()
 	};
 
 	return (
@@ -79,10 +92,31 @@ export const SizePicker = ({ selectedVariant }: SizePickerProps) => {
 			<Button
 				size="lg"
 				radius="lg"
+				disabled={!pickedSize}
 				className={cn('mt-8 font-sans text-sm font-bold')}
-				onClick={handleAddToBag}
+				onClick={() =>
+					handleAddToBag({
+						color: selectedVariant.color,
+						image: selectedVariant.images[0],
+						name,
+						price: selectedVariant.price,
+						productId: selectedVariant.productId,
+						quantity: 1,
+						size: pickedSize as string,
+						skuId: selectedVariant.id,
+						discount,
+						sizes: selectedVariant.sizes,
+					})
+				}
 			>
-				ADD TO BAG
+				<Conditional
+					test={!isPending}
+					fallback={
+						<div className="h-5 w-5 animate-spin rounded-full border-2 border-secondary border-t-primary" />
+					}
+				>
+					ADD TO BAG
+				</Conditional>
 			</Button>
 		</Stack>
 	);
