@@ -28,7 +28,7 @@ const Page = async (props: PageProps<RouteParams>) => {
 			<Heading as="h1" size="base" className="my-10">
 				{orderHeading}
 			</Heading>
-			<Stack direction="row" className="gap-16">
+			<Stack direction="column" className="lg:flex-row gap-16">
 				<OrderSideBar orderStatus={status} orderId={orderId} />
 				<Suspense>
 					<OrderList orderId={orderId} />
