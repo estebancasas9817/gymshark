@@ -24,6 +24,7 @@ export const VariantSelectorGrid = ({
 	const [variantColor, setVariantColor] = useState<string>(
 		selectedVariant.color,
 	);
+
 	const handleClick = (variant: Sku) => {
 		const params = new URLSearchParams(searchParams.toString());
 		params.set(QUERY_PARAMS.color, variant.color.toLowerCase());
@@ -49,7 +50,7 @@ export const VariantSelectorGrid = ({
 						<figure
 							key={variant.id}
 							className={cn(
-								'w-12 h-18 mb-2',
+								'relative w-12 aspect-3/4 mb-2 overflow-hidden rounded-sm',
 								isSelectedVariant && 'outline-2',
 								shouldAddBorderOnHover && 'outline',
 							)}
@@ -57,12 +58,12 @@ export const VariantSelectorGrid = ({
 							<Image
 								src={variant.images[0].trim()}
 								alt={`Image ${variant.id}`}
-								width={48}
-								height={60}
+								fill
+								sizes="48px"
 								onClick={() => handleClick(variant)}
 								onMouseEnter={() => handleMouseEnter(variant.color)}
 								onMouseLeave={handleMouseLeave}
-								className={cn('cursor-pointer', isSelectedVariant && 'h-full')}
+								className="cursor-pointer object-cover"
 							/>
 						</figure>
 					);

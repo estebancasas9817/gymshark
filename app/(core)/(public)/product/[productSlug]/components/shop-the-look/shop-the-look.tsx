@@ -34,15 +34,18 @@ export const ShopTheLook = async ({
 					</Stack>
 					<ChevronRight size={14} />
 				</Stack>
-				<Stack direction="row">
-					{products.slice(0, 3).map(({ sku, id }) => (
-						<figure className="h-30" key={`${id} ${sku.color}`}>
+				<Stack direction="row" className="mt-4">
+					{products.slice(0, 4).map(({ sku, id }) => (
+						<figure
+							key={`${id} ${sku.color}`}
+							className="relative w-22 aspect-88/104 overflow-hidden rounded-sm"
+						>
 							<Image
 								src={sku.images[0]}
 								alt="get the look alt"
-								width={88}
-								height={104}
-								className="h-30 object-contain"
+								fill
+								sizes="88px"
+								className="object-cover"
 							/>
 						</figure>
 					))}

@@ -54,7 +54,7 @@ export const RecentlyView = ({ productSlug, color }: RecentlyViewProduct) => {
 	return (
 		<Carousel
 			sectionName="RECENTLY VIEWED"
-			className="w-full mb-20"
+			className="w-full"
 			shouldDisplayCarouselButtons={shouldDisplayCarouselButtons}
 		>
 			<ProductCardContainer products={recentlyViewedItems} />
