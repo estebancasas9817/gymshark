@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
+import Error from './error';
 
 const BG = '#f0ede7';
 
@@ -122,7 +123,7 @@ export default async function NotFound() {
 						{t('notFound.subtitle')}
 					</h1>
 
-					<p className="not-found-sub text-neutral-500 mt-4 mb-8 leading-relaxed mx-auto text-lg">
+					<p className="not-found-sub text-neutral-500 mt-4 mb-8 leading-relaxed mx-auto text-sm md:text-lg">
 						{t('notFound.description')}
 					</p>
 

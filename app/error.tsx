@@ -126,7 +126,7 @@ export default function Error({ error, reset }: ErrorProps) {
 					{t('oops.subtitle')}
 				</h1>
 
-				<p className="text-md err-sub text-neutral-500 mt-3 mb-8 leading-relaxed">
+				<p className="text-sm md:text-lg err-sub text-neutral-500 mt-3 mb-8 leading-relaxed">
 					{t('oops.description')}
 				</p>
 
