@@ -28,10 +28,10 @@ export const OrderCard = ({ order }: OrderCardProps) => {
 
 	return (
 		<Stack
-			direction="row"
-			align="center"
+			direction="column"
+			align="start"
 			justify="between"
-			className="border border-gray-200 rounded-md px-6 py-5 bg-white"
+			className="md:flex-row md:items-center border border-gray-200 rounded-md px-6 py-5 bg-white"
 		>
 			<Stack gap="sm">
 				<Text as="p" className="font-bold">
@@ -43,7 +43,12 @@ export const OrderCard = ({ order }: OrderCardProps) => {
 				<ProgressionBar orderStatus={order.status} />
 			</Stack>
 
-			<Stack direction="row" align="center" gap="md">
+			<Stack
+				direction="column"
+				align="start"
+				gap="md"
+				className="md:flex-row md:items-center"
+			>
 				<Stack direction="row" gap="xs">
 					{visibleItems.map((item, index) => {
 						const isLastVisible =

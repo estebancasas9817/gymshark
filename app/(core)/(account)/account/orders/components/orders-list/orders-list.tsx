@@ -4,7 +4,7 @@ import { OrderCard } from '../order-card';
 
 export const OrdersList = ({ orders }: { orders: Order[] }) => {
 	return (
-		<Stack gap="md">
+		<Stack gap="md" direction="column">
 			{orders.map((order) => (
 				<OrderCard key={order.id} order={order} />
 			))}
