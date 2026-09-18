@@ -18,6 +18,8 @@ import { useWishlist } from '@/app/context/wishlist-context';
 import { useToast } from '@/app/context/toast-context';
 import { getPdpUrl } from './utils';
 import { WishlistItemFull } from '@/schemas/wishlist.schema';
+import { TbShoppingBag } from 'react-icons/tb';
+import { QuickAddModal } from '../quick-add-modal';
 
 interface ProductCardProps {
 	color: string;
@@ -52,6 +54,7 @@ export const ProductCard = ({
 	const { handleDeleteWishlist, handleAddToWishlist, optimisticState } =
 		useWishlist();
 	const [isActiveHover, setIsActiveHover] = useState<boolean>(false);
+	const [isdrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 	const imgSrc =
 		isActiveHover && shouldUpdateImgOnHover ? imageSrc[1] : imageSrc[0];
 	const fullPrice = +price + (discount ? +discount : 0);
@@ -104,101 +107,130 @@ export const ProductCard = ({
 	};
 
 	return (
-		<article
-			className={cn(styles['product-card'], 'mb-6', productCardClassNames)}
-		>
-			<figure className={cn('relative w-full aspect-3/4', imageClassNames)}>
-				<Link href={getPdpUrl(href, color)}>
-					<Image
-						src={imgSrc}
-						alt={desc}
-						onMouseEnter={handleMouseEnter}
-						onMouseLeave={handleMouseLeave}
-						className={cn('w-full object-cover', imageClassNames)}
-						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-						fill
-					/>
-				</Link>
-				<Conditional test={isActiveHover && !shouldUpdateImgOnHover}>
-					<div
-						className={cn(
-							'flex absolute bottom-0 bg-gray-100 w-full gap-2 min-h-18 flex-wrap p-2',
-							variant?.sizes.length <= 4 && 'justify-center',
-						)}
-						onMouseEnter={handleMouseEnter}
-						onMouseLeave={handleMouseLeave}
+		<>
+			<article
+				className={cn(styles['product-card'], 'mb-6', productCardClassNames)}
+			>
+				<figure className={cn('relative w-full aspect-3/4', imageClassNames)}>
+					<Link href={getPdpUrl(href, color)}>
+						<Image
+							src={imgSrc}
+							alt={desc}
+							onMouseEnter={handleMouseEnter}
+							onMouseLeave={handleMouseLeave}
+							className={cn('w-full object-cover', imageClassNames)}
+							sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+							fill
+						/>
+					</Link>
+					<Conditional test={isActiveHover && !shouldUpdateImgOnHover}>
+						<div
+							className={cn(
+								'flex absolute bottom-0 bg-gray-100 w-full gap-2 min-h-18 flex-wrap p-2',
+								variant?.sizes.length <= 4 && 'justify-center',
+							)}
+							onMouseEnter={handleMouseEnter}
+							onMouseLeave={handleMouseLeave}
+						>
+							{variant?.sizes.map(({ size }) => (
+								<Button
+									className="min-w-16 self-center h-10"
+									variant="secondary"
+									size="sm"
+									key={size}
+									onClick={() =>
+										handleAddToCart(
+											{
+												size,
+												productId: variant.productId,
+												quantity: 1,
+												skuId: variant.id,
+												color,
+												name,
+												price,
+												image: imgSrc,
+												...(discount && { discount }),
+												sizes: variant.sizes,
+											},
+											true,
+										)
+									}
+								>
+									<Conditional test={isPending} fallback={size}>
+										<div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+									</Conditional>
+								</Button>
+							))}
+						</div>
+					</Conditional>
+					<Conditional test={shouldUpdateImgOnHover}>
+						<Badge className="absolute bottom-2 left-2"> NEW </Badge>
+					</Conditional>
+					<ActionPill
+						className="absolute top-2 right-2 rounded-full p-2 cursor-pointer"
+						onClick={() => {
+							handleFavorites({
+								productId: variant.productId,
+								skuId: variant.id,
+								color,
+								name,
+								price,
+								image: imgSrc,
+								sizes: variant.sizes,
+								...(discount && { discount }),
+							});
+						}}
 					>
-						{variant?.sizes.map(({ size }) => (
-							<Button
-								className="min-w-16 self-center h-10"
-								variant="secondary"
-								size="sm"
-								key={size}
-								onClick={() =>
-									handleAddToCart(
-										{
-											size,
-											productId: variant.productId,
-											quantity: 1,
-											skuId: variant.id,
-											color,
-											name,
-											price,
-											image: imgSrc,
-											...(discount && { discount }),
-											sizes: variant.sizes,
-										},
-										true,
-									)
-								}
-							>
-								<Conditional test={isPending} fallback={size}>
-									<div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-								</Conditional>
-							</Button>
-						))}
-					</div>
-				</Conditional>
-				<Conditional test={shouldUpdateImgOnHover}>
-					<Badge className="absolute bottom-2 left-2"> NEW </Badge>
-				</Conditional>
-				<ActionPill
-					className="absolute top-2 right-2 rounded-full p-2 cursor-pointer"
-					onClick={() => {
-						handleFavorites({
-							productId: variant.productId,
-							skuId: variant.id,
-							color,
-							name,
-							price,
-							image: imgSrc,
-							sizes: variant.sizes,
-							...(discount && { discount }),
-						});
-					}}
-				>
-					<Heart size={16} fill={isInFavorites ? 'black' : 'transparent'} />
-				</ActionPill>
-			</figure>
-			<Link href={getPdpUrl(href, color)}>
-				<Text as="p" size="sm" className="mb-1 mt-2">
-					{name}
-				</Text>
-				<Stack gap="xs">
-					<Text as="span" className="inline-block" variant="tertiary" size="sm">
-						{color}
+						<Heart size={16} fill={isInFavorites ? 'black' : 'transparent'} />
+					</ActionPill>
+
+					<ActionPill
+						className="block lg:hidden absolute top-2 left-2 rounded-full p-2 cursor-pointer"
+						onClick={() => {
+							setIsDrawerOpen((prevState) => !prevState);
+						}}
+					>
+						<TbShoppingBag size={16} />
+					</ActionPill>
+				</figure>
+				<Link href={getPdpUrl(href, color)}>
+					<Text as="p" size="sm" className="mb-1 mt-2">
+						{name}
 					</Text>
-					<Stack direction="row" className="mt-1">
-						<Text as="span" className="font-bold">{`$${price}`}</Text>
-						<Conditional test={!!discount}>
-							<Text
-								as="span"
-								className="text-text-sale line-through"
-							>{`$${fullPrice}`}</Text>
-						</Conditional>
+					<Stack gap="xs">
+						<Text
+							as="span"
+							className="inline-block"
+							variant="tertiary"
+							size="sm"
+						>
+							{color}
+						</Text>
+						<Stack direction="row" className="mt-1">
+							<Text as="span" className="font-bold">{`$${price}`}</Text>
+							<Conditional test={!!discount}>
+								<Text
+									as="span"
+									className="text-text-sale line-through"
+								>{`$${fullPrice}`}</Text>
+							</Conditional>
+						</Stack>
 					</Stack>
-				</Stack>
-			</Link>
-		</article>
+				</Link>
+			</article>
+			<QuickAddModal
+				isdrawerOpen={isdrawerOpen}
+				sizes={variant.sizes}
+				imgSrc={imgSrc}
+				name={name}
+				color={color}
+				price={price}
+				setIsDrawerOpen={setIsDrawerOpen}
+				alt={desc}
+				productId={variant.productId}
+				id={variant.id}
+				discount={discount}
+			/>
+		</>
 	);
 };

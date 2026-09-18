@@ -21,6 +21,7 @@ interface ProductListCollectionHighlightClient {
 	description: string;
 	index: number;
 }
+
 const ProductListCollectionHighlightClient = ({
 	image,
 	badge,
