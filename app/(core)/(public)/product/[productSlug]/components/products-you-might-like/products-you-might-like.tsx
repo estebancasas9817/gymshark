@@ -13,6 +13,9 @@ export const ProductsYouMightLike = async ({
 	const products = await getYouMightLike(categorySlug, excludeProductId);
 
 	return (
-		<ProductCardContainer products={products} stackClassNames="flex-wrap" />
+		<ProductCardContainer
+			products={products}
+			stackClassNames="w-full lg:flex-wrap overflow-x-auto scroll-smooth scrollbar-none lg:overflow-x-visible lg:scroll-auto"
+		/>
 	);
 };

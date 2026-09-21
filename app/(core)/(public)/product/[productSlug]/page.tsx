@@ -51,9 +51,9 @@ const Page = async ({
 
 	return (
 		<Container as="main" fullWidth className="pb-25">
-			<Stack direction="row" className="gap-0">
+			<Stack direction="column" className="gap-0 md:flex-col">
 				<Gallery galleryImages={sku.images} />
-				<Container fullWidth className="px-37.5 w-1/2">
+				<Container fullWidth className=" md:px-8 lg:px-37.5 w-1/2">
 					<Heading as="h1" size="sm" className="mb-2">
 						{name}
 					</Heading>
@@ -89,7 +89,7 @@ const Page = async ({
 
 			<ProductCollection
 				sectionName="YOU MIGHT LIKE"
-				className="mt-30 px-10 w-full scroll-mt-40"
+				className="mt-30 lg:px-10 w-full scroll-mt-40 ps-4 lg:ps-10"
 				sectionId="GET_THE_LOOK"
 				sectionDescription={
 					<Text as="span" variant="tertiary">
@@ -97,6 +97,7 @@ const Page = async ({
 					</Text>
 				}
 			>
+				{/* TODO: UPDATE RESPONSIVE SKELETONS and use translations */}
 				<Suspense fallback={<Recommendedkeletons />}>
 					<ProductsYouMightLike
 						categorySlug={categorySlug}

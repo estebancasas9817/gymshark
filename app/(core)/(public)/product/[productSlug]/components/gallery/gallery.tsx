@@ -43,10 +43,18 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 	};
 
 	const handleClick = (e: MouseEvent, index: number) => {
+		const { left, top, width, height } =
+			e.currentTarget.getBoundingClientRect();
+
+		const x = ((e.clientX - left) / width) * 100;
+		const y = ((e.clientY - top) / height) * 100;
+
 		setZoom((prev) => ({
 			...prev,
 			isZoomed: prev.imgPosition === index ? !prev.isZoomed : true,
 			imgPosition: index,
+			x,
+			y,
 			mouseX: e.clientX,
 			mouseY: e.clientY,
 		}));
@@ -55,12 +63,12 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 	return (
 		<div className="basis-1/2 relative h-260">
 			<div
-				className="overflow-y-auto scroll-smooth h-full"
+				className="lg:overflow-y-auto scroll-smooth h-full"
 				ref={scrollContainerRef}
 			>
 				<div
 					className={cn(
-						'grid grid-cols-2 gap-1',
+						'grid grid-cols-1 lg:grid-cols-2 lg:gap-1',
 						zoom.isZoomed
 							? styles['gallery-img-cursor-zoom-out']
 							: styles['gallery-img-cursor-zoom-in'],
@@ -74,8 +82,8 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 							<div
 								key={imageUrl}
 								className={cn(
-									'relative overflow-hidden bg-gray-100 aspect-square',
-									isMainImage && 'col-span-2 aspect-4/5',
+									'relative overflow-hidden bg-gray-100 aspect-2/3 lg:aspect-square',
+									isMainImage && 'lg:col-span-2 lg:aspect-4/5',
 								)}
 								onMouseMove={(e) => handleMouseMove(e, index)}
 								onMouseLeave={() =>
@@ -87,23 +95,16 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 									src={imageUrl.trim()}
 									alt={`Product image ${index + 1}`}
 									fill
-									// sizes={
-									// 	isMainImage
-									// 		? '(min-width: 768px) 50vw, 100vw'
-									// 		: '(min-width: 768px) 25vw, 50vw'
-									// }
 									sizes="100vw"
 									className={cn(
-										'object-cover transition-transform duration-300 ease-out',
-										shouldZoom ? 'scale-[2.5]' : 'scale-100',
+										'object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
+										shouldZoom ? 'scale-[2]' : 'scale-100',
 									)}
 									quality={100}
 									style={{
-										transformOrigin: shouldZoom
-											? `${zoom.x}% ${zoom.y}%`
-											: 'center',
+										transformOrigin: `${zoom.x}% ${zoom.y}%`,
 									}}
-									priority={index < 2}
+									priority={index === 2}
 								/>
 							</div>
 						);
