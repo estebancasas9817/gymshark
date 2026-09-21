@@ -50,7 +50,7 @@ export const VariantSelectorGrid = ({
 						<figure
 							key={variant.id}
 							className={cn(
-								'relative w-12 aspect-3/4 mb-2 overflow-hidden rounded-sm',
+								'relative w-18 md:w-12 aspect-3/4 mb-2 overflow-hidden rounded-sm',
 								isSelectedVariant && 'outline-2',
 								shouldAddBorderOnHover && 'outline',
 							)}

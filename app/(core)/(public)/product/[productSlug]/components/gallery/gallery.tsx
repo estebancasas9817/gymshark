@@ -5,6 +5,7 @@ import { cn } from '@/utils/cn/cn';
 import styles from './gallery.module.css';
 import { GalleryScroller } from '../gallery-scroller';
 import { useRef, useState, MouseEvent } from 'react';
+import { useBreakpoint } from '@/hooks/use-breakpoint';
 
 interface GalleryProps {
 	galleryImages: string[];
@@ -12,7 +13,7 @@ interface GalleryProps {
 
 export const Gallery = ({ galleryImages }: GalleryProps) => {
 	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-
+	const isMobile = !useBreakpoint('md');
 	const [zoom, setZoom] = useState({
 		isZoomed: false,
 		imgPosition: -1,
@@ -22,7 +23,9 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 		mouseY: 0,
 	});
 
-	const handleMouseMove = (e: MouseEvent<HTMLDivElement>, index: number) => {
+	const handleMouseMove = (e: MouseEvent<HTMLElement>, index: number) => {
+		if (isMobile) return;
+
 		const shouldZoom = zoom.isZoomed && index === zoom.imgPosition;
 		if (!zoom.isZoomed || zoom.imgPosition !== index) return;
 
@@ -43,6 +46,8 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 	};
 
 	const handleClick = (e: MouseEvent, index: number) => {
+		if (isMobile) return;
+
 		const { left, top, width, height } =
 			e.currentTarget.getBoundingClientRect();
 
@@ -61,14 +66,14 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 	};
 
 	return (
-		<div className="basis-1/2 relative h-260">
+		<div className="flex-1 relative h-260 bg-red-800">
 			<div
-				className="lg:overflow-y-auto scroll-smooth h-full"
 				ref={scrollContainerRef}
+				className="h-full overflow-x-auto scrollbar-none scroll-smooth lg:overflow-x-hidden lg:overflow-y-auto"
 			>
 				<div
 					className={cn(
-						'grid grid-cols-1 lg:grid-cols-2 lg:gap-1',
+						'flex md:grid lg:grid-cols-2 lg:gap-1 w-full snap-x snap-mandatory overflow-x-auto scrollbar-none scroll-smooth lg:overflow-x-hidden lg:overflow-y-auto',
 						zoom.isZoomed
 							? styles['gallery-img-cursor-zoom-out']
 							: styles['gallery-img-cursor-zoom-in'],
@@ -79,16 +84,13 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 						const shouldZoom = zoom.isZoomed && index === zoom.imgPosition;
 
 						return (
-							<div
+							<figure
 								key={imageUrl}
 								className={cn(
-									'relative overflow-hidden bg-gray-100 aspect-2/3 lg:aspect-square',
-									isMainImage && 'lg:col-span-2 lg:aspect-4/5',
+									'relative overflow-hidden bg-gray-100 w-full shrink-0 aspect-2/3 lg:w-auto lg:shrink snap-start snap-always',
+									isMainImage && 'lg:col-span-2 lg:aspect-3/5',
 								)}
 								onMouseMove={(e) => handleMouseMove(e, index)}
-								onMouseLeave={() =>
-									setZoom((prev) => ({ ...prev, imgPosition: -1 }))
-								}
 								onClick={(e) => handleClick(e, index)}
 							>
 								<Image
@@ -106,11 +108,12 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 									}}
 									priority={index === 2}
 								/>
-							</div>
+							</figure>
 						);
 					})}
 				</div>
 			</div>
+
 			<GalleryScroller scrollContainerRef={scrollContainerRef} />
 		</div>
 	);

@@ -51,10 +51,13 @@ const Page = async ({
 
 	return (
 		<Container as="main" fullWidth className="pb-25">
-			<Stack direction="column" className="gap-0 md:flex-col">
+			<Stack direction="column" className="gap-0 md:flex-row">
 				<Gallery galleryImages={sku.images} />
-				<Container fullWidth className=" md:px-8 lg:px-37.5 w-1/2">
-					<Heading as="h1" size="sm" className="mb-2">
+				<Container
+					fullWidth
+					className="px-6 md:px-0 md:mx-12 lg:mx-12 xl:mx-37.5 md:max-w-80 lg:max-w-110"
+				>
+					<Heading as="h1" size="sm" className="mt-12 md:mt-0 md:mb-2">
 						{name}
 					</Heading>
 					<Text as="span" className="text-tertiary block mb-2">
@@ -89,7 +92,7 @@ const Page = async ({
 
 			<ProductCollection
 				sectionName="YOU MIGHT LIKE"
-				className="mt-30 lg:px-10 w-full scroll-mt-40 ps-4 lg:ps-10"
+				className="mt-30 lg:px-10 w-full scroll-mt-40 ps-4 lg:ps-10 border-t border-t-particles-grey"
 				sectionId="GET_THE_LOOK"
 				sectionDescription={
 					<Text as="span" variant="tertiary">
