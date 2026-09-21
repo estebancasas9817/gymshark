@@ -49,7 +49,7 @@ export const GalleryScroller = ({
 	};
 
 	return (
-		<div className="absolute top-90 left-12 flex flex-col gap-4">
+		<div className="hidden absolute top-90 left-12 md:flex flex-col gap-4">
 			<ChevronButton
 				disabled={shouldDisableChevronUp}
 				handleOnClick={() => handleOnClick('up')}

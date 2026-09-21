@@ -63,7 +63,7 @@ export const ActionPillWrapper = ({
 	};
 
 	return (
-		<Stack direction="row" gap="lg" className="py-12">
+		<Stack direction="row" gap="lg" className="pt-4 pb-6 md:py-12">
 			<ActionPill className="cursor-pointer hover:bg-gray-200">
 				<Stack
 					direction="row"
