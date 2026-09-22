@@ -15,7 +15,6 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 export default function Page() {
 	// TODO: ADD TRANSLATIONS IN THIS ENTIRE PAGE
-
 	return (
 		<Container as="main" fullWidth>
 			<Container

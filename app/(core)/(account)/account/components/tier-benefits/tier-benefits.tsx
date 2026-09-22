@@ -11,7 +11,8 @@ import { useBreakpoint } from '@/hooks/use-breakpoint';
 export const TierBenefits = () => {
 	const [shouldDisplayFullTier, setShoulDisplayFullTier] =
 		useState<boolean>(false);
-	const isTablet = !useBreakpoint('lg');
+	const isDesktop = useBreakpoint('lg');
+	const isTabletOrMobile = isDesktop === false;
 
 	const handleClick = () => {
 		setShoulDisplayFullTier(!shouldDisplayFullTier);
@@ -34,13 +35,13 @@ export const TierBenefits = () => {
 					{Array(4)
 						.fill(0)
 						.map((_, index) => {
-							if (index === 3 && !shouldDisplayFullTier && !isTablet)
+							if (index === 3 && !shouldDisplayFullTier && !isTabletOrMobile)
 								return null;
 							return <TierCard key={index} />;
 						})}
 				</Stack>
 			</div>
-			<Conditional test={!isTablet}>
+			<Conditional test={!isTabletOrMobile}>
 				<button
 					className="text-center block self-center mt-4 cursor-pointer"
 					onClick={handleClick}
