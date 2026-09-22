@@ -23,6 +23,7 @@ export const DepartmentLayout = async ({
 				description={banners[0].description}
 				href={banners[0].href}
 				image={banners[0].image}
+				isAboveTheFold
 			/>
 			<Suspense fallback={<Recommendedkeletons />}>
 				<RecommendedProducts
