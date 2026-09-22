@@ -11,16 +11,18 @@ interface GymsharkPlateProps {
 export const GymsharkPlate = ({
 	isDesktopInstance = false,
 }: GymsharkPlateProps) => {
-	const isTablet = !useBreakpoint('lg');
+	const isDesktop = useBreakpoint('lg');
+	const isTabletOrMobile = isDesktop === false;
 	const figurePlateStyles =
-		(isTablet && isDesktopInstance) || (!isDesktopInstance && !isTablet)
+		(isTabletOrMobile && isDesktopInstance) ||
+		(!isDesktopInstance && !isTabletOrMobile)
 			? 'hidden'
 			: '';
 
 	return (
 		<figure
 			className={cn(
-				!isTablet &&
+				!isTabletOrMobile &&
 					isDesktopInstance &&
 					'absolute bottom-0 left-1/2 -translate-x-1/2',
 				figurePlateStyles,
