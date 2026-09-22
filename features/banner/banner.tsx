@@ -12,6 +12,7 @@ interface BannerProps {
 	button: string;
 	href: string;
 	image: string;
+	isAboveTheFold?: boolean;
 }
 
 export const Banner = ({
@@ -20,6 +21,7 @@ export const Banner = ({
 	button,
 	href,
 	image,
+	isAboveTheFold = false,
 }: BannerProps) => {
 	return (
 		<Container
@@ -29,11 +31,10 @@ export const Banner = ({
 			<figure>
 				<Image
 					src={image}
-					alt="Hero Banner"
+					alt={title}
 					className="w-full h-full object-cover object-[center_30%]"
 					fill
-					priority
-					fetchPriority="high"
+					{...(isAboveTheFold && { priority: true, fetchPriority: 'high' })}
 					sizes="100vw"
 				/>
 			</figure>

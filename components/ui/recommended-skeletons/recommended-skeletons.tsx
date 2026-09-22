@@ -13,9 +13,21 @@ export function Recommendedkeletons() {
 			</div>
 
 			{/* Cards grid */}
-			<div className="flex gap-2">
+			<div className="hidden lg:flex gap-2">
 				{Array.from({ length: 4 }).map((_, i) => (
 					<SkeletonCard key={i} faded={i === 3} />
+				))}
+			</div>
+
+			<div className="hidden md:flex lg:hidden gap-2">
+				{Array.from({ length: 2 }).map((_, i) => (
+					<SkeletonCard key={i} faded={i === 1} />
+				))}
+			</div>
+
+			<div className="flex md:hidden gap-2">
+				{Array.from({ length: 1 }).map((_, i) => (
+					<SkeletonCard key={i} faded={i === 0} />
 				))}
 			</div>
 		</Container>
