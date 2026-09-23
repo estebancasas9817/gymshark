@@ -24,14 +24,14 @@ export default function Loading() {
 				</div>
 
 				{/* ── Hero Banner: 3 images (narrow | wide | narrow) ── */}
-				<div className="mb-16 mt-6 flex h-90 gap-0.5">
+				<div className="mb-16 mt-6 flex h-120 md:h-140 gap-0.5">
 					<Shimmer className="h-full flex-1" />
 				</div>
 
 				{/* ── Filter + Content Layout ── */}
 				<div className="flex gap-8">
 					{/* Sidebar */}
-					<aside className="w-80 shrink-0 mt-2">
+					<aside className="w-80 shrink-0 mt-2 hidden lg:block">
 						{/* "FILTER & SORT" header row */}
 						<div className="mb-1 flex items-center justify-between pb-4">
 							<Shimmer className="h-3.5 w-28 rounded" />
