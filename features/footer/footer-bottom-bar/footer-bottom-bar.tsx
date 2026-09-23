@@ -14,7 +14,6 @@ export const FooterBottomBar = () => {
 
 	return (
 		<Container>
-			{/* start */}
 			<Stack direction="row" align="center" justify="between">
 				<Text
 					as="p"
