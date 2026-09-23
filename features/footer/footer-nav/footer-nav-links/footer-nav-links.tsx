@@ -8,10 +8,12 @@ import { Minus, Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { FOOTER_LINKS } from './constants';
 
 interface FooterNavLinksProps {
 	section: string;
 }
+
 export const FooterNavLinks = ({ section }: FooterNavLinksProps) => {
 	const t = useTranslations('Footer.sections');
 	const [isOpen, setIsOpen] = useState(false);
@@ -53,10 +55,12 @@ export const FooterNavLinks = ({ section }: FooterNavLinksProps) => {
 				</Conditional>
 			</Stack>
 			{Object.keys(t.raw(`${section}.links`)).map((linkKey) => {
-				if (linkKey === 'login' || linkKey === 'register') {
+				const href = FOOTER_LINKS[section]?.[linkKey] || '#';
+				const isInternal = linkKey === 'login' || linkKey === 'register';
+				if (isInternal) {
 					return (
 						<Link
-							href={`/${linkKey}`}
+							href={href}
 							key={linkKey}
 							className={`text-sm text-gray-600 hover:text-primary ${displayClassnames} last:mb-4 lg:mb-0`}
 						>
@@ -70,7 +74,8 @@ export const FooterNavLinks = ({ section }: FooterNavLinksProps) => {
 						className={`${displayClassnames} last:mb-4 lg:mb-0`}
 					>
 						<a
-							href={`/${linkKey}`}
+							href={href}
+							target="_blank"
 							className="text-sm text-gray-600 hover:text-primary"
 						>
 							{t(`${section}.links.${linkKey}`)}

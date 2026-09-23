@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import PromoCardEmail from '@/public/promo-card-email.avif';
 import PromoCardGymshark from '@/public/promo-card-gymshark.avif';
 import PromoCardStudents from '@/public/promo-card-students.avif';
+import { PROMO_LINKS } from './constants';
 
 export const FooterPromos = () => {
 	const t = useTranslations('Footer.promos');
@@ -19,7 +20,7 @@ export const FooterPromos = () => {
 			</Text>
 			<div className="scroll-smooth overflow-x-auto scrollbar-none lg:overflow-x-visible lg:scroll-auto lg:scrollbar-default w-full">
 				<Stack as="div" direction="row" className="gap-1">
-					{promoKeys.map((promo) => {
+					{promoKeys.map((promo, index) => {
 						let src = PromoCardGymshark;
 						if (promo === 'students') {
 							src = PromoCardStudents;
@@ -33,6 +34,8 @@ export const FooterPromos = () => {
 								title={t(`items.${promo}.label`)}
 								alt={t(`items.${promo}.alt`)}
 								src={src}
+								href={PROMO_LINKS[index].url}
+								index={index}
 							/>
 						);
 					})}

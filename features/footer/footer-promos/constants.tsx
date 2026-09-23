@@ -65,3 +65,12 @@ export const SOCIAL_LINKS = [
 		src: 'https://www.tiktok.com/@gymshark',
 	},
 ];
+
+export const PROMO_LINKS = [
+	{ label: 'Blog', url: 'https://row.gymshark.com/blog' },
+	{
+		label: 'Student Discount',
+		url: 'https://row.gymshark.com/pages/studentbeans',
+	},
+	{ label: 'Register', url: '/sign-up' },
+];
