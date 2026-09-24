@@ -15,7 +15,10 @@ export const SideMegaMenu = ({
 	handleOnMouseLeave,
 }: SideMegaMenuProps) => {
 	return (
-		<div className="bg-black/40 backdrop-blur-sm z-100 absolute w-full">
+		<Stack
+			direction="row"
+			className="z-100 h-screen absolute h-screen w-full gap-0 bg-black/40 backdrop-blur-sm"
+		>
 			<div
 				className="bg-secondary border-t border-gray-200 w-73 h-screen px-10 pt-12"
 				onMouseLeave={handleOnMouseLeave}
@@ -36,6 +39,7 @@ export const SideMegaMenu = ({
 					</Stack>
 				</Stack>
 			</div>
-		</div>
+			<div className="flex-1" onMouseEnter={handleOnMouseLeave} />
+		</Stack>
 	);
 };

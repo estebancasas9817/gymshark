@@ -6,7 +6,7 @@ import { ReactNode, Suspense } from 'react';
 const CoreLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<>
-			<div className="sticky -top-0.5 z-30 bg-red-200">
+			<div className="sticky -top-0.5 z-30">
 				<AnnouncementBar />
 				<Suspense>
 					<HeaderWrapper />
