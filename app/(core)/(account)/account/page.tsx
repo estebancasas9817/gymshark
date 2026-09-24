@@ -3,7 +3,6 @@ import { Stack } from '@/components/layout/stack';
 import { XpProgressTracker } from './components/xp-progress-tracker';
 import { TierBenefits } from './components/tier-benefits';
 import { GymsharkPlate } from '@/components/ui/gymshark-plate';
-import { AccountSidebar } from './components/account-sidebar';
 import { RecentOrders } from './components/recent-orders';
 import { AccountShortcutCard } from './components/account-shortcut-card';
 import { Text } from '@/components/ui/text';
@@ -12,9 +11,11 @@ import { ImAndroid } from 'react-icons/im';
 import { TbTruckReturn } from 'react-icons/tb';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { SidebarWrapper } from './components/sidebar-wrapper/sidebar-wrapper';
 
 export default function Page() {
 	// TODO: ADD TRANSLATIONS IN THIS ENTIRE PAGE
+
 	return (
 		<Container as="main" fullWidth>
 			<Container
@@ -28,7 +29,9 @@ export default function Page() {
 					justify="between"
 					align="center"
 				>
-					<AccountSidebar />
+					<Suspense fallback={null}>
+						<SidebarWrapper />
+					</Suspense>
 					<XpProgressTracker />
 					<TierBenefits />
 					<GymsharkPlate />
