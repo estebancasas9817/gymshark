@@ -30,6 +30,7 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 	};
 
 	const handleOnMouseLeave = () => {
+		console.log('[first]');
 		setMenuIndex(4);
 		shouldDisplayMenuRef.current = false;
 	};
@@ -63,7 +64,7 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 								<Link
 									href={href}
 									className={cn(
-										'text-sm relative group block transition-colors duration-300 ',
+										'text-sm relative group block transition-colors duration-300',
 										'group-hover/container:text-gray-400',
 										'hover:text-black!',
 										shouldDisplayMenuRef.current && 'text-primary',
