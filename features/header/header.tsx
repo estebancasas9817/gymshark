@@ -12,6 +12,9 @@ import { SideMegaMenu } from './side-mega-menu';
 import { usePathname } from 'next/navigation';
 import { HeaderActions } from './header-actions';
 import { MenuIcon, Search } from 'lucide-react';
+import { SearchHeader } from './search-header';
+import { CategoryTabs } from './category-tabs';
+import { CategoryTab } from './category-tab';
 
 interface HeaderProps {
 	navigationlist: NavigationItem[];
@@ -19,10 +22,15 @@ interface HeaderProps {
 
 export const Header = ({ navigationlist }: HeaderProps) => {
 	const [menuIndex, setMenuIndex] = useState<number>(4);
+	const [isOpen, setIsOpen] = useState(false);
 	const shouldDisplayMenuRef = useRef<boolean>(false);
 	const pathName = usePathname();
 	const prevPathName = useRef(pathName);
 	const menu = navigationlist[menuIndex];
+	console.log('[navigationlist]', menu);
+	const handleToogleHeader = (type: 'open' | 'close') => {
+		setIsOpen(type === 'open' ? true : false);
+	};
 
 	const handleOnMouseEnter = (index: number) => {
 		setMenuIndex(index);
@@ -30,7 +38,6 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 	};
 
 	const handleOnMouseLeave = () => {
-		console.log('[first]');
 		setMenuIndex(4);
 		shouldDisplayMenuRef.current = false;
 	};
@@ -78,7 +85,13 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 						))}
 					</Stack>
 					<Stack as="ul" direction="row" className="lg:hidden" align="center">
-						<MenuIcon aria-label="hamburger menu" />
+						<MenuIcon
+							aria-label="hamburger menu"
+							onClick={() => {
+								setMenuIndex(0);
+								handleToogleHeader('open');
+							}}
+						/>
 						<Link href={''} aria-label="Search">
 							<Search size={20} />
 						</Link>
@@ -96,6 +109,25 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 					handleOnMouseLeave={handleOnMouseLeave}
 					menu={menu?.categories}
 				/>
+			</Conditional>
+
+			{/* MOBILE VIEW */}
+			<Conditional test={isOpen}>
+				<div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/40 backdrop-blur-sm">
+					<div
+						className={cn(
+							'flex h-screen w-full flex-col overflow-hidden rounded-t-2xl bg-secondary p-6',
+						)}
+					>
+						<SearchHeader handleToogleHeader={handleToogleHeader} />
+						<CategoryTabs
+							navigationlist={navigationlist}
+							menuIndex={menuIndex}
+							setMenuIndex={setMenuIndex}
+						/>
+						<CategoryTab menu={menu?.categories} />
+					</div>
+				</div>
 			</Conditional>
 		</>
 	);

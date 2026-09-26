@@ -17,12 +17,9 @@ export const SideMegaMenu = ({
 	return (
 		<Stack
 			direction="row"
-			className="z-100 h-screen absolute h-screen w-full gap-0 bg-black/40 backdrop-blur-sm"
+			className="z-100 h-screen absolute w-full gap-0 bg-black/40 backdrop-blur-sm"
 		>
-			<div
-				className="bg-secondary border-t border-gray-200 w-73 h-screen px-10 pt-12"
-				onMouseLeave={handleOnMouseLeave}
-			>
+			<div className="bg-secondary border-t border-gray-200 w-73 h-screen px-10 pt-12">
 				<Stack as="nav">
 					<Stack as="ul" gap="lg">
 						{menu?.map(({ id, href, label }) => (
