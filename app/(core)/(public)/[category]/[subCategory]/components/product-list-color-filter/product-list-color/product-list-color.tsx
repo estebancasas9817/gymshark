@@ -18,7 +18,7 @@ export const ProductListColor = ({
 }: ProductListColorProps) => {
 	const { handleColor } = useFilter();
 
-	const isChecked = colorOption === color;
+	const isChecked = colorOption?.toUpperCase() === color.toUpperCase();
 	const isWhiteColor = color === 'White';
 	const isYellowColor = color === 'White';
 	const checkIconColor = isWhiteColor || isYellowColor ? 'black' : 'white';

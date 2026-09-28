@@ -15,26 +15,34 @@ export const RadioButton = ({
 }: RadioButtonProps) => {
 	return (
 		<fieldset>
-			{inputs.map(([key, label]) => (
-				<div key={key} className="not-last:mb-6">
-					<label className="text-sm text-gray-700 flex gap-2 cursor-pointer w-full">
-						<input
-							type="radio"
-							name={name}
-							value={key}
-							onChange={handleChange}
-							checked={key === checkedRadio}
-							className="peer appearance-none w-5 h-5 rounded-full border border-gray-400
-                    checked:bg-secondary
-                   relative
-                   after:content-[''] after:absolute after:inset-1
-                   after:rounded-full after:bg-primary after:scale-0
-                   checked:after:scale-100 after:transition-transform cursor-pointer"
-						/>
-						<span>{label}</span>
-					</label>
-				</div>
-			))}
+			{inputs.map(([key, label]) => {
+				const isChecked = key === checkedRadio;
+
+				return (
+					<div key={key} className="not-last:mb-6">
+						<label className="text-sm text-gray-700 flex items-center gap-2 cursor-pointer w-full group">
+							<input
+								type="radio"
+								name={name}
+								value={key}
+								onChange={handleChange}
+								checked={isChecked}
+								className="sr-only"
+							/>
+
+							<span className="w-5 h-5 rounded-full border border-gray-400 flex items-center justify-center shrink-0">
+								<span
+									className={`w-2.5 h-2.5 rounded-full bg-black transition-transform ${
+										isChecked ? 'scale-100' : 'scale-0'
+									}`}
+								/>
+							</span>
+
+							<span>{label}</span>
+						</label>
+					</div>
+				);
+			})}
 		</fieldset>
 	);
 };
