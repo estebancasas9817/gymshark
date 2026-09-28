@@ -17,6 +17,7 @@ export const ProductListMainContent = ({
 }: ProductListMainContentProps) => {
 	const { category, subCategory } = params;
 	const slug = `${category}/${subCategory}`;
+	const gridKey = JSON.stringify(searchParams);
 
 	return (
 		<Stack className="flex-1 w-full">
@@ -24,7 +25,7 @@ export const ProductListMainContent = ({
 				<ProductListCarousel slug={slug} />
 			</Suspense>
 
-			<Suspense fallback={<ProductGridSkeleton />}>
+			<Suspense fallback={<ProductGridSkeleton />} key={gridKey}>
 				<ProductListGrid
 					slug={slug}
 					searchParams={searchParams}

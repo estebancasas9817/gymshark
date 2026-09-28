@@ -7,6 +7,7 @@ import { QueryParams } from '../../types/product-list-types';
 import { SORT_BY_OPTIONS } from '../../hooks/constants';
 import { PAGE_SIZE } from '../../constants/constants';
 import { ErrorBoundary } from 'react-error-boundary';
+import { ProductListZeroResults } from '../product-list-zero-results';
 
 interface ProductListGridProps {
 	slug: string;
@@ -37,9 +38,13 @@ export const ProductListGrid = async ({
 		pageSize: PAGE_SIZE,
 	});
 
+	if (products.length === 0) {
+		return <ProductListZeroResults />;
+	}
+
 	return (
 		<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 lg:gap-2">
-			{products?.map(({ id, name, sku, basePrice, href, discount }, index) => {
+			{products.map(({ id, name, sku, basePrice, href, discount }, index) => {
 				const shouldDisplayBanner = currentPage === 1 && products.length >= 12;
 
 				return (
