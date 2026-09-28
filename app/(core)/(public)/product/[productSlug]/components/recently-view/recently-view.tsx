@@ -10,7 +10,7 @@ import {
 import { Product, Sku } from '@/types/product';
 import { RECENTLY_VIEW_KEY } from '@/utils/local-storage/constants';
 import { getItemsFromLocalStorage } from '@/utils/local-storage/get-items';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type Products = Product & { sku: Sku; href: string };
 
@@ -19,8 +19,16 @@ export const RecentlyView = ({ productSlug, color }: RecentlyViewProduct) => {
 	const [recentlyViewedItems, setRecentlyViewedItems] = useState<
 		Products[] | null
 	>(null);
+	const requestRef = useRef<string | null>(null);
 
 	useEffect(() => {
+		const requestKey = `${productSlug}-${color}`;
+
+		if (requestRef.current === requestKey) {
+			return;
+		}
+		requestRef.current = requestKey;
+
 		const getRecentlyViewedProducts = async (
 			products: RecentlyViewProduct[],
 		) => {
@@ -35,15 +43,20 @@ export const RecentlyView = ({ productSlug, color }: RecentlyViewProduct) => {
 				setRecentlyViewedItems(data);
 			}
 		};
-		const res =
-			getItemsFromLocalStorage<RecentlyViewProducts>(RECENTLY_VIEW_KEY);
-		const recentlyViewedProducts = RecentlyViewProductsSchema.safeParse(res);
-		if (
-			recentlyViewedProducts.success &&
-			Array.isArray(recentlyViewedProducts.data)
-		) {
-			getRecentlyViewedProducts(recentlyViewedProducts.data);
-		}
+
+		const init = async () => {
+			const res =
+				getItemsFromLocalStorage<RecentlyViewProducts>(RECENTLY_VIEW_KEY);
+			const recentlyViewedProducts = RecentlyViewProductsSchema.safeParse(res);
+			if (
+				recentlyViewedProducts.success &&
+				Array.isArray(recentlyViewedProducts.data)
+			) {
+				await getRecentlyViewedProducts(recentlyViewedProducts.data);
+			}
+		};
+
+		init();
 	}, [productSlug, color]);
 
 	if (recentlyViewedItems === null) {
