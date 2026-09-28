@@ -11,7 +11,7 @@ interface CategoryTabProps {
 
 export const CategoryTab = ({ menu }: CategoryTabProps) => {
 	return (
-		<Stack as="nav" className="mt-20">
+		<Stack as="nav" className="mt-10">
 			<Stack as="ul" gap="lg">
 				{menu.map(({ id, href, label }) => (
 					<li key={id}>
