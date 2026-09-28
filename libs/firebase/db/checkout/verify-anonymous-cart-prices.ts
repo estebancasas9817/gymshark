@@ -1,5 +1,5 @@
+import { CartItemFull } from '@/schemas/cart.schema';
 import { db } from '../../init-firestore';
-import { CartItemFull } from '../cart/get-cart';
 
 export const verifyAnonymousCartPrices = async (
 	items: CartItemFull[],

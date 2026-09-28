@@ -130,7 +130,10 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 							setMenuIndex={setMenuIndex}
 						/>
 						<CategoryPromoCards handleToogleHeader={handleToogleHeader} />
-						<CategoryTab menu={menu?.categories} />
+						<CategoryTab
+							menu={menu?.categories}
+							handleToogleHeader={handleToogleHeader}
+						/>
 						<NavigationMenuList />
 						<Stack direction="row" as="ul" className="mt-12">
 							{PAYMENT_METHODS.map(({ alt, src }) => (

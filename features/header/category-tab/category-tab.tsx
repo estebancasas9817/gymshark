@@ -7,15 +7,20 @@ import Link from 'next/link';
 
 interface CategoryTabProps {
 	menu: NavigationCategory[];
+	handleToogleHeader: (type: 'open' | 'close') => void;
 }
 
-export const CategoryTab = ({ menu }: CategoryTabProps) => {
+export const CategoryTab = ({ menu, handleToogleHeader }: CategoryTabProps) => {
 	return (
 		<Stack as="nav" className="mt-10">
 			<Stack as="ul" gap="lg">
-				{menu.map(({ id, href, label }) => (
+				{menu?.map(({ id, href, label }) => (
 					<li key={id}>
-						<Link href={href} className="flex items-center group py-2">
+						<Link
+							href={href}
+							className="flex items-center group py-2"
+							onClick={() => handleToogleHeader('close')}
+						>
 							<span className="text-sm relative">
 								{label}
 								<span className="absolute left-0 -bottom-2 w-full h-0.5 bg-black scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
