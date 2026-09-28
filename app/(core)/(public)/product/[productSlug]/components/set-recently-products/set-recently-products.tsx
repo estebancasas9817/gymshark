@@ -55,6 +55,12 @@ export const SetRecentlyProducts = ({
 				);
 				setItemsInLocalStorage(RECENTLY_VIEW_KEY, filteredProducts);
 			}
+		} else if (
+			recentlyViewedProducts.success &&
+			!Array.isArray(recentlyViewedProducts.data)
+		) {
+			// * IF THERE ARE NO PRODUCTS IN LOCAL STORAGE (FIRST TIME)
+			setItemsInLocalStorage(RECENTLY_VIEW_KEY, [recentlyViewedProduct]);
 		}
 	}, [recentlyViewedProduct.color, recentlyViewedProduct.productSlug]);
 
