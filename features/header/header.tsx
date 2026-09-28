@@ -16,6 +16,9 @@ import { SearchHeader } from './search-header';
 import { CategoryTabs } from './category-tabs';
 import { CategoryTab } from './category-tab';
 import { NavigationMenuList } from './navigation-menu-list';
+import { CategoryPromoCards } from './category-promo-cards';
+import { PAYMENT_METHODS } from '../footer/footer-promos/constants';
+import { PaymentMethods } from '@/components/ui/payment-methods';
 
 interface HeaderProps {
 	navigationlist: NavigationItem[];
@@ -28,7 +31,7 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 	const pathName = usePathname();
 	const prevPathName = useRef(pathName);
 	const menu = navigationlist[menuIndex];
-	console.log('[navigationlist]', menu);
+
 	const handleToogleHeader = (type: 'open' | 'close') => {
 		setIsOpen(type === 'open' ? true : false);
 	};
@@ -117,7 +120,7 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 				<div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/40 backdrop-blur-sm">
 					<div
 						className={cn(
-							'flex h-screen w-full flex-col overflow-hidden rounded-t-2xl bg-secondary p-4 md:p-6',
+							'flex h-screen w-full flex-col overflow-hidden rounded-t-2xl bg-secondary px-4 py-6 md:p-6 overflow-y-auto',
 						)}
 					>
 						<SearchHeader handleToogleHeader={handleToogleHeader} />
@@ -126,8 +129,16 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 							menuIndex={menuIndex}
 							setMenuIndex={setMenuIndex}
 						/>
+						<CategoryPromoCards handleToogleHeader={handleToogleHeader} />
 						<CategoryTab menu={menu?.categories} />
 						<NavigationMenuList />
+						<Stack direction="row" as="ul" className="mt-12">
+							{PAYMENT_METHODS.map(({ alt, src }) => (
+								<li key={alt}>
+									<PaymentMethods src={src} alt={alt} />
+								</li>
+							))}
+						</Stack>
 					</div>
 				</div>
 			</Conditional>

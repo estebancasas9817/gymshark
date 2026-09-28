@@ -13,6 +13,8 @@ cloudinary.config({
 	api_secret: CLOUDINARY_API_SECRET,
 });
 
+// TODO: DELETE THIS WHOLE FILE + REMOVE CLODINARY FROM PACKAGE JSON
+
 const SIZES = [{ size: 'One Size', stock: 100 }];
 
 const getImagesFromFolder = async (folderPath: string) => {
