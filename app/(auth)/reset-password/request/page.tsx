@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 		title: 'Reset Password | Gymshark',
 		description:
 			'Enter your email address to receive password reset instructions for your Gymshark account.',
-		url: `${process.env.NEXT_PUBLIC_APP_URL}/forgot-password`,
+		url: `${process.env.NEXT_PUBLIC_APP_URL}/reset-password/request`,
 		siteName: 'Gymshark',
 		type: 'website',
 	},

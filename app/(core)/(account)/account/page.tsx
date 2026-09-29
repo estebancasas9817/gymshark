@@ -13,6 +13,25 @@ import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SidebarWrapper } from './components/sidebar-wrapper/sidebar-wrapper';
 import { useTranslations } from 'next-intl';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: 'My Account | Gymshark',
+	description:
+		'Manage your Gymshark account details, track your order history, view saved addresses, and update your preferences.',
+	robots: {
+		index: false,
+		follow: false,
+	},
+	openGraph: {
+		title: 'My Account | Gymshark',
+		description:
+			'Manage your Gymshark account details, track your order history, and update your preferences.',
+		url: `${process.env.NEXT_PUBLIC_APP_URL}/account`,
+		siteName: 'Gymshark',
+		type: 'website',
+	},
+};
 
 export default function Page() {
 	const t = useTranslations('Account.dashboard');

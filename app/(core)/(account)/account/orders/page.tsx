@@ -4,6 +4,11 @@ import { OrdersList } from './components/orders-list';
 import { Container } from '@/components/layout/container';
 import { Heading } from '@/components/ui/heading';
 import { BackButton } from '@/components/ui/back-button';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: 'Order History',
+};
 
 const Page = async () => {
 	const session = await auth();

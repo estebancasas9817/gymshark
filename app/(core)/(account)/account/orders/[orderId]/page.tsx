@@ -10,6 +10,17 @@ import { Stack } from '@/components/layout/stack';
 import { OrderSideBar } from './components/order-sidebar';
 import { OrderList } from './components/order-list';
 import { Suspense } from 'react';
+import { Metadata } from 'next';
+
+export async function generateMetadata({
+	params,
+}: PageProps): Promise<Metadata> {
+	const { orderId } = await params;
+
+	return {
+		title: `Order #${orderId} | Gymshark`,
+	};
+}
 
 const Page = async (props: PageProps<RouteParams>) => {
 	const [{ orderId }, session] = await Promise.all([props.params, auth()]);
