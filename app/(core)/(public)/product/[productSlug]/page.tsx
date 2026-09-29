@@ -21,6 +21,7 @@ import { ProductsRecommended } from './components/products-recommended';
 import { SetRecentlyProducts } from './components/set-recently-products';
 import { Recommendedkeletons } from '@/components/ui/recommended-skeletons';
 import { ActionPillWrapper } from './components/action-pill-wrapper';
+import { Metadata } from 'next';
 
 type RouteParams = { productSlug: string };
 type QueryParams = { color: 'red' | 'black' | 'white' | 'blue' };
@@ -28,7 +29,7 @@ type QueryParams = { color: 'red' | 'black' | 'white' | 'blue' };
 export async function generateMetadata({
 	params,
 	searchParams,
-}: PageProps<RouteParams, QueryParams>) {
+}: PageProps<RouteParams, QueryParams>): Promise<Metadata> {
 	const [{ productSlug }, { color }] = await Promise.all([
 		params,
 		searchParams,
