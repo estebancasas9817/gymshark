@@ -8,6 +8,7 @@ import { getCategoryBySlug } from '@/libs/firebase/db/categories/categories';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
+import { ProductListHeaderSkeletons } from './components/product-list-header-skeletons';
 
 export async function generateMetadata(
 	props: PageProps<RouteParams, QueryParams>,
@@ -75,7 +76,7 @@ export default async function Page(props: PageProps<RouteParams, QueryParams>) {
 
 	return (
 		<Container as="main">
-			<Suspense>
+			<Suspense fallback={<ProductListHeaderSkeletons />}>
 				<ProductListHeader slug={slug} searchParams={searchParams} />
 			</Suspense>
 			<ProductListBody
