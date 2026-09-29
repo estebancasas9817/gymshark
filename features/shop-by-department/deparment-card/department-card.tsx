@@ -18,7 +18,6 @@ const DEPARTMENT_NAMES = {
 };
 
 export const DepartmentCard = ({ title, href }: DepartmentCardProps) => {
-	// TODO: The image needs to be from the backend not from public.
 	let imageUlr = ShopMen;
 	if (title.includes(DEPARTMENT_NAMES.women)) {
 		imageUlr = ShopWomen;

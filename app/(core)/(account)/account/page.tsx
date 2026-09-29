@@ -12,9 +12,10 @@ import { TbTruckReturn } from 'react-icons/tb';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SidebarWrapper } from './components/sidebar-wrapper/sidebar-wrapper';
+import { useTranslations } from 'next-intl';
 
 export default function Page() {
-	// TODO: ADD TRANSLATIONS IN THIS ENTIRE PAGE
+	const t = useTranslations('Account.dashboard');
 
 	return (
 		<Container as="main" fullWidth>
@@ -43,7 +44,7 @@ export default function Page() {
 					className="p-4 md:p-8 lg:p-16 lg:gap-6 lg:flex-row"
 					direction="column"
 				>
-					<ErrorBoundary fallback={<>error displaying the orders</>}>
+					<ErrorBoundary fallback={<>{t('errors.recentOrders')}</>}>
 						<Suspense>
 							<RecentOrders />
 						</Suspense>
@@ -51,30 +52,30 @@ export default function Page() {
 
 					<Stack className="gap-6 basis-1/2">
 						<AccountShortcutCard
-							title="RETURNS"
+							title={t('shortcuts.returns.title')}
 							description={
 								<Text className="mt-4 text-gray-700">
-									Quick, easy and simple returns with Loop Returns.
+									{t('shortcuts.returns.description')}
 								</Text>
 							}
 							icon={<TbTruckReturn size={40} />}
 							href="https://us-gymshark.loopreturns.com/#/"
 						/>
 						<AccountShortcutCard
-							title="THE GYMSHARK APP"
+							title={t('shortcuts.gymsharkApp.title')}
 							description={
 								<Text className="mt-4 text-gray-700">
-									Shop your faves, get exclusive drops, class bookings and more.
+									{t('shortcuts.gymsharkApp.description')}
 								</Text>
 							}
 							icon={<ImAndroid size={40} color="#3DDC84" />}
 							href="https://gymshark.onelink.me/R4DB/webSearch1"
 						/>
 						<AccountShortcutCard
-							title="THE TRAINING APP"
+							title={t('shortcuts.trainingApp.title')}
 							description={
 								<Text className="mt-4 text-gray-700">
-									Choose your path, and train your way for free.
+									{t('shortcuts.trainingApp.description')}
 								</Text>
 							}
 							icon={<FaAppStoreIos size={40} color="#10AFFF" />}

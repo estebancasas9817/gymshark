@@ -5,6 +5,7 @@ import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { capitalize } from '@/utils/capitalize/capitalize';
 import { signOut } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { MouseEvent } from 'react';
 import { BiLogOut } from 'react-icons/bi';
@@ -18,6 +19,7 @@ interface AccountSidebarProps {
 }
 
 export const AccountSidebar = ({ user }: AccountSidebarProps) => {
+	const t = useTranslations('Account.sidebar');
 	const name = user?.name ?? 'Hey';
 	const lastName = user?.lastName ?? 'Athlete';
 	const fullName = `${capitalize(name)} ${capitalize(lastName)}`;
@@ -26,7 +28,7 @@ export const AccountSidebar = ({ user }: AccountSidebarProps) => {
 		e.preventDefault();
 		signOut({ redirectTo: '/' });
 	};
-	// TODO UPDATE HARCODED VALUES WITH DB VALUES
+
 	return (
 		<Stack className="mt-12 md:mt-20 lg:items-start" align="center">
 			<Heading as="h2" className="text-lg md:text-2xl lg:text-3xl">
@@ -40,7 +42,7 @@ export const AccountSidebar = ({ user }: AccountSidebarProps) => {
 			>
 				<BiLogOut />
 				<Text as="span" className="font-bold">
-					Sign Out
+					{t('signout')}
 				</Text>
 			</Link>
 		</Stack>

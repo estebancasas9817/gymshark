@@ -18,7 +18,6 @@ interface SizePickerProps {
 	discount?: number;
 }
 
-// TODO: Finish this component
 export const SizePicker = ({
 	selectedVariant,
 	name,
