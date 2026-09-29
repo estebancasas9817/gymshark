@@ -25,6 +25,56 @@ import { ActionPillWrapper } from './components/action-pill-wrapper';
 type RouteParams = { productSlug: string };
 type QueryParams = { color: 'red' | 'black' | 'white' | 'blue' };
 
+export async function generateMetadata({
+	params,
+	searchParams,
+}: PageProps<RouteParams, QueryParams>) {
+	const [{ productSlug }, { color }] = await Promise.all([
+		params,
+		searchParams,
+	]);
+	const product = await getProduct(productSlug, color);
+	if (product) {
+		const title = `${product.name} - ${product.sku.color} | Gymshark`;
+		const description = `Shop ${product.name} in ${product.sku.color}. ${product.categorySlug} starting at $${product.sku.price} ${product.currency}.`;
+		const imageUrl = product.sku.images?.[0] || product.coverImage;
+
+		return {
+			title,
+			description,
+			alternates: {
+				canonical: `${process.env.NEXT_PUBLIC_APP_URL}${product.href}`,
+			},
+			openGraph: {
+				title,
+				description,
+				url: `${process.env.NEXT_PUBLIC_APP_URL}${product.href}`,
+				siteName: 'Gymshark',
+				images: [
+					{
+						url: imageUrl,
+						width: 1200,
+						height: 630,
+						alt: `${product.name} in ${product.sku.color}`,
+					},
+				],
+				locale: 'en_US',
+				type: 'website',
+			},
+			twitter: {
+				card: 'summary_large_image',
+				title,
+				description,
+				images: [imageUrl],
+			},
+		};
+	}
+	return {
+		title: 'Product Not Found | Gymshark',
+		description: 'The requested product could not be found.',
+	};
+}
+
 const Page = async ({
 	params,
 	searchParams,

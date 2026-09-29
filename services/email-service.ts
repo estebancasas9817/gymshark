@@ -21,8 +21,8 @@ export async function sendVerificationEmail({
 }: SendVerificationEmailParams) {
 	const baseUrl =
 		process.env.NODE_ENV === 'production'
-			? process.env.APP_URL
-			: process.env.APP_LOCAL_URL;
+			? process.env.NEXT_PUBLIC_APP_URL
+			: process.env.LOCAL_URL;
 	const verificationUrl = `${baseUrl}/verify-account?token=${token}&email=${encodeURIComponent(email)}`;
 
 	try {
@@ -91,8 +91,8 @@ export async function sendSuccessOrderEmail({
 export async function sendFailOrderEmail(name: string, email: string) {
 	const baseUrl =
 		process.env.NODE_ENV === 'production'
-			? process.env.APP_URL
-			: process.env.APP_LOCAL_URL;
+			? process.env.NEXT_PUBLIC_APP_URL
+			: process.env.LOCAL_URL;
 
 	try {
 		const data = await resend.emails.send({
@@ -116,8 +116,8 @@ export async function sendResetPassword(
 ) {
 	const baseUrl =
 		process.env.NODE_ENV === 'production'
-			? process.env.APP_URL
-			: process.env.APP_LOCAL_URL;
+			? process.env.NEXT_PUBLIC_APP_URL
+			: process.env.LOCAL_URL;
 	const verificationUrl = `${baseUrl}/reset-password/change?token=${token}&email=${encodeURIComponent(email)}`;
 
 	try {
@@ -141,8 +141,8 @@ export async function sendResetPassword(
 export async function sendOathAccountEmail(name: string, email: string) {
 	const baseUrl =
 		process.env.NODE_ENV === 'production'
-			? process.env.APP_URL
-			: process.env.APP_LOCAL_URL;
+			? process.env.NEXT_PUBLIC_APP_URL
+			: process.env.LOCAL_URL;
 	const verificationUrl = `${baseUrl}/sign-in`;
 
 	try {
