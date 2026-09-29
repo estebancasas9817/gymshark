@@ -100,7 +100,6 @@ const Page = async ({
 					</Text>
 				}
 			>
-				{/* TODO: UPDATE RESPONSIVE SKELETONS and use translations */}
 				<Suspense fallback={<Recommendedkeletons />}>
 					<ProductsYouMightLike
 						categorySlug={categorySlug}

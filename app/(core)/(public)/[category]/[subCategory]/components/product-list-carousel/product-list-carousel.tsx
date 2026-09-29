@@ -30,7 +30,6 @@ export const ProductListCarousel = async ({
 			stackClassNames="mt-0"
 			size="sm"
 		>
-			{/* TODO: UPDATE CARD SIZE TO BE SMALLER */}
 			<ProductCardContainer products={products} />
 		</Carousel>
 	);

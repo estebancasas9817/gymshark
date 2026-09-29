@@ -43,7 +43,6 @@ export const ProductListBody = ({
 					</Suspense>
 				</ProductListFilterDrawer>
 
-				{/* TODO: Update fallback */}
 				<Suspense fallback={null}>
 					<aside className="hidden lg:block w-80 flex-none sticky top-32 self-start max-h-[calc(100vh-9rem)]">
 						<ProductListSideBar />

@@ -12,7 +12,7 @@ const AFTERPAY_HREF =
 
 export const PaymentSuggestions = ({ price }: PaymentSuggestionsProps) => {
 	const payment = price / 4;
-	// TODO: Update hardcoded values
+
 	return (
 		<Stack align="center" justify="center" className="my-10" gap="lg">
 			<Stack direction="row" align="center" gap="xs">

@@ -1,0 +1,24 @@
+{
+	"dashboard": {
+		"errors": {
+			"recentOrders": "Error displaying the orders"
+		},
+		"shortcuts": {
+			"returns": {
+				"title": "RETURNS",
+				"description": "Quick, easy and simple returns with Loop Returns."
+			},
+			"gymsharkApp": {
+				"title": "THE GYMSHARK APP",
+				"description": "Shop your faves, get exclusive drops, class bookings and more."
+			},
+			"trainingApp": {
+				"title": "THE TRAINING APP",
+				"description": "Choose your path, and train your way for free."
+			}
+		}
+	},
+	"sidebar": {
+		"signout": "Sign Out"
+	}
+}

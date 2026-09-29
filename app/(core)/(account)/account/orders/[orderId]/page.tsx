@@ -19,7 +19,6 @@ const Page = async (props: PageProps<RouteParams>) => {
 		redirect('/not-found');
 	}
 	const { id, status } = order;
-	//TODO: Update to use a translation
 	const orderHeading = `ORDER #${id.slice(-8).toUpperCase()}`;
 
 	return (
