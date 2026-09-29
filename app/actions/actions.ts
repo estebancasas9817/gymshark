@@ -187,8 +187,8 @@ export const addCheckoutSession = async (
 		}));
 
 		const checkoutSession = await stripe.checkout.sessions.create({
-			success_url: `${process.env.APP_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-			cancel_url: `${process.env.APP_URL}/checkout/cancel`,
+			success_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+			cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/cancel`,
 			line_items: products.map((product) => ({
 				price_data: {
 					currency: 'usd',
