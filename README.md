@@ -89,7 +89,7 @@ The project follows a modular structure designed for maintainability and Separat
 
 ### Phase 12 to 13: Final Polish & Deploy (In Progress 📍)
 
-- [ ] User Dashboard, Performance Optimization, Error Boundaries, and Production Deploy.
+- [ ] Performance Optimization, Error Boundaries, and Production Deploy.
 
 ---
 
