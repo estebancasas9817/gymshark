@@ -30,37 +30,44 @@ export const PAYMENT_METHODS = [
 
 export const SOCIAL_LINKS = [
 	{
-		alt: 'discort',
+		alt: 'discord',
+		ariaLabel: 'Visit Gymshark on Discord',
 		logo: <FaDiscord color="white" />,
 		src: 'https://discord.gg/gymshark',
 	},
 	{
 		alt: 'facebook',
+		ariaLabel: 'Visit Gymshark on Facebook',
 		logo: <FaFacebookF color="white" />,
 		src: 'https://www.facebook.com/GymShark',
 	},
 	{
 		alt: 'pinterest',
+		ariaLabel: 'Visit Gymshark on Pinterest',
 		logo: <FaPinterestP color="white" />,
 		src: 'https://www.pinterest.com/gymshark',
 	},
 	{
 		alt: 'youtube',
+		ariaLabel: 'Visit Gymshark on YouTube',
 		logo: <FaYoutube color="white" />,
 		src: 'https://www.youtube.com/user/GymSharkTV',
 	},
 	{
 		alt: 'instagram',
+		ariaLabel: 'Visit Gymshark on Instagram',
 		logo: <FaInstagram color="white" />,
 		src: 'https://www.instagram.com/gymshark',
 	},
 	{
 		alt: 'x',
+		ariaLabel: 'Visit Gymshark on X (Twitter)',
 		logo: <FaXTwitter color="white" />,
 		src: 'https://www.twitter.com/gymshark',
 	},
 	{
 		alt: 'tiktok',
+		ariaLabel: 'Visit Gymshark on TikTok',
 		logo: <FaTiktok color="white" />,
 		src: 'https://www.tiktok.com/@gymshark',
 	},

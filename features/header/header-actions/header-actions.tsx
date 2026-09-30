@@ -37,12 +37,12 @@ export const HeaderActions = () => {
 			<button
 				onClick={() => handleOpenDrawer('cart')}
 				className="cursor-pointer relative"
-				aria-label="Cart drawer"
+				aria-label={`Cart drawer with ${totalAmountOfProducts} items`}
 			>
 				<ShoppingBag size={20} />
 				<Text
 					as="span"
-					className="px-1.5 py-0.5 font-bold rounded-full bg-blue-500 text-secondary absolute -top-2 z-10 -right-3 text-xs"
+					className="px-1.5 py-0.5 font-bold rounded-full bg-[#004eba] text-white absolute -top-2 z-10 -right-3 text-xs"
 				>
 					{totalAmountOfProducts}
 				</Text>

@@ -70,7 +70,11 @@ export default async function Page({ params }: PageProps<RouteParams>) {
 		CATEGORY.men === routeParams.category ||
 		CATEGORY.women === routeParams.category
 	) {
-		return <DepartmentLayout department={routeParams.category} />;
+		return (
+			<main>
+				<DepartmentLayout department={routeParams.category} />
+			</main>
+		);
 	}
 	return NotFound();
 }
