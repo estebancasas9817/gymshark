@@ -34,7 +34,7 @@ export const FooterNavLinks = ({ section }: FooterNavLinksProps) => {
 	}, [isDesktop]);
 
 	return (
-		<Stack as="ul" gap="sm" className="gap-2  basis-1/3">
+		<Stack as="div" gap="sm" className="gap-2 basis-1/3">
 			<Stack
 				direction="row"
 				align="center"
@@ -54,35 +54,38 @@ export const FooterNavLinks = ({ section }: FooterNavLinksProps) => {
 					</Conditional>
 				</Conditional>
 			</Stack>
-			{Object.keys(t.raw(`${section}.links`)).map((linkKey) => {
-				const href = FOOTER_LINKS[section]?.[linkKey] || '#';
-				const isInternal = linkKey === 'login' || linkKey === 'register';
-				if (isInternal) {
+
+			<Stack as="ul" gap="sm" className="gap-2">
+				{Object.keys(t.raw(`${section}.links`)).map((linkKey) => {
+					const href = FOOTER_LINKS[section]?.[linkKey] || '#';
+					const isInternal = linkKey === 'login' || linkKey === 'register';
+
 					return (
-						<Link
-							href={href}
+						<li
 							key={linkKey}
-							className={`text-sm text-gray-600 hover:text-primary ${displayClassnames} last:mb-4 lg:mb-0`}
+							className={`${displayClassnames} last:mb-4 lg:mb-0`}
 						>
-							{t(`${section}.links.${linkKey}`)}
-						</Link>
+							{isInternal ? (
+								<Link
+									href={href}
+									className="text-sm text-gray-600 hover:text-primary"
+								>
+									{t(`${section}.links.${linkKey}`)}
+								</Link>
+							) : (
+								<a
+									href={href}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="text-sm text-gray-600 hover:text-primary"
+								>
+									{t(`${section}.links.${linkKey}`)}
+								</a>
+							)}
+						</li>
 					);
-				}
-				return (
-					<li
-						key={linkKey}
-						className={`${displayClassnames} last:mb-4 lg:mb-0`}
-					>
-						<a
-							href={href}
-							target="_blank"
-							className="text-sm text-gray-600 hover:text-primary"
-						>
-							{t(`${section}.links.${linkKey}`)}
-						</a>
-					</li>
-				);
-			})}
+				})}
+			</Stack>
 		</Stack>
 	);
 };

@@ -108,5 +108,5 @@ This project uses **pnpm** for package management to ensure fast, deterministic,
    ```
 3. **Run the development server**
    ```bash
-   pnpm dev
+   pnpm run dev
    ```

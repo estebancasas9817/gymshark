@@ -34,8 +34,13 @@ export const Footer = () => {
 				</Stack>
 				<Conditional test={!!isMobile}>
 					<Stack direction="row" justify="center" className="mt-8">
-						{SOCIAL_LINKS.map(({ logo, alt, src }) => (
-							<SocialLinks logo={logo} key={alt} src={src} />
+						{SOCIAL_LINKS.map(({ logo, alt, src, ariaLabel }) => (
+							<SocialLinks
+								logo={logo}
+								key={alt}
+								src={src}
+								ariaLabel={ariaLabel}
+							/>
 						))}
 					</Stack>
 				</Conditional>
@@ -64,8 +69,13 @@ export const Footer = () => {
 					</Stack>
 					<Conditional test={!!isTablet}>
 						<Stack direction="row">
-							{SOCIAL_LINKS.map(({ logo, alt, src }) => (
-								<SocialLinks logo={logo} key={alt} src={src} />
+							{SOCIAL_LINKS.map(({ logo, alt, src, ariaLabel }) => (
+								<SocialLinks
+									logo={logo}
+									key={alt}
+									src={src}
+									ariaLabel={ariaLabel}
+								/>
 							))}
 						</Stack>
 					</Conditional>

@@ -5,12 +5,14 @@ interface CheveronButtonProps {
 	children: ReactNode;
 	disabled?: boolean;
 	handleOnClick?: () => void;
+	ariaLabel: string;
 }
 
 export const ChevronButton = ({
 	children,
 	disabled = false,
 	handleOnClick,
+	ariaLabel,
 }: CheveronButtonProps) => {
 	return (
 		<button
@@ -22,6 +24,7 @@ export const ChevronButton = ({
 			)}
 			disabled={disabled}
 			onClick={handleOnClick}
+			aria-label={ariaLabel}
 		>
 			{children}
 		</button>

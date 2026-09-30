@@ -81,11 +81,20 @@ export const Input = ({
 					type="button"
 					onClick={togglePassword}
 					className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors cursor-pointer h-full w-10"
+					aria-label={showPassword ? 'Hide password' : 'Show password'}
 				>
 					{showPassword ? (
-						<EyeOff size={20} className="absolute left-2 top-4" />
+						<EyeOff
+							size={20}
+							className="absolute left-2 top-4"
+							aria-label="Hide password"
+						/>
 					) : (
-						<Eye size={20} className="absolute left-2 top-4" />
+						<Eye
+							size={20}
+							className="absolute left-2 top-4"
+							aria-label="Show password"
+						/>
 					)}
 				</button>
 			</Conditional>

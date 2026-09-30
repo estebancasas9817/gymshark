@@ -48,9 +48,19 @@ export const TierBenefits = () => {
 				>
 					<Conditional
 						test={shouldDisplayFullTier}
-						fallback={<ChevronDown color="#424145" size={18} />}
+						fallback={
+							<ChevronDown
+								color="#424145"
+								size={18}
+								aria-label="Show fewer Tier 1 benefits"
+							/>
+						}
 					>
-						<ChevronUp color="#424145" size={18} />
+						<ChevronUp
+							color="#424145"
+							size={18}
+							aria-label="Show all Tier 1 benefits"
+						/>
 					</Conditional>
 				</button>
 			</Conditional>

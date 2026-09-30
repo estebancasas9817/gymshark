@@ -25,9 +25,14 @@ export const PaymentSuggestions = ({ price }: PaymentSuggestionsProps) => {
 				<Text as="p" variant="tertiary" className="text-xs text-gray-700">
 					Also available at checkout:
 				</Text>
-				<a href={AFTERPAY_HREF} target="_blank" className="flex gap-2">
-					<SiKlarna />
-					<SiAfterpay />
+				<a
+					href={AFTERPAY_HREF}
+					target="_blank"
+					className="flex gap-2"
+					aria-label="Pay Later with Afterpay"
+				>
+					<SiKlarna aria-label="You can pay with klarma" />
+					<SiAfterpay aria-label="You can pay with after pay" />
 				</a>
 			</Stack>
 		</Stack>

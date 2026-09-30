@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ShopWomen from '@/public/shop-women.jpeg';
 import ShopMen from '@/public/shop-men.avif';
 import ShopAccesories from '@/public/shop-accesories.jpeg';
+import { Text } from '@/components/ui/text';
 
 interface DepartmentCardProps {
 	title: string;
@@ -32,9 +33,9 @@ export const DepartmentCard = ({ title, href }: DepartmentCardProps) => {
 					<Image src={imageUlr} alt={title} fill />
 				</Link>
 			</figure>
-			<Heading as="h6" size="sm" className="text-md">
+			<Text as="p" size="sm" className="text-md font-bold font-sans">
 				<Link href={href}>{title}</Link>
-			</Heading>
+			</Text>
 		</Stack>
 	);
 };

@@ -1,5 +1,4 @@
 import { Stack } from '@/components/layout/stack';
-import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { getYouMightLike } from '@/libs/firebase/db/products/get-products-you-might-like';
 import { ChevronRight } from 'lucide-react';
@@ -25,9 +24,9 @@ export const ShopTheLook = async ({
 			<Link href="#GET_THE_LOOK">
 				<Stack direction="row" align="center" justify="between">
 					<Stack direction="row" align="center">
-						<Heading as="h6" size="sm" className="text-sm">
+						<Text as="p" size="sm" className="text-sm font-sans font-bold">
 							YOU MIGHT LIKE
-						</Heading>
+						</Text>
 						<Text as="span" variant="tertiary" className="text-xs">
 							{amountOfProducts}
 						</Text>
