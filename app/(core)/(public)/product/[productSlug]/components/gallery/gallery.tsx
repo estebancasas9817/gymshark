@@ -117,6 +117,9 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 						{galleryImages.map((imageUrl, index) => {
 							const isMainImage = index === 2;
 							const shouldZoom = zoom.isZoomed && index === zoom.imgPosition;
+							const imageSizes = isMainImage
+								? '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 80vw'
+								: '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 35vw';
 
 							return (
 								<figure
@@ -134,16 +137,17 @@ export const Gallery = ({ galleryImages }: GalleryProps) => {
 										src={imageUrl.trim()}
 										alt={`Product image ${index + 1}`}
 										fill
-										sizes="100vw"
+										sizes={imageSizes}
 										className={cn(
 											'object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
 											shouldZoom ? 'scale-[2]' : 'scale-100',
 										)}
-										quality={100}
+										quality={90}
 										style={{
 											transformOrigin: `${zoom.x}% ${zoom.y}%`,
 										}}
-										priority={index === 2}
+										priority={true}
+										fetchPriority="high"
 									/>
 								</figure>
 							);
