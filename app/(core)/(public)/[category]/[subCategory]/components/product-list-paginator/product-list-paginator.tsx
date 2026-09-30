@@ -57,24 +57,25 @@ export function ProductListPaginator({
 					<ChevronLeft size={20} />
 				</button>
 			) : (
-				<span
+				<button
 					aria-disabled="true"
 					aria-label="Previous page"
 					className={`${cell} ${cellDisabled}`}
 				>
 					<ChevronLeft size={20} />
-				</span>
+				</button>
 			)}
 
 			{items.map((item, i) =>
 				item === ELLIPSIS ? (
-					<span
+					<button
 						key={`e-${i}`}
 						aria-hidden="true"
+						aria-label="Previous page"
 						className="inline-flex size-9 items-center justify-center text-sm text-[#555]"
 					>
 						{ELLIPSIS}
-					</span>
+					</button>
 				) : (
 					<button
 						key={item}

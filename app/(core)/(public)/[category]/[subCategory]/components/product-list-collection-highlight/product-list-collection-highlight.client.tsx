@@ -63,9 +63,9 @@ const ProductListCollectionHighlightClient = ({
 				<Badge className="absolute bottom-3 left-3">{badge}</Badge>
 			</figure>
 			<Stack gap="md" className="md:w-2/3">
-				<Heading as="h6" className="text-sm xl:text-base">
+				<Text as="p" className="text-sm xl:text-base font-bold font-sans">
 					{t('tagCategory')}
-				</Heading>
+				</Text>
 				<Heading
 					as="h3"
 					className="font-black text-2xl xl:text-3xl uppercase tracking-wider flex flex-col max-w-min"
