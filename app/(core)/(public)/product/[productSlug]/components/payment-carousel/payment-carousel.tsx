@@ -31,56 +31,60 @@ export const PaymentCarousel = () => {
 	const [activeIndex, setActiveIndex] = useState(0);
 
 	return (
-		<>
-			<div className={styles['carousel-container']}>
-				<div className={styles['carousel-window']}>
-					<Stack
-						direction="row"
-						className={cn(styles['carousel-track'], 'gap-0')}
-						as="ul"
-					>
-						{slides.map(({ id, title, sub, subTitle }) => (
-							<div
-								className={styles['carousel-slide']}
-								key={id}
-								style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-							>
-								<li className={styles['slide-content']}>
-									<Text as="p" variant="primary" className="text-xs font-bold">
-										{title}
-										<Conditional test={!!subTitle}>
-											<Text
-												as="span"
-												className="text-xs font-normal"
-												variant="tertiary"
-											>
-												{' '}
-												{subTitle}
-											</Text>
-										</Conditional>
+		<div className={styles['carousel-container']}>
+			<div className={styles['carousel-window']}>
+				<Stack
+					direction="row"
+					className={cn(styles['carousel-track'], 'gap-0')}
+					as="ul"
+				>
+					{slides.map(({ id, title, sub, subTitle }) => (
+						<li
+							key={id}
+							className={cn(styles['carousel-slide'], styles['slide-content'])}
+							style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+						>
+							<Text as="p" variant="primary" className="text-xs font-bold">
+								{title}
+								<Conditional test={!!subTitle}>
+									<Text
+										as="span"
+										className="text-xs font-normal"
+										variant="tertiary"
+									>
+										{' '}
+										{subTitle}
 									</Text>
-									<Text as="span" variant="tertiary" className="text-xs">
-										{sub}
-									</Text>
-								</li>
-							</div>
-						))}
-					</Stack>
-				</div>
-
-				<div className={styles['dots-container']}>
-					{slides.map((_, i) => (
-						<button
-							key={i}
-							className={cn(
-								'w-2 h-2 rounded-full transition-all duration-300 cursor-pointer',
-								activeIndex === i ? 'bg-black' : 'bg-gray-300',
-							)}
-							onClick={() => setActiveIndex(i)}
-						/>
+								</Conditional>
+							</Text>
+							<Text as="span" variant="tertiary" className="text-xs">
+								{sub}
+							</Text>
+						</li>
 					))}
-				</div>
+				</Stack>
 			</div>
-		</>
+
+			<div
+				role="tablist"
+				aria-label="Benefits carousel"
+				className={styles['dots-container']}
+			>
+				{slides.map((_, i) => (
+					<button
+						key={i}
+						type="button"
+						role="tab"
+						aria-selected={activeIndex === i}
+						className={cn(
+							'w-2 h-2 rounded-full transition-all duration-300 cursor-pointer',
+							activeIndex === i ? 'bg-black' : 'bg-gray-300',
+						)}
+						onClick={() => setActiveIndex(i)}
+						aria-label={`Go to slide ${i + 1} of ${slides.length}`}
+					/>
+				))}
+			</div>
+		</div>
 	);
 };

@@ -53,6 +53,7 @@ export const GalleryScroller = ({
 			<ChevronButton
 				disabled={shouldDisableChevronUp}
 				handleOnClick={() => handleOnClick('up')}
+				ariaLabel="Scroll Up"
 			>
 				<ChevronUp size={14} />
 			</ChevronButton>
@@ -70,6 +71,7 @@ export const GalleryScroller = ({
 			<ChevronButton
 				disabled={shouldDisableChevronDown}
 				handleOnClick={() => handleOnClick('down')}
+				ariaLabel="Scroll Down"
 			>
 				<ChevronDown size={14} />
 			</ChevronButton>
