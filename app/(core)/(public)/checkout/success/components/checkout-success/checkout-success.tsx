@@ -1,10 +1,13 @@
 'use client';
 
+import { useCart } from '@/app/context/cart-context';
 import { Conditional } from '@/components/layout/conditional';
+import { deleteItemsInLocalStorage } from '@/utils/local-storage/delete-items';
 import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 const BG = '#f0ede7';
 
@@ -75,8 +78,15 @@ function SuccessPlates() {
 export const CheckoutSuccess = () => {
 	const t = useTranslations('SuccessCheckout.checkoutSuccess');
 	const searchParams = useSearchParams();
+	const { clearCart } = useCart();
+
 	const userId = useSession().data?.user?.id;
 	const stripeSessionId = searchParams.get('session_id');
+
+	useEffect(() => {
+		clearCart();
+		deleteItemsInLocalStorage('cart');
+	}, []);
 
 	return (
 		<div

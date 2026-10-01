@@ -53,6 +53,7 @@ type Context = {
 	optimisticState: CartItemFull[] | [];
 	isPending: boolean;
 	startTransition: TransitionStartFunction;
+	clearCart: () => void;
 };
 
 type NewItem = CartItemFull & {
@@ -195,6 +196,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		[user, router, optimisticState, setOptimisticState],
 	);
 
+	const clearCart = useCallback(() => {
+		setOptimisticState([]);
+	}, []);
+
 	const value = useMemo(
 		() => ({
 			handleAddToCart,
@@ -202,6 +207,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			isPending,
 			handleDecreaseCartQuantity,
 			startTransition,
+			clearCart,
 		}),
 		[
 			handleAddToCart,
@@ -209,6 +215,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			isPending,
 			handleDecreaseCartQuantity,
 			startTransition,
+			clearCart,
 		],
 	);
 
