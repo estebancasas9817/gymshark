@@ -40,7 +40,7 @@ export const CartDrawerFooter = ({ isScrolling }: CartDrawerFooterProps) => {
 
 	const handleClick = async () => {
 		try {
-			await navigator.clipboard.writeText(window.location.href);
+			await navigator.clipboard.writeText('4242 4242 4242 4242');
 			toast.success('Link copied');
 		} catch (err) {
 			toast.error('Error copying URL');
