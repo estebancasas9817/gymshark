@@ -37,8 +37,9 @@ export const ShippingProgressBar: React.FC<ShippingProgressBarProps> = ({
 				) : (
 					<>
 						<Text as="span" className="text-sm text-gray-700">
-							You're <strong className="font-semibold">${missingAmount}</strong>{' '}
-							away from Free Standard Shipping
+							You&apos;re{' '}
+							<strong className="font-semibold">${missingAmount}</strong> away
+							from Free Standard Shipping
 						</Text>
 					</>
 				)}
