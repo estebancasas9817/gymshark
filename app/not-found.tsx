@@ -1,6 +1,5 @@
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
-import Error from './error';
 
 const BG = '#f0ede7';
 

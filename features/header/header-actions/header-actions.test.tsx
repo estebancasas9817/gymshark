@@ -8,7 +8,6 @@ import {
 	mockHandleOpenDrawer,
 } from '@/app/context/utils/drawer-testing-utils';
 import { useDrawer } from '@/app/context/drawer-context';
-import { Session } from 'next-auth';
 import userEvent from '@testing-library/user-event';
 
 vi.mock('next-auth/react');
