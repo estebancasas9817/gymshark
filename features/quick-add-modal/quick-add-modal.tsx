@@ -39,8 +39,7 @@ export const QuickAddModal = ({
 	id,
 	discount,
 }: QuickAddModalProps) => {
-	const { handleAddToCart, isPending } = useCart();
-
+	const { handleAddToCart, isPending, startTransition } = useCart();
 	const [isMounted, setIsMounted] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -117,21 +116,23 @@ export const QuickAddModal = ({
 								<button
 									className="flex flex-row items-center gap-2 text-sm font-medium"
 									onClick={() =>
-										handleAddToCart(
-											{
-												size,
-												productId,
-												quantity: 1,
-												skuId: id,
-												color,
-												name,
-												price,
-												image: imgSrc,
-												...(discount && { discount }),
-												sizes,
-											},
-											false,
-										)
+										startTransition(() => {
+											handleAddToCart(
+												{
+													size,
+													productId,
+													quantity: 1,
+													skuId: id,
+													color,
+													name,
+													price,
+													image: imgSrc,
+													...(discount && { discount }),
+													sizes,
+												},
+												false,
+											);
+										})
 									}
 								>
 									<Conditional

@@ -9,6 +9,7 @@ import {
 	useMemo,
 	useState,
 	useTransition,
+	TransitionStartFunction,
 } from 'react';
 import { addToCartAction, deleteCartAction } from '../actions/actions';
 import { setItemsInLocalStorage } from '@/utils/local-storage/set-items';
@@ -51,6 +52,7 @@ type Context = {
 	}: CartItemFull) => Promise<void>;
 	optimisticState: CartItemFull[] | [];
 	isPending: boolean;
+	startTransition: TransitionStartFunction;
 };
 
 type NewItem = CartItemFull & {
@@ -199,8 +201,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			optimisticState,
 			isPending,
 			handleDecreaseCartQuantity,
+			startTransition,
 		}),
-		[handleAddToCart, optimisticState, isPending, handleDecreaseCartQuantity],
+		[
+			handleAddToCart,
+			optimisticState,
+			isPending,
+			handleDecreaseCartQuantity,
+			startTransition,
+		],
 	);
 
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
