@@ -42,7 +42,7 @@ export const Banner = ({
 				<Heading as="h2" className="text-secondary text-2xl">
 					{title}
 				</Heading>
-				<Text as="p" className="text-secondary text-sm font-bold">
+				<Text as="p" className="text-secondary text-sm font-bold pe-8 md:pe-0">
 					{description}
 				</Text>
 				<Stack direction="row" gap="lg">

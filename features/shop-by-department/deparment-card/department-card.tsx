@@ -26,7 +26,7 @@ export const DepartmentCard = ({ title, href }: DepartmentCardProps) => {
 	}
 
 	return (
-		<Stack as="article" className="shrink-0 w-full md:w-1/2 lg:flex-1">
+		<Stack as="article" className="shrink-0 w-7/8 md:w-1/2 lg:flex-1">
 			<figure className="w-full relative h-160">
 				<Link href={href}>
 					<Image
