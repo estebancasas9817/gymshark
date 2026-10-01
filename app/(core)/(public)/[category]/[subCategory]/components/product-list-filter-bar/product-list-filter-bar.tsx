@@ -19,7 +19,7 @@ export const ProductListFilterBar = ({
 
 	return (
 		<Stack
-			className="lg:hidden bg-secondary border-t border-t-border-secondary py-4 sticky top-29 z-31"
+			className="lg:hidden bg-secondary border-t border-t-border-secondary py-4 sticky top-29 z-28"
 			direction="row"
 			justify="between"
 			align="center"
