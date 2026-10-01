@@ -5,7 +5,7 @@ import { Text } from '../text';
 import { Heading } from '../heading';
 
 interface DiscountCodeProps {
-	onApplyCode: (code: string) => void;
+	onApplyCode?: (code: string) => void;
 	isLoading?: boolean;
 }
 
@@ -18,7 +18,7 @@ export const DiscountCode: React.FC<DiscountCodeProps> = ({
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		if (code.trim()) {
-			onApplyCode(code.trim());
+			onApplyCode?.(code.trim());
 		}
 	};
 

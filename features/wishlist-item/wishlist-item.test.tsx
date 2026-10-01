@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { WishlistItem } from './wishlist-item';
-import { useWishlist } from '@/app/context/wishlist-context';
 import userEvent from '@testing-library/user-event';
 
 const mockHandleDeleteWishlist = vi.fn();

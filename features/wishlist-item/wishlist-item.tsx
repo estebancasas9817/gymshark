@@ -17,7 +17,7 @@ interface WishlistItemProps {
 	currency?: string;
 	imageUrl: string;
 	discount?: number;
-	sizes: { size: string; stock: number }[];
+	sizes: { size: string; stock: number }[] | undefined;
 }
 
 export function WishlistItem({

@@ -11,7 +11,7 @@ import userEvent from '@testing-library/user-event';
 vi.mock('@/app/context/drawer-context');
 
 const renderComp = () => {
-	render(<DrawerHeading isScrolling />);
+	render(<DrawerHeading isScrolling isMobile={false} />);
 };
 
 describe('DrawerHeading', () => {

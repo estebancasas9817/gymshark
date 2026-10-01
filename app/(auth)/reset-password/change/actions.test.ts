@@ -32,7 +32,7 @@ describe('resetPasswordAction', () => {
 			await resetPasswordAction(
 				'email',
 				'token',
-				{ status: 'SUCCESS' },
+				{ status: 'SUCCESS', success: true, message: '' },
 				formData,
 			),
 		).toStrictEqual({
@@ -51,7 +51,7 @@ describe('resetPasswordAction', () => {
 			await resetPasswordAction(
 				'email@gmail.com',
 				'',
-				{ status: 'SUCCESS' },
+				{ status: 'SUCCESS', success: true, message: '' },
 				formData,
 			),
 		).toStrictEqual({
@@ -68,7 +68,7 @@ describe('resetPasswordAction', () => {
 			await resetPasswordAction(
 				'email@gmail.com',
 				'token',
-				{ status: 'SUCCESS' },
+				{ status: 'SUCCESS', success: true, message: '' },
 				formData,
 			),
 		).toStrictEqual({
@@ -89,7 +89,7 @@ describe('resetPasswordAction', () => {
 			await resetPasswordAction(
 				'email@gmail.com',
 				'token',
-				{ status: 'SUCCESS' },
+				{ status: 'SUCCESS', success: true, message: '' },
 				formData,
 			),
 		).toStrictEqual({
@@ -112,7 +112,7 @@ describe('resetPasswordAction', () => {
 			await resetPasswordAction(
 				'email@gmail.com',
 				'token',
-				{ status: 'SUCCESS' },
+				{ status: 'SUCCESS', success: true, message: '' },
 				formData,
 			),
 		).toStrictEqual({
@@ -130,7 +130,7 @@ describe('resetPasswordAction', () => {
 			await resetPasswordAction(
 				'email@gmail.com',
 				'token',
-				{ status: 'SUCCESS' },
+				{ status: 'SUCCESS', success: true, message: '' },
 				formData,
 			),
 		).toStrictEqual({
@@ -158,7 +158,7 @@ describe('resetPasswordAction', () => {
 			await resetPasswordAction(
 				'email@gmail.com',
 				'123456',
-				{ status: 'SUCCESS' },
+				{ status: 'SUCCESS', success: true, message: '' },
 				formData,
 			),
 		).toStrictEqual({
@@ -186,7 +186,7 @@ describe('resetPasswordAction', () => {
 			await resetPasswordAction(
 				'email@gmail.com',
 				'123456',
-				{ status: 'SUCCESS' },
+				{ status: 'SUCCESS', success: true, message: '' },
 				formData,
 			),
 		).toStrictEqual({

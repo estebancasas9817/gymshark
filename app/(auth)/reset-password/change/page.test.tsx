@@ -5,16 +5,23 @@ import { useTranslations } from 'next-intl';
 import userEvent from '@testing-library/user-event';
 import { resetPasswordAction } from './actions';
 
-const mockGet = vi.fn();
 vi.mock('next/navigation', () => ({
 	useSearchParams: vi.fn(),
 }));
 vi.mock('next-intl');
 const tMock = Object.assign(vi.fn((key: string) => key));
 vi.mocked(useTranslations).mockReturnValue(tMock as any);
-vi.mocked(useSearchParams).mockReturnValue({
-	get: mockGet,
-});
+vi.mocked(useSearchParams).mockReturnValue(
+	Object.assign(
+		new URLSearchParams('email=test@example.com&token=test-token'),
+		{
+			append: () => {},
+			delete: () => {},
+			set: () => {},
+			sort: () => {},
+		},
+	),
+);
 
 vi.mock('./actions', () => ({
 	resetPasswordAction: vi.fn(),
