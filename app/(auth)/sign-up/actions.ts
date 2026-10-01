@@ -37,7 +37,7 @@ type ActionState =
 	  };
 
 export const SignUpAction = async (
-	prevState: ActionState,
+	_prevState: ActionState,
 	formData: FormData,
 ): Promise<ActionState> => {
 	const rawData = {

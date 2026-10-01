@@ -31,7 +31,7 @@ type ActionState =
 	| { status: 'INITIAL'; success: boolean };
 
 export const signInAction = async (
-	prevState: ActionState | undefined,
+	_prevState: ActionState | undefined,
 	formData: FormData,
 ): Promise<ActionState> => {
 	const rawData = {
@@ -150,7 +150,7 @@ export const forgotPasswordAction = async (
 };
 
 export const forgotPasswordFormAction = async (
-	prevState: ForgotPasswordState | undefined,
+	_prevState: ForgotPasswordState | undefined,
 	formData: FormData,
 ): Promise<ForgotPasswordState> => {
 	const rawData = {

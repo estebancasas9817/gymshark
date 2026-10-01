@@ -36,7 +36,7 @@ const resetPasswordSchema = z
 export const resetPasswordAction = async (
 	email: string,
 	token: string,
-	prevState: ResetPasswordState,
+	_prevState: ResetPasswordState,
 	formData: FormData,
 ): Promise<ResetPasswordState> => {
 	if (!email || !token) {
