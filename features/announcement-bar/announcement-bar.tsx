@@ -67,7 +67,7 @@ export function AnnouncementBar() {
 			<button
 				onClick={() => setPaused((p) => !p)}
 				aria-label={paused ? 'Play announcements' : 'Pause announcements'}
-				className="absolute right-10 flex h-6 w-6 items-center justify-center text-secondary cursor-pointer"
+				className="absolute right-6 md:right-10 flex h-6 w-6 items-center justify-center text-secondary cursor-pointer"
 			>
 				{paused ? (
 					<Play size={14} fill="white" />
