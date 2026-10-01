@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { CheckoutSuccess } from './components/checkout-success';
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
@@ -19,5 +20,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-	return <CheckoutSuccess />;
+	return (
+		<Suspense>
+			<CheckoutSuccess />
+		</Suspense>
+	);
 }

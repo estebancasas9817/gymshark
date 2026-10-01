@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { ChangePassword } from './components/change-password';
 import { Metadata } from 'next';
 
@@ -18,5 +19,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-	return <ChangePassword />;
+	return (
+		<Suspense>
+			<ChangePassword />
+		</Suspense>
+	);
 }
