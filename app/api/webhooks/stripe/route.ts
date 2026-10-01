@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 		);
 	} catch (err: unknown) {
 		const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-		console.error('❌ Webhook signature verification failed:', errorMessage);
+		console.error('❌ Webhook signature verification failed: ', errorMessage);
 		return new Response(`Webhook Error: ${errorMessage}`, { status: 400 });
 	}
 
