@@ -27,7 +27,7 @@ export async function sendVerificationEmail({
 
 	try {
 		const data = await resend.emails.send({
-			from: 'Gymshark Clone <onboarding@resend.dev>',
+			from: 'Gymshark Clone <noreply@gymshark-clone.dev>',
 			to: email,
 			subject: 'Verify your Gymshark Account',
 			react: VerifyAccountEmail({ name, url: verificationUrl }),
@@ -65,7 +65,7 @@ export async function sendSuccessOrderEmail({
 }: PurchaseConfirmationEmailProps) {
 	try {
 		const data = await resend.emails.send({
-			from: 'Gymshark Clone <onboarding@resend.dev>',
+			from: 'Gymshark Clone <noreply@gymshark-clone.dev>',
 			to: email,
 			subject: `Order Confirmed ${orderNumber}`,
 			react: PurchaseConfirmationEmail({
@@ -96,7 +96,7 @@ export async function sendFailOrderEmail(name: string, email: string) {
 
 	try {
 		const data = await resend.emails.send({
-			from: 'Gymshark Clone <onboarding@resend.dev>',
+			from: 'Gymshark Clone <noreply@gymshark-clone.dev>',
 			to: email,
 			subject: `Order Failed`,
 			react: PaymentFailedEmail({ name, url: baseUrl as string }),
@@ -122,7 +122,7 @@ export async function sendResetPassword(
 
 	try {
 		const data = await resend.emails.send({
-			from: 'Gymshark Clone <onboarding@resend.dev>',
+			from: 'Gymshark Clone <noreply@gymshark-clone.dev>',
 			to: email,
 			subject: `Order Failed`,
 			react: ResetPassword({
@@ -147,7 +147,7 @@ export async function sendOathAccountEmail(name: string, email: string) {
 
 	try {
 		const data = await resend.emails.send({
-			from: 'Gymshark Clone <onboarding@resend.dev>',
+			from: 'Gymshark Clone <noreply@gymshark-clone.dev>',
 			to: email,
 			subject: `Order Failed`,
 			react: OAuthAccountEmail({
