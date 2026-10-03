@@ -20,7 +20,7 @@ export const FooterBottomBar = () => {
 					className="py-4 text-sm text-gray-700 text-center md:text-start"
 					variant="tertiary"
 				>
-					{t('copyright', { year: new Date().getFullYear() })}
+					{t('copyright')}
 				</Text>
 				<Conditional test={isDesktop}>
 					<LegalLinks direction="row" />
