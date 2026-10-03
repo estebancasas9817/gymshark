@@ -1,13 +1,7 @@
 import { Stack } from '@/components/layout/stack';
 import { useTranslations } from 'next-intl';
 
-const LINKS = [
-	'https://row.gymshark.com/pages/terms-and-conditions',
-	'https://www.gymshark.com/pages/terms-of-use',
-	'https://row.gymshark.com/pages/privacy-notice',
-	'https://row.gymshark.com/pages/cookie-policy',
-	'https://row.gymshark.com/pages/modern-slavery',
-];
+const LINKS = ['#', '#', '#', '#', '#'];
 
 export const LegalLinks = ({
 	direction = 'row',

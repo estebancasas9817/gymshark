@@ -33,51 +33,51 @@ export const SOCIAL_LINKS = [
 		alt: 'discord',
 		ariaLabel: 'Visit Gymshark on Discord',
 		logo: <FaDiscord color="white" />,
-		src: 'https://discord.gg/gymshark',
+		src: '#',
 	},
 	{
 		alt: 'facebook',
 		ariaLabel: 'Visit Gymshark on Facebook',
 		logo: <FaFacebookF color="white" />,
-		src: 'https://www.facebook.com/GymShark',
+		src: '#',
 	},
 	{
 		alt: 'pinterest',
 		ariaLabel: 'Visit Gymshark on Pinterest',
 		logo: <FaPinterestP color="white" />,
-		src: 'https://www.pinterest.com/gymshark',
+		src: '#',
 	},
 	{
 		alt: 'youtube',
 		ariaLabel: 'Visit Gymshark on YouTube',
 		logo: <FaYoutube color="white" />,
-		src: 'https://www.youtube.com/user/GymSharkTV',
+		src: '#',
 	},
 	{
 		alt: 'instagram',
 		ariaLabel: 'Visit Gymshark on Instagram',
 		logo: <FaInstagram color="white" />,
-		src: 'https://www.instagram.com/gymshark',
+		src: '#',
 	},
 	{
 		alt: 'x',
 		ariaLabel: 'Visit Gymshark on X (Twitter)',
 		logo: <FaXTwitter color="white" />,
-		src: 'https://www.twitter.com/gymshark',
+		src: '#',
 	},
 	{
 		alt: 'tiktok',
 		ariaLabel: 'Visit Gymshark on TikTok',
 		logo: <FaTiktok color="white" />,
-		src: 'https://www.tiktok.com/@gymshark',
+		src: '#',
 	},
 ];
 
 export const PROMO_LINKS = [
-	{ label: 'Blog', url: 'https://row.gymshark.com/blog' },
+	{ label: 'Blog', url: '#' },
 	{
 		label: 'Student Discount',
-		url: 'https://row.gymshark.com/pages/studentbeans',
+		url: '#',
 	},
 	{ label: 'Register', url: '/sign-up' },
 ];
