@@ -29,7 +29,7 @@ export async function sendVerificationEmail({
 		const data = await resend.emails.send({
 			from: 'Fitstore Demo <noreply@fitstore-demo.dev>',
 			to: email,
-			subject: 'Verify your Gymshark Account',
+			subject: 'Verify your Fit Store Account',
 			react: VerifyAccountEmail({ name, url: verificationUrl }),
 		});
 

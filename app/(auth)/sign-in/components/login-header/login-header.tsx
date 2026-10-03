@@ -13,7 +13,7 @@ export const LoginHeader = ({ title, subTitle }: LoginHeaderProps) => {
 			<figure>
 				<Image
 					src={GymsharkLogo}
-					alt="Gymshark Logo"
+					alt="Fit Store Logo"
 					width={100}
 					height={100}
 				/>

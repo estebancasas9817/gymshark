@@ -19,7 +19,7 @@ export async function generateMetadata({
 
 	if (!categoryData) {
 		return {
-			title: 'Category Not Found | Gymshark',
+			title: 'Category Not Found | Fit Store',
 			description: 'The requested category could not be found.',
 		};
 	}
@@ -27,10 +27,10 @@ export async function generateMetadata({
 	const formattedName =
 		categoryData.name.charAt(0).toUpperCase() + categoryData.name.slice(1);
 
-	const title = `${formattedName}'s Workout Clothes & Gym Wear | Gymshark`;
+	const title = `${formattedName}'s Workout Clothes & Gym Wear | Fit Store`;
 	const description =
 		categoryData.description ||
-		`Shop Gymshark ${formattedName}'s gym clothes, leggings, activewear, and fitness accessories. Free shipping on qualifying orders.`;
+		`Shop Fit Store ${formattedName}'s gym clothes, leggings, activewear, and fitness accessories. Free shipping on qualifying orders.`;
 	const imageUrl = categoryData.imageUrl || `${baseUrl}/og-default.jpg`;
 
 	return {
@@ -43,7 +43,7 @@ export async function generateMetadata({
 			title,
 			description,
 			url: pageUrl,
-			siteName: 'Gymshark',
+			siteName: 'Fit Store',
 			locale: 'en_US',
 			type: 'website',
 			images: [

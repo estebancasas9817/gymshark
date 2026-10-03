@@ -24,12 +24,12 @@ export default function VerifyAccountEmail({
 	return (
 		<Html lang="en">
 			<Head />
-			<Preview>Verify your account and join the Gymshark community</Preview>
+			<Preview>Verify your account and join the Fit Store community</Preview>
 			<Body style={main}>
 				<Container style={container}>
-					{/* Header with Gymshark Brand Styling */}
+					{/* Header with Fit Store Brand Styling */}
 					<Section style={headerSection}>
-						<Heading style={logoText}>GYMSHARK CLONE</Heading>
+						<Heading style={logoText}>FIT STORE</Heading>
 					</Section>
 
 					{/* Email Body */}
@@ -72,11 +72,11 @@ export default function VerifyAccountEmail({
 					{/* Footer Section with Project Disclaimer */}
 					<Section style={footerSection}>
 						<Text style={footerSecondary}>
-							© {new Date().getFullYear()} Gymshark Ltd. All rights reserved.
+							© {new Date().getFullYear()} Fit Store. All rights reserved.
 						</Text>
 						<Text style={cloneBadge}>
-							This email was sent from a <strong>Gymshark Clone</strong>{' '}
-							development environment.
+							This email was sent from a <strong>Fit Store</strong> development
+							environment.
 						</Text>
 					</Section>
 				</Container>

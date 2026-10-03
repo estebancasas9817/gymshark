@@ -36,7 +36,7 @@ export async function generateMetadata({
 	]);
 	const product = await getProduct(productSlug, color);
 	if (product) {
-		const title = `${product.name} - ${product.sku.color} | Gymshark`;
+		const title = `${product.name} - ${product.sku.color} | Fit Store`;
 		const description = `Shop ${product.name} in ${product.sku.color}. ${product.categorySlug} starting at $${product.sku.price} ${product.currency}.`;
 		const imageUrl = product.sku.images?.[0] || product.coverImage;
 
@@ -50,7 +50,7 @@ export async function generateMetadata({
 				title,
 				description,
 				url: `${process.env.NEXT_PUBLIC_APP_URL}${product.href}`,
-				siteName: 'Gymshark',
+				siteName: 'Fit Store',
 				images: [
 					{
 						url: imageUrl,
@@ -71,7 +71,7 @@ export async function generateMetadata({
 		};
 	}
 	return {
-		title: 'Product Not Found | Gymshark',
+		title: 'Product Not Found | Fit Store',
 		description: 'The requested product could not be found.',
 	};
 }

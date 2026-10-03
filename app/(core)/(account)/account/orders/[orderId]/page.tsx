@@ -18,7 +18,7 @@ export async function generateMetadata({
 	const { orderId } = await params;
 
 	return {
-		title: `Order #${orderId} | Gymshark`,
+		title: `Order #${orderId} | Fit Store`,
 	};
 }
 

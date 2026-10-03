@@ -5,8 +5,8 @@ import React, { ReactNode } from 'react';
 
 export const metadata: Metadata = {
 	title: {
-		template: '%s | Gymshark',
-		default: 'My Account | Gymshark',
+		template: '%s | Fit Store',
+		default: 'My Account | Fit Store',
 	},
 	robots: {
 		index: false,

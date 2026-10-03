@@ -103,7 +103,7 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 				</Stack>
 				<figure>
 					<Link href={'/'}>
-						<Image src={logo} alt="gymshark clone logo" priority width={150} />
+						<Image src={logo} alt="Fit Store logo" priority width={150} />
 					</Link>
 				</figure>
 				<HeaderActions />

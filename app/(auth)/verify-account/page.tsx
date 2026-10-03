@@ -8,17 +8,17 @@ interface PageProps {
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
-	title: 'Verify Account | Gymshark',
-	description: 'Verify your Gymshark account email address.',
+	title: 'Verify Account | Fit Store',
+	description: 'Verify your Fit Store account email address.',
 	robots: {
 		index: false,
 		follow: false,
 	},
 	openGraph: {
-		title: 'Verify Account | Gymshark',
-		description: 'Verify your Gymshark account email address.',
+		title: 'Verify Account | Fit Store',
+		description: 'Verify your Fit Store account email address.',
 		url: `${baseUrl}/verify-account`,
-		siteName: 'Gymshark',
+		siteName: 'Fit Store',
 		type: 'website',
 	},
 };

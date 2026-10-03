@@ -57,8 +57,11 @@ export const FooterNavLinks = ({ section }: FooterNavLinksProps) => {
 
 			<Stack as="ul" gap="sm" className="gap-2">
 				{Object.keys(t.raw(`${section}.links`)).map((linkKey) => {
-					const href = FOOTER_LINKS[section]?.[linkKey] || '#';
+					let href = '#';
 					const isInternal = linkKey === 'login' || linkKey === 'register';
+					if (isInternal) {
+						href = FOOTER_LINKS[section]?.[linkKey];
+					}
 
 					return (
 						<li

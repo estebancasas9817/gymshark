@@ -22,19 +22,19 @@ interface ResetPasswordProps {
 export default function ResetPassword({
 	userFirstname = 'Athlete',
 	resetUrl,
-	supportEmail = 'support@gymshark-clone.com',
+	supportEmail = 'support@fitstore-demo.dev',
 }: ResetPasswordProps) {
 	return (
 		<Html lang="es">
 			<Head />
-			<Preview>Restablece tu contraseña de Gymshark Clone</Preview>
+			<Preview>Restablece tu contraseña de Fit Store</Preview>
 			<Tailwind>
 				<Body className="bg-gray-100 font-sans py-10">
 					<Container className="bg-white mx-auto max-w-120 rounded-xl border border-solid border-gray-200 px-8 py-8">
 						{/* Header */}
 						<Section className="bg-black rounded-lg px-6 py-8 text-center">
 							<Text className="text-white text-2xl font-extrabold tracking-wide m-0">
-								GYMSHARK CLONE
+								FIT STORE
 							</Text>
 						</Section>
 
@@ -83,7 +83,7 @@ export default function ResetPassword({
 							</Link>
 						</Text>
 						<Text className="text-gray-400 text-xs text-center mt-2 m-0">
-							© 2026 Gymshark Clone. All rights reserved.
+							© 2026 Fit Store. All rights reserved.
 						</Text>
 					</Container>
 				</Body>

@@ -24,11 +24,11 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
 	title: {
-		default: 'Gymshark Clone | Official Store',
-		template: '%s | Gymshark Clone',
+		default: 'Fit Store | Official Store',
+		template: '%s | Fit Store',
 	},
 	description:
-		'Shop official Gymshark gym & workout clothing for men and women. High-quality workout tops, hoodies, leggings, shorts, and activewear accessories.',
+		'Shop official Fit Store gym & workout clothing for men and women. High-quality workout tops, hoodies, leggings, shorts, and activewear accessories.',
 };
 
 export default async function RootLayout({

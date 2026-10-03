@@ -42,13 +42,13 @@ export default function PurchaseConfirmationEmail({
 		<Html lang="en">
 			<Head />
 			<Preview>
-				Your Gymshark order #{orderId} is confirmed — thanks for your purchase!
+				Your Fit Store order #{orderId} is confirmed — thanks for your purchase!
 			</Preview>
 			<Body style={main}>
 				<Container style={container}>
 					{/* Header */}
 					<Section style={headerSection}>
-						<Heading style={logoText}>GYMSHARK CLONE</Heading>
+						<Heading style={logoText}>FIT STORE</Heading>
 					</Section>
 
 					{/* Body */}
@@ -149,11 +149,11 @@ export default function PurchaseConfirmationEmail({
 					{/* Footer */}
 					<Section style={footerSection}>
 						<Text style={footerSecondary}>
-							© {new Date().getFullYear()} Gymshark Ltd. All rights reserved.
+							© {new Date().getFullYear()} Fit Store. All rights reserved.
 						</Text>
 						<Text style={cloneBadge}>
-							This email was sent from a <strong>Gymshark Clone</strong>{' '}
-							development environment.
+							This email was sent from a <strong>Fit Store</strong> development
+							environment.
 						</Text>
 					</Section>
 				</Container>

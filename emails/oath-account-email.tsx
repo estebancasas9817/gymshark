@@ -25,7 +25,7 @@ export default function OAuthAccountEmail({
 	userFirstname = 'Athlete',
 	userEmail,
 	provider = 'Google',
-	supportEmail = 'support@gymshark-clone.com',
+	supportEmail = 'support@fitstore-demo.dev',
 	loginUrl,
 }: OAuthAccountEmailProps) {
 	return (
@@ -40,7 +40,7 @@ export default function OAuthAccountEmail({
 						{/* Header */}
 						<Section className="bg-black rounded-lg px-6 py-8 text-center">
 							<Text className="text-white text-2xl font-extrabold tracking-wide m-0">
-								GYMSHARK CLONE
+								FIT STORE
 							</Text>
 						</Section>
 
@@ -90,7 +90,7 @@ export default function OAuthAccountEmail({
 							</Link>
 						</Text>
 						<Text className="text-gray-400 text-xs text-center mt-2 m-0">
-							© 2026 Gymshark Clone. All rights reserved.
+							© 2026 Fit Store. All rights reserved.
 						</Text>
 					</Container>
 				</Body>

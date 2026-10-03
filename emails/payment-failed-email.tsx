@@ -38,12 +38,12 @@ export const PaymentFailedEmail = ({
 	return (
 		<Html>
 			<Head />
-			<Preview>Your Gymshark payment could not be processed.</Preview>
+			<Preview>Your Fit Store payment could not be processed.</Preview>
 			<Body style={styles.body}>
 				<Container style={styles.container}>
 					{/* Header de Marca */}
 					<Section style={headerSection}>
-						<Heading style={logoText}>GYMSHARK CLONE</Heading>
+						<Heading style={logoText}>FIT STORE</Heading>
 					</Section>
 
 					{/* Línea divisoria brutalista */}
@@ -83,7 +83,7 @@ export const PaymentFailedEmail = ({
 							failing.
 						</Text>
 						<Text style={styles.copyrightText}>
-							© {new Date().getFullYear()} Gymshark Clone. All rights reserved.
+							© {new Date().getFullYear()} Fit Store. All rights reserved.
 						</Text>
 					</Section>
 				</Container>

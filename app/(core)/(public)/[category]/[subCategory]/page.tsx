@@ -21,14 +21,14 @@ export async function generateMetadata(
 
 	if (!data) {
 		return {
-			title: 'Category Not Found | Gymshark',
+			title: 'Category Not Found | Fit Store',
 			description: 'The requested category could not be found.',
 		};
 	}
 
 	const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 	const pageUrl = `${baseUrl}/${data.slug}`;
-	const title = `${data.name} | Gymshark`;
+	const title = `${data.name} | Fit Store`;
 	const description = data.description;
 
 	return {
@@ -41,7 +41,7 @@ export async function generateMetadata(
 			title,
 			description,
 			url: pageUrl,
-			siteName: 'Gymshark',
+			siteName: 'Fit Store',
 			images: [
 				{
 					url: data.imageUrl,
