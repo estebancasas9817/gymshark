@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { CheckCircle, XCircle, Clock, Loader2, Mail } from 'lucide-react';
 import { cn } from '@/utils/cn/cn';
 import Image from 'next/image';
-import Logo from '../../../public/logo.jpg';
+import Logo from '../../../public/logo.png';
 import { resendTokenAction, verifyAccountAction } from './actions';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';

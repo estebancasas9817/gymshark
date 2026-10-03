@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import logo from '../../public/logo.jpg';
+import logo from '../../public/logo.png';
 import { Stack } from '@/components/layout/stack';
 import Link from 'next/link';
 import { Conditional } from '@/components/layout/conditional';
@@ -103,7 +103,7 @@ export const Header = ({ navigationlist }: HeaderProps) => {
 				</Stack>
 				<figure>
 					<Link href={'/'}>
-						<Image src={logo} alt="Fit Store logo" priority width={150} />
+						<Image src={logo} alt="Fit Store logo" priority width={200} />
 					</Link>
 				</figure>
 				<HeaderActions />
