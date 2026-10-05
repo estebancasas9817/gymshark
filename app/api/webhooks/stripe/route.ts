@@ -42,8 +42,9 @@ export async function POST(req: Request) {
 		const name = session.customer_details?.name ?? 'Athlete';
 
 		if (!userId || !userEmail) {
-			console.error('❌ Missing userId or userEmail in session:', session.id);
-			return new Response('Missing required session fields', { status: 400 });
+			// Guest checkout — no Firestore order to process
+			console.log('ℹ️ Guest checkout, skipping order processing:', session.id);
+			return new Response(null, { status: 200 });
 		}
 
 		try {
