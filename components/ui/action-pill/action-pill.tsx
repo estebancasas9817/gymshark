@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 interface ActionPillProps {
 	children: ReactNode;
 	className?: string;
+	ariaLabel?: string;
 	onClick?: () => void;
 	disabled?: boolean;
 }
@@ -11,12 +12,13 @@ interface ActionPillProps {
 export const ActionPill = ({
 	children,
 	className,
+	ariaLabel = 'action-pill',
 	onClick,
 	disabled = false,
 }: ActionPillProps) => {
 	return (
 		<button
-			aria-label="action-pill"
+			aria-label={ariaLabel}
 			className={cn('bg-(--color-gray-100) rounded-2xl py-1.5 px-4', className)}
 			onClick={onClick}
 			disabled={disabled}

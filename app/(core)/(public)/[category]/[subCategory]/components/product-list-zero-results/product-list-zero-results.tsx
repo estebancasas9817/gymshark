@@ -12,7 +12,7 @@ export const ProductListZeroResults = () => {
 
 			<h3 className="font-bold text-lg mb-2">No products found</h3>
 			<p className="text-gray-500 text-sm mb-6 max-w-xs">
-				We couldn't find any products matching your current filters. Try
+				We couldn&apos;t find any products matching your current filters. Try
 				adjusting or clearing your filters.
 			</p>
 

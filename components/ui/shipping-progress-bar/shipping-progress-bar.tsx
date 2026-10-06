@@ -31,7 +31,7 @@ export const ShippingProgressBar: React.FC<ShippingProgressBarProps> = ({
 							strokeWidth={2.5}
 						/>
 						<Text as="span" className="font-medium text-sm text-gray-700">
-							You've qualified for Free Standard Shipping
+							You&apos;ve qualified for Free Standard Shipping
 						</Text>
 					</>
 				) : (

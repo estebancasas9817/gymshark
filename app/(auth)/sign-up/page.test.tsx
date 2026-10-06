@@ -22,7 +22,7 @@ vi.mock('./actions', () => ({
 
 vi.mock('next-intl');
 const tMock = Object.assign(vi.fn((key: string) => key));
-vi.mocked(useTranslations).mockReturnValue(tMock as any);
+vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 
 const renderComp = () => {
 	render(<Page />);
@@ -35,7 +35,7 @@ describe('Page', () => {
 	});
 	it('should call SignUpAction if user clicks on submit ', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(SignUpAction).mockResolvedValue({
 			status: 'SUCCESS',
 			success: true,
@@ -55,7 +55,7 @@ describe('Page', () => {
 
 	it('should display text of error if action throws error', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(SignUpAction).mockResolvedValue({
 			status: 'UNEXPECTED_ERROR',
 			success: false,
@@ -75,7 +75,7 @@ describe('Page', () => {
 
 	it('should not call SignUpAction if user clicks on submit but without the inputs', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(SignUpAction).mockResolvedValue({
 			status: 'SUCCESS',
 			success: true,

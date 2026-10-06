@@ -20,7 +20,7 @@ export const getCart = (userId: string): Promise<CartItemsFull> => {
 				return [];
 			}
 			const productIds = productsSnap.map((product) => product.id);
-			let skusSnap = await db
+			const skusSnap = await db
 				.collectionGroup('skus')
 				.where('productId', 'in', productIds)
 				.get();
