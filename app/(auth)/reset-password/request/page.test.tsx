@@ -10,7 +10,7 @@ vi.mock('../../sign-in/actions', () => ({
 
 vi.mock('next-intl');
 const tMock = Object.assign(vi.fn((key: string) => key));
-vi.mocked(useTranslations).mockReturnValue(tMock as any);
+vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 
 const renderComp = () => {
 	render(<Page />);
@@ -18,7 +18,7 @@ const renderComp = () => {
 describe('Page', () => {
 	it('should call forgotPasswordAction if user clicks on submit ', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(forgotPasswordFormAction).mockResolvedValue({
 			status: 'SUCCESS',
 			success: true,
@@ -32,7 +32,7 @@ describe('Page', () => {
 
 	it('should display text of success if action throws sucess', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(forgotPasswordFormAction).mockResolvedValue({
 			status: 'SUCCESS',
 			success: true,
@@ -46,7 +46,7 @@ describe('Page', () => {
 
 	it('should display text of error if action throws error', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(forgotPasswordFormAction).mockResolvedValue({
 			status: 'UNEXPECTED_ERROR',
 			success: false,
@@ -59,7 +59,7 @@ describe('Page', () => {
 
 	it('should not call forgotPasswordFormAction if user clicks on submit but without the inputs', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(forgotPasswordFormAction).mockResolvedValue({
 			status: 'SUCCESS',
 			success: true,

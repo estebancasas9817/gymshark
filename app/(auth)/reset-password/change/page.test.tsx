@@ -10,7 +10,7 @@ vi.mock('next/navigation', () => ({
 }));
 vi.mock('next-intl');
 const tMock = Object.assign(vi.fn((key: string) => key));
-vi.mocked(useTranslations).mockReturnValue(tMock as any);
+vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 vi.mocked(useSearchParams).mockReturnValue(
 	Object.assign(
 		new URLSearchParams('email=test@example.com&token=test-token'),
@@ -34,7 +34,7 @@ const renderComp = () => {
 describe('Page', () => {
 	it('should call resetPasswordAction if user clicks on submit ', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(resetPasswordAction).mockResolvedValue({
 			status: 'SUCCESS',
 			success: true,
@@ -55,7 +55,7 @@ describe('Page', () => {
 
 	it('should display text of success if action throws sucess', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(resetPasswordAction).mockResolvedValue({
 			status: 'SUCCESS',
 			success: true,
@@ -76,7 +76,7 @@ describe('Page', () => {
 
 	it('should display text of error if action throws error', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(resetPasswordAction).mockResolvedValue({
 			status: 'UNEXPECTED_ERROR',
 			success: false,
@@ -102,7 +102,7 @@ describe('Page', () => {
 
 	it('should cnot all resetPasswordAction if user clicks on submit but without the inputs', async () => {
 		const user = userEvent.setup();
-		vi.mocked(useTranslations).mockReturnValue(tMock as any);
+		vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 		vi.mocked(resetPasswordAction).mockResolvedValue({
 			status: 'SUCCESS',
 			success: true,

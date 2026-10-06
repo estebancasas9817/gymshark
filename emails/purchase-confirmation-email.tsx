@@ -63,7 +63,7 @@ export default function PurchaseConfirmationEmail({
 						</Heading>
 
 						<Text style={paragraph}>
-							Your order has been received and is being processed. You'll
+							Your order has been received and is being processed. You&apos;ll
 							receive a shipping confirmation with tracking info once your items
 							are on their way.
 						</Text>

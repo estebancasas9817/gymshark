@@ -19,7 +19,7 @@ const tMock = Object.assign(
 		}),
 	},
 );
-vi.mocked(useTranslations).mockReturnValue(tMock as any);
+vi.mocked(useTranslations).mockReturnValue(tMock as ReturnType<typeof useTranslations>);
 
 const mockKeys = vi.fn();
 const mockGet = vi.fn();

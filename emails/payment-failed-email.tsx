@@ -62,7 +62,7 @@ export const PaymentFailedEmail = ({
 						</Text>
 
 						<Text style={styles.paragraph}>
-							Don't worry, your gear hasn't gone anywhere. The items are still
+							Don&apos;t worry, your gear hasn't gone anywhere. The items are still
 							reserved and waiting securely inside your shopping cart.
 						</Text>
 					</Section>
