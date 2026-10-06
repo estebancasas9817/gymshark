@@ -60,7 +60,7 @@ describe('product-card', () => {
 		const user = userEvent.setup();
 		renderComp();
 		const actionPillButton = screen.getByRole('button', {
-			name: 'action-pill',
+			name: 'Add to wishlist',
 		});
 		await user.click(actionPillButton);
 		expect(mockHandleAddToWishlist).toHaveBeenCalledWith({
@@ -84,7 +84,7 @@ describe('product-card', () => {
 		const user = userEvent.setup();
 		renderComp();
 		const actionPillButton = screen.getByRole('button', {
-			name: 'action-pill',
+			name: 'Add to wishlist',
 		});
 		await user.click(actionPillButton);
 		expect(mockSuccess).toHaveBeenCalledWith('Item added to your wishlist.');
@@ -107,7 +107,7 @@ describe('product-card', () => {
 		});
 		renderComp();
 		const actionPillButton = screen.getByRole('button', {
-			name: 'action-pill',
+			name: 'Remove from wishlist',
 		});
 		await user.click(actionPillButton);
 		expect(mockHandleDeleteWishlist).toHaveBeenCalledWith({
@@ -144,7 +144,7 @@ describe('product-card', () => {
 		});
 		renderComp();
 		const actionPillButton = screen.getByRole('button', {
-			name: 'action-pill',
+			name: 'Remove from wishlist',
 		});
 		await user.click(actionPillButton);
 		expect(mockSuccess).toHaveBeenCalledWith(

@@ -38,7 +38,9 @@ describe('HeaderActions', () => {
 	it('should call handleOpenDrawer with cart as param if user clicks the shopping bag button', async () => {
 		const user = userEvent.setup();
 		renderComp();
-		await user.click(screen.getByRole('button', { name: 'Cart drawer' }));
+		await user.click(
+			screen.getByRole('button', { name: /Cart drawer with \d+ items/ }),
+		);
 		expect(mockHandleOpenDrawer).toHaveBeenCalledWith('cart');
 	});
 

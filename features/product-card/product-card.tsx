@@ -168,6 +168,9 @@ export const ProductCard = ({
 					</Conditional>
 					<ActionPill
 						className="absolute top-2 right-2 rounded-full p-2 cursor-pointer"
+						ariaLabel={
+							isInFavorites ? 'Remove from wishlist' : 'Add to wishlist'
+						}
 						onClick={() => {
 							handleFavorites({
 								productId: variant.productId,
@@ -186,6 +189,7 @@ export const ProductCard = ({
 
 					<ActionPill
 						className="block lg:hidden absolute top-2 left-2 rounded-full p-2 cursor-pointer"
+						ariaLabel="Quick add"
 						onClick={() => {
 							setIsDrawerOpen((prevState) => !prevState);
 						}}
