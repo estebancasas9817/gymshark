@@ -78,3 +78,20 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+
+  ci-status:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+    needs: [lint, test, type-check, build]
+    if: always()
+    steps:
+      - name: Verify all pipeline jobs passed
+        run: |
+          if [ "${{ needs.lint.result }}" != "success" ] || \
+             [ "${{ needs.test.result }}" != "success" ] || \
+             [ "${{ needs.type-check.result }}" != "success" ] || \
+             [ "${{ needs.build.result }}" != "success" ]; then
+            echo "One or more CI checks have failed."
+            exit 1
+          fi
+          echo "All CI checks passed successfully"
