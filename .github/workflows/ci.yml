@@ -52,6 +52,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    needs: [lint, tests, type-check]
     env:
       FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
       FIREBASE_EMAIL_ID: ${{ secrets.FIREBASE_EMAIL_ID }}
@@ -75,19 +76,3 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-
-  front-end-build:
-    runs-on: ubuntu-latest
-    needs: [lint, tests, type-check, build]
-    if: always()
-    steps:
-      - name: Verify all pipeline jobs passed
-        run: |
-          if [ "${{ needs.lint.result }}" != "success" ] || \
-             [ "${{ needs.tests.result }}" != "success" ] || \
-             [ "${{ needs.type-check.result }}" != "success" ] || \
-             [ "${{ needs.build.result }}" != "success" ]; then
-            echo "One or more CI checks have failed."
-            exit 1
-          fi
-          echo "All CI checks passed successfully"
