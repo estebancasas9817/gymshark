@@ -57,7 +57,7 @@ describe('CartDrawerBody', () => {
 			screen.queryByTestId('shipping-progress-bar'),
 		).not.toBeInTheDocument();
 		expect(screen.queryByTestId('cart-notice')).not.toBeInTheDocument();
-		expect(screen.queryByTestId('cart-item')).not.toBeInTheDocument();
+		expect(screen.queryByTestId('cart-dddddditem')).not.toBeInTheDocument();
 	});
 
 	it('should display EmptyCart if optimisticState length is === 0', () => {
