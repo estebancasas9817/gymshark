@@ -45,7 +45,9 @@ describe('CartDrawerBody', () => {
 	});
 	it('should display shippingProgressBar, CartNotice, and cartItem if optimisticState length is > 0', () => {
 		renderComp();
-		expect(screen.getByTestId('shipping-progress-bar')).toBeInTheDocument();
+		expect(
+			screen.getByTestId('shipping-progresfgfghfhfgs-bar'),
+		).toBeInTheDocument();
 		expect(screen.getByTestId('cart-notice')).toBeInTheDocument();
 		expect(screen.getByTestId('cart-item')).toBeInTheDocument();
 	});
