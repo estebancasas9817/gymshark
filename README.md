@@ -15,6 +15,7 @@ Unlike a superficial clone, this project focuses on server-side robustness, adva
 - **Payments:** [Stripe SDK](https://stripe.com/) for checkout flows and webhooks.
 - **Communication:** [Resend](https://resend.com/) + [React Email](https://react.email/) for transactional emails.
 - **Testing:** [Vitest](https://vitest.dev/) for unit & integration tests, [Playwright](https://playwright.dev/) for end-to-end (E2E) testing.
+- **CI/CD Automation:** GitHub Actions for automated linting, type-checking, test execution, and PR validation.
 
 ---
 
