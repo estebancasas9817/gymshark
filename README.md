@@ -43,53 +43,60 @@ The project follows a modular structure designed for maintainability and Separat
 - [x] Global Style Variables (`@theme inline`).
 - [x] Core Component Library (Button, Container, etc.).
 
-### Phase 2: Database & Backend (Completed ✅)
+### Phase 2: Continuous Integration & GitHub Actions (Completed ✅)
+
+- [x] Automated CI Pipeline workflow setup (`.github/workflows/ci.yml`).
+- [x] Automated Linting (`pnpm lint`) and TypeScript verification (`pnpm tsc --noEmit`).
+- [x] Automated Vitest suite execution on Pull Requests.
+- [x] Build check validation & GitHub Branch Protection Rules integration.
+
+### Phase 3: Database & Backend (Completed ✅)
 
 - [x] Firebase Project & Firestore Instance setup.
 - [x] Data Modeling for `users`, `products`, and `orders`.
 - [x] Security Rules configuration.
 - [x] Firestore Access Helpers & Data Fetching Layer.
 
-### Phase 3: Product System (Completed ✅)
+### Phase 4: Product System (Completed ✅)
 
 - [x] Product variants system (size, color) and stock management.
 - [x] Dynamic routing: `/products` and `/products/[slug]`.
 
-### Phase 4: UI Development (Completed ✅)
+### Phase 5: UI Development (Completed ✅)
 
 - [x] Mega Menu, Product Cards, and Responsive Gallery.
 - [x] Skeleton Loaders and Lucide icons integration.
 
-### Phase 5: Authentication Engine (Completed ✅)
+### Phase 6: Authentication Engine (Completed ✅)
 
 - [x] Auth.js custom credentials flow with bcrypt.
 
-### Phase 6: Transactional Emails (Completed ✅)
+### Phase 7: Transactional Emails (Completed ✅)
 
 - [x] Order confirmation and password reset via Resend & React Email.
 
-### Phase 7: Cart System & Wishlist System (Completed ✅)
+### Phase 8: Cart System & Wishlist System (Completed ✅)
 
 - [x] Global state management and cart persistence.
 - [x] Global state management and wishlist persistence.
 
-### Phase 8 & 9: Checkout & Orders (Completed ✅)
+### Phase 9 & 10: Checkout & Orders (Completed ✅)
 
 - [x] Stripe UI integration and Webhook validation for order processing.
 
-### Phase 10: Unit & Integration tests (Completed ✅)
+### Phase 11: Unit & Integration tests (Completed ✅)
 
 - [x] Vitest config
 - [x] Unit and integration tests (server actions, custom hooks, contexts, components)
 
-### Phase 11: E2E tests (Completed ✅)
+### Phase 12: E2E tests (Completed ✅)
 
 - [x] Playwright config
 - [x] E2E tests
 
-### Phase 12 to 13: Final Polish & Deploy (In Progress 📍)
+### Phase 13 to 14: Final Polish & Deploy (Completed ✅)
 
-- [ ] Performance Optimization, Error Boundaries, and Production Deploy.
+- [x] Performance Optimization, Error Boundaries, and Production Deploy.
 
 ---
 
@@ -98,15 +105,23 @@ The project follows a modular structure designed for maintainability and Separat
 This project uses **pnpm** for package management to ensure fast, deterministic, and disk-efficient installations.
 
 1. **Clone the repository:**
+
+   ```bash
+   git clone [https://github.com/estebancasas9817/gymshark.git](https://github.com/estebancasas9817/gymshark.git)
+   cd gymshark
+
+   ```
+
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/estebancasas9817/gymshark.git
    cd gymshark
    ```
-2. **Install Dependencies:**
+1. **Install Dependencies:**
    ```bash
    pnpm i
    ```
-3. **Run the development server**
+1. **Run the development server**
    ```bash
    pnpm run dev
    ```
